@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Game</string>
+    <string name="total_score">TOTAL SCORE:</string>
+    <string name="high_score">HIGH SCORE:</string>
+    <string name="total_rounds">TOTAL ROUNDS:</string>
+    <string name="current_round_progress">Round # Progress:</string>
+    <string name="play_button_title">BEGIN/CONTINUE ROUND</string> <!--# should be dynamic stat
+    of total rounds played + 1. ie Played 30 rounds, current round is round 31-->
+    <string name="play_button_description">Button to play/continue round</string>
+    <string name="developers">A. Waddell | D. Nunez | E. Mazor | E. Zhu | F. Liu | N. Kann</string>
 </resources>
