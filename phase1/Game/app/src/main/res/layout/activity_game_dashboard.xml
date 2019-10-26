@@ -4,12 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".GameDashboardActivity">
 
     <TextView
-        android:id="@+id/stat2"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:id="@+id/totalRoundsLabel"
+        android:layout_width="98dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/total_rounds_label"
+        app:layout_constraintBottom_toTopOf="@+id/highScoreStat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/totalScoreLabel"
+        android:layout_width="111dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/total_score_label"
+        app:layout_constraintBottom_toTopOf="@+id/highScoreStat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/highScoreStat"
+        android:layout_width="98dp"
+        android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -17,38 +39,10 @@
         android:text="@string/high_score"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/stat3"
-        app:layout_constraintStart_toEndOf="@+id/stat1"
+        app:layout_constraintEnd_toStartOf="@+id/totalRoundsPlayedStat"
+        app:layout_constraintStart_toEndOf="@+id/totalScoreStat"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
-
-    <TextView
-        android:id="@+id/stat3"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/total_rounds"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
-
-    <TextView
-        android:id="@+id/stat1"
-        android:layout_width="111dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/total_score"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintVertical_bias="0.125" />
 
     <!-- PROGRESS SHOULD BE DYNAMIC
             Since we are going to set up the app as a continuous story
@@ -59,6 +53,34 @@
             Keep at 3 until player starts new round. -->
 
     <TextView
+        android:id="@+id/totalRoundsPlayedStat"
+        android:layout_width="98dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/total_rounds"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.126" />
+
+    <TextView
+        android:id="@+id/totalScoreStat"
+        android:layout_width="111dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/total_score"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.125" />
+
+    <TextView
         android:id="@+id/currentRound"
         android:layout_width="168dp"
         android:layout_height="29dp"
@@ -67,7 +89,7 @@
         android:text="@string/current_round_progress"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stat1" />
+        app:layout_constraintTop_toBottomOf="@+id/totalScoreStat" />
 
     <ProgressBar
         android:id="@+id/roundProgressBar"
@@ -75,14 +97,14 @@
         android:layout_width="86dp"
         android:layout_height="29dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:max="3"
         android:progress="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/currentRound"
-        app:layout_constraintTop_toBottomOf="@+id/stat2" />
+        app:layout_constraintTop_toBottomOf="@+id/highScoreStat" />
 
     <ImageButton
         android:id="@+id/playButton"
@@ -93,7 +115,6 @@
         android:layout_marginBottom="280dp"
         android:background="#34F1DF"
         android:contentDescription="@string/play_button_description"
-        android:onClick="startGame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -128,5 +149,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/highScoreLabel"
+        android:layout_width="97dp"
+        android:layout_height="25dp"
+        android:text="@string/highscore_label"
+        app:layout_constraintBottom_toTopOf="@+id/highScoreStat"
+        app:layout_constraintEnd_toStartOf="@+id/totalRoundsLabel"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toEndOf="@+id/totalScoreLabel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
