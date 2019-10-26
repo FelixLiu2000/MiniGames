@@ -1,38 +1,38 @@
 package com.example.game;
+import utilities.Game;
 
-public class CardGame extends GameManager {
-    int stats;
+public class CardGame extends Game { //  extends GameManager
 
+    CardGame(){
+        super();
+    }
     public void setRoundStats() {
         //updates the stats during play
     }
 
+    @Override
     public void createGameEnvironment() {
         //takes code from XML file
     }
 
-    public void startRound() {
-        stats = 0;
-        timer();
+    @Override
+    public void startGame() {
+        setScore(0);
+        timer(); // calls parent timer function
     }
 
-    public void timer() {
-        long start = System.currentTimeMillis();
-        long end = start + 60*1000; // 60 seconds * 1000 ms/sec
-        while (System.currentTimeMillis() < end)
-        {
-            // update game timer
-        }
-        endRound();
-    }
+//    public void timer() {
+//    }
 
-    public int endRound() {
-        return stats;
-    }
+    @Override
+    public void endGame() {}
+//    public int endRound() {
+//        return stats;
+//    }
 
+    // TODO: INCORPORATE PLAY INTO STARTGAME()
     public void play() {
     //calls methods needed for play
-
     }
 
     public boolean check(int card1, int card2) {
