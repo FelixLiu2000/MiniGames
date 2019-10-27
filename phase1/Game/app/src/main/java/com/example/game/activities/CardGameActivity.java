@@ -2,6 +2,7 @@ package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import java.util.Collections;
 public class CardGameActivity extends AppCompatActivity {
   private ArrayList<ImageView> buttons = new ArrayList<>();
   protected TextView score;
+  protected TextView time;
   private boolean clicked = false;
   private ImageView card_view;
   private Integer[] cardsArray = {101, 102, 103, 104, 105, 106, 201, 202, 203, 204, 205, 206};
@@ -140,4 +142,16 @@ public class CardGameActivity extends AppCompatActivity {
       }
     }
   }
-}
+    new CountDownTimer(60000, 1000) {
+
+      public void onTick(long millisUntilFinished) {
+        ((time.findViewById(R.id.score))
+            .setText("seconds remaining: " + millisUntilFinished / 1000);
+      }
+
+      public void onFinish() {
+        ((time.findViewById(R.id.score)).setText("Time Is Up!");
+      }
+    }.start();
+  }
+
