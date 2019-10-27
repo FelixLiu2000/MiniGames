@@ -6,8 +6,11 @@ public abstract class Game {
 
   private int score = 0;
   private int timeLimit;
-  private Timer gameTimer;
 
+  /**
+   * Constructs a new timed game.
+   * @param timeLimit the time limit for the game, in seconds.
+   */
   public Game(int timeLimit) {
     this.timeLimit = timeLimit;
   }
@@ -24,7 +27,7 @@ public abstract class Game {
 
   public void startGame() {
     // starts game
-    this.gameTimer = new Timer(timeLimit * 1000); // convert seconds to milliseconds
+    Timer gameTimer = new Timer(timeLimit * 1000); // convert seconds to milliseconds
     while (!gameTimer.isStopped()) {
       updateGame();
     }
