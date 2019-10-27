@@ -27,7 +27,9 @@ public class GameDashboardActivity extends AppCompatActivity {
     playButton.setOnClickListener(
         new View.OnClickListener() {
           public void onClick(View v) {
-            startActivity(new Intent(GameDashboardActivity.this, appManager.getGameToPlay()));
+            appManager.pickGameToPlay();
+            Intent gameDashboardToCurrentGameIntent = new Intent(GameDashboardActivity.this, appManager.getGameToPlay());
+            startActivity(gameDashboardToCurrentGameIntent);
           }
         });
 
