@@ -4,9 +4,11 @@ import android.os.SystemClock;
 
 import com.example.game.games.Game;
 import com.example.game.utilities.Timer;
+import java.util.ArrayList;
 
 public class BallGame extends Game {
 
+  ArrayList<BallGameObject> gameObjects;
   public BallGame(int timeLimit) {
     super(timeLimit);
   }
@@ -43,7 +45,11 @@ public class BallGame extends Game {
     }
   }
 
-  private void updateGame() {}
+  private void updateGame() {
 
-  private void renderGame(double delta) {}
+  }
+
+  private void renderGame(double delta) {
+
+  }
 }

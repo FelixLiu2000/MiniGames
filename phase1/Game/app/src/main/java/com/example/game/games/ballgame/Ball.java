@@ -1,7 +1,6 @@
 package com.example.game.games.ballgame;
 
-
-class Ball extends BallGameObject {
+class Ball extends BallGameObject implements Collidable<Target>,  Renderable {
   private double speedX, speedY = 0;
   private final double GRAVITY = 0.1;
 
@@ -11,17 +10,27 @@ class Ball extends BallGameObject {
   }
 
   private void calculateInitialSpeed(int angle, int power) {
-      this.speedX = power * Math.cos(angle);
-      this.speedY = power * Math.sin(angle);
+    this.speedX = power * Math.cos(angle);
+    this.speedY = power * Math.sin(angle);
   }
 
   private void move() {
-      speedY -= GRAVITY;
-      setLocation((float)(getX() + speedX), (float)(getY() + speedY));
+    speedY -= GRAVITY;
+    setLocation((float)(getX() + speedX), (float)(getY() + speedY));
   }
 
   @Override
   void update() {
-      move();
+    move();
+  }
+
+  @Override
+  public void onCollide(Target collidingObject) {
+
+  }
+
+  @Override
+  public void render() {
+
   }
 }
