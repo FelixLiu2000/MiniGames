@@ -2,13 +2,16 @@ package com.example.game;
 
 public class CardGame extends GameManager {
     int stats;
+    //stats is total number of card matches
 
     public void setRoundStats() {
         //updates the stats during play
+
     }
 
     public void createGameEnvironment() {
         //takes code from XML file
+
     }
 
     public void startRound() {
@@ -27,20 +30,33 @@ public class CardGame extends GameManager {
     }
 
     public int endRound() {
+        // timer() ends the round
         return stats;
     }
 
     public void play() {
     //calls methods needed for play
+        //can move this
+        CardGameActivity activity = new CardGameActivity();
+        if (activity.getClicked()) {
+            flip(activity.getCard_num());
+        }
 
     }
+
 
     public boolean check(int card1, int card2) {
-    // check if two cards are matches
-        return true;
+        // check if two cards are matches and increase total
+        if (card1 == card2) {
+            stats++;
+        }
+    return false;
     }
 
-    public void flip(int card1) {
-    // shows the other side of the card
+    public void flip(int card) {
+        //return other side of the card
     }
+
+
+
 }

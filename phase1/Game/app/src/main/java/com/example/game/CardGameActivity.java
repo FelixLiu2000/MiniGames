@@ -11,8 +11,12 @@ import java.util.ArrayList;
 public class CardGameActivity extends AppCompatActivity {
     private ArrayList<ImageView> buttons = new ArrayList<>();
     protected TextView score;
-    public boolean clicked = false;
-    public int card_num;
+    private boolean clicked = false;
+    private int card_num;
+
+    public CardGameActivity() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +49,10 @@ public class CardGameActivity extends AppCompatActivity {
             });
         }
     }
-    public boolean getClicked(boolean clicked){
+    public boolean getClicked(){
         return clicked;
     }
-    public int getCard_num(int card_num){
+    public int getCard_num(){
         return card_num;
     }
 }
