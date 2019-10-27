@@ -19,6 +19,18 @@ abstract class BallGameObject {
         return boundingBox.top;
     }
 
+    float getWidth() {
+        return boundingBox.width();
+    }
+
+    float getHeight() {
+        return boundingBox.height();
+    }
+
+    RectF getBoundingBox() {
+        return boundingBox;
+    }
+
     void setLocation(float x, float y) {
         this.boundingBox.set(x, y, this.boundingBox.right, this.boundingBox.bottom);
     }

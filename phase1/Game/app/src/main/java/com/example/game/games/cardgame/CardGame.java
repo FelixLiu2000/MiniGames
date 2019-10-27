@@ -18,7 +18,6 @@ public class CardGame extends Game { //  extends GameManager
     // takes code from XML file
   }
 
-  @Override
   public void startGame() {
     setScore(0);
   }
@@ -31,24 +30,20 @@ public class CardGame extends Game { //  extends GameManager
 
   //    public void run() {
   //    }
-  @Override
-  public void updateGame() {}
 
-  @Override
-  public void endGame() {}
   //    public int endRound() {
   //        return stats;
   //    }
 
   // TODO: INCORPORATE PLAY INTO STARTGAME()
-  public void play() {
+  public int play() {
     //calls methods needed for play
     //can move this
     CardGameActivity activity = new CardGameActivity();
     if (activity.getClicked()) {
       flip(activity.getCard_num());
     }
-
+    return 0;
   }
 
   public boolean check(int card1, int card2) {

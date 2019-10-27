@@ -1,7 +1,5 @@
 package com.example.game.games;
 
-import com.example.game.utilities.Timer;
-
 public abstract class Game {
 
   private int score = 0;
@@ -15,28 +13,19 @@ public abstract class Game {
     this.timeLimit = timeLimit;
   }
 
-  public int getScore() {
+  protected int getScore() {
     return this.score;
   }
 
-  public void setScore(int score) {
+  protected void setScore(int score) {
     this.score = score;
+  }
+
+  protected int getTimeLimit() {
+    return timeLimit;
   }
 
   public void createGameEnvironment() {} // takes code from XML
 
-  public void startGame() {
-    // starts game
-    Timer gameTimer = new Timer(timeLimit * 1000); // convert seconds to milliseconds
-    while (!gameTimer.isStopped()) {
-      updateGame();
-    }
-    endGame();
-  }
-
-  public abstract void updateGame();
-
-  public void endGame() {
-    // end game
-  }
+  protected abstract int play();
 }
