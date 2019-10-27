@@ -1,7 +1,6 @@
-package com.example.game;
+package com.example.game.games.subwaygame;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 import utilities.Game;
 
