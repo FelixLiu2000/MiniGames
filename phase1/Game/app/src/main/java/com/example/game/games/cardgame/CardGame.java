@@ -1,7 +1,6 @@
 package com.example.game.games.cardgame;
 
 import com.example.game.games.Game;
-import com.example.game.activities.CardGameActivity;
 
 public class CardGame extends Game { //  extends GameManager
 
@@ -18,7 +17,6 @@ public class CardGame extends Game { //  extends GameManager
     // takes code from XML file
   }
 
-  @Override
   public void startGame() {
     setScore(0);
   }
@@ -31,19 +29,18 @@ public class CardGame extends Game { //  extends GameManager
 
   //    public void run() {
   //    }
-  @Override
   public void updateGame() {}
 
-  @Override
   public void endGame() {}
   //    public int endRound() {
   //        return stats;
   //    }
 
   // TODO: INCORPORATE PLAY INTO STARTGAME()
-  public void play() {
-    //calls methods needed for play
-    //can move this
+  public int play() {
+    // calls methods needed for play
+    // can move this
+    return 0;
   }
 
   public boolean check(int card1, int card2) {

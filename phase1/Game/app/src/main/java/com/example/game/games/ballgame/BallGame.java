@@ -25,9 +25,7 @@ public class BallGame extends Game {
 
   private void startGame() {}
 
-  /**
-   * Main game loop. Loop from https://dewitters.com/dewitters-gameloop/
-   */
+  /** Main game loop. Loop from https://dewitters.com/dewitters-gameloop/ */
   private void gameLoop() {
     final double FRAME_TIME = 1000 / 60;
     final int MAX_FRAMES_SKIPPED = 5;
@@ -45,11 +43,7 @@ public class BallGame extends Game {
     }
   }
 
-  private void updateGame() {
+  private void updateGame() {}
 
-  }
-
-  private void renderGame(double delta) {
-
-  }
+  private void renderGame(double delta) {}
 }

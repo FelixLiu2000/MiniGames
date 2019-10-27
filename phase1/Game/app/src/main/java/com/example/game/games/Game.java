@@ -7,6 +7,7 @@ public abstract class Game {
 
   /**
    * Constructs a new timed game.
+   *
    * @param timeLimit the time limit for the game, in seconds.
    */
   public Game(int timeLimit) {
