@@ -2,6 +2,7 @@ package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +17,6 @@ import java.util.Collections;
 public class CardGameActivity extends AppCompatActivity {
   private ArrayList<ImageView> buttons = new ArrayList<>();
   protected TextView score;
-  private boolean clicked = false;
   private ImageView card_view;
   private Integer[] cardsArray = {101, 102, 103, 104, 105, 106, 201, 202, 203, 204, 205, 206};
   int firstCard, secondCard;
@@ -57,7 +57,6 @@ public class CardGameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                   System.out.println(v);
                   flip((int) v.getTag(), (ImageView)v);
-                  clicked = true;
                 }
               });
     }
@@ -103,41 +102,76 @@ public class CardGameActivity extends AppCompatActivity {
       for (int i = 0; i < buttons.size(); i++) {
         buttons.get(i).setEnabled(false);
       }
-      update();
+      Handler handler = new Handler();
+      handler.postDelayed(new Runnable(){
+          @Override
+          public void run(){
+              //check if the selected images are equal
+              update();
+          }
+          }, 1000);
+      //update();
       }
   }
   public void update(){
     if(cardGame.check(firstCard, secondCard)){
-      if(clickedFirst == 0 || clickedSecond == 0){
+      if(clickedFirst == 0){
         findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 1 || clickedSecond == 1) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 2 || clickedSecond == 2) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 3 || clickedSecond == 3) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 4 || clickedSecond == 4) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 5 || clickedSecond == 5) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 6 || clickedSecond == 6) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 7 || clickedSecond == 7) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 8 || clickedSecond == 8) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 9 || clickedSecond == 9) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 10 || clickedSecond == 10) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
-      } else if (clickedFirst == 11 || clickedSecond == 11) {
-        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 1) {
+        findViewById(R.id.card_12).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 2) {
+        findViewById(R.id.card_13).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 3) {
+        findViewById(R.id.card_14).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 4) {
+        findViewById(R.id.card_21).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 5) {
+        findViewById(R.id.card_22).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 6) {
+        findViewById(R.id.card_23).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 7) {
+        findViewById(R.id.card_24).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 8) {
+        findViewById(R.id.card_31).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 9) {
+        findViewById(R.id.card_32).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 10) {
+        findViewById(R.id.card_33).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 11) {
+        findViewById(R.id.card_34).setVisibility(View.INVISIBLE);
       }
-    } else {
+      if(clickedSecond == 0){
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 1) {
+        findViewById(R.id.card_12).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 2) {
+        findViewById(R.id.card_13).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 3) {
+        findViewById(R.id.card_14).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 4) {
+        findViewById(R.id.card_21).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 5) {
+        findViewById(R.id.card_22).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 6) {
+        findViewById(R.id.card_23).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 7) {
+        findViewById(R.id.card_24).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 8) {
+        findViewById(R.id.card_31).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 9) {
+        findViewById(R.id.card_32).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 10) {
+        findViewById(R.id.card_33).setVisibility(View.INVISIBLE);
+      } else if (clickedSecond == 11) {
+        findViewById(R.id.card_34).setVisibility(View.INVISIBLE);
+      }
+    } else{
       for (int i = 0; i < buttons.size(); i++) {
         buttons.get(i).setImageResource(R.drawable.memory_card);
-        buttons.get(i).setEnabled(true);
       }
     }
+      for (int i = 0; i < buttons.size(); i++) {
+          buttons.get(i).setEnabled(true);
+      }
   }
 }

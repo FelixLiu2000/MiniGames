@@ -16,19 +16,12 @@ public class AppManager implements Serializable {
     this.logInContext = context;
   }
 
-  public void setGameToPlay() {
-    pickGameToPlay();
-  }
-
-  public Class getGameToPlay() {
-    setGameToPlay();
-    return this.gameToPlay;
-  }
+  public void setGameToPlay(Class gameToPlay) { this.gameToPlay = gameToPlay; }
+  public Class getGameToPlay() { return this.gameToPlay; }
 
   public void setCurrentPlayer(Player currentPlayer) {
     this.currentPlayer = currentPlayer;
   }
-
   public Player getCurrentPlayer() {
     return this.currentPlayer;
   }
@@ -39,9 +32,8 @@ public class AppManager implements Serializable {
   }
 
   public void pickGameToPlay() {
-
     if (this.currentPlayer.getCurrentRoundProgress() == 0) {
-      this.gameToPlay = CardGameActivity.class;
+      setGameToPlay(CardGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
       // call game 2
     } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
