@@ -44,7 +44,7 @@ public class CardGame extends Game { //  extends GameManager
     public boolean check(int card1, int card2) {
         // check if two cards are matches and increase total
         if (card1 == card2) {
-            stats++;
+            setScore(getScore() + 1);
         }
     return false;
     }
