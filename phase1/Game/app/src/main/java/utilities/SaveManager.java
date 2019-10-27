@@ -1,4 +1,4 @@
-package utlities;
+package utilities;
 
 
 import android.os.Environment;

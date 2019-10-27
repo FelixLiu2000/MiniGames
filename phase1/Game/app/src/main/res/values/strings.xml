@@ -8,4 +8,8 @@
     of total rounds played + 1. ie Played 30 rounds, current round is round 31-->
     <string name="play_button_description">Button to play/continue round</string>
     <string name="developers">A. Waddell | D. Nunez | E. Mazor | E. Zhu | F. Liu | N. Kann</string>
+    <string name="sign_in_button_text">Sign In</string>
+    <string name="total_rounds_label">Total Rounds:</string>
+    <string name="total_score_label">Total Score:</string>
+    <string name="highscore_label">HighScore:</string>
 </resources>
