@@ -1,24 +1,32 @@
 package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.game.R;
+import com.example.game.games.cardgame.CardGame;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class CardGameActivity extends AppCompatActivity {
   private ArrayList<ImageView> buttons = new ArrayList<>();
   protected TextView score;
   private boolean clicked = false;
-  private int card_num;
+  private ImageView card_view;
+  private Integer[] cardsArray = {101, 102, 103, 104, 105, 106, 201, 202, 203, 204, 205, 206};
+  int firstCard, secondCard;
+  int clickedFirst, clickedSecond;
+  int cardNum = 1;
+  CardGame cardGame = new CardGame(60);
+
 
   public CardGameActivity() {
-
+    Collections.shuffle(Arrays.asList(cardsArray));
   }
 
   @Override
@@ -40,22 +48,96 @@ public class CardGameActivity extends AppCompatActivity {
     buttons.add((ImageView) findViewById(R.id.card_33));
     buttons.add((ImageView) findViewById(R.id.card_34));
 
-
-    for(int i = 0; i < buttons.size(); i ++) {
+    for (int i = 0; i < buttons.size(); i++) {
       buttons.get(i).setTag(i);
-      buttons.get(i).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          clicked = true;
-          card_num = (int) v.getTag();
-        }
-      });
+      card_view = buttons.get(i);
+      buttons.get(i).setOnClickListener(
+              new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  System.out.println(v);
+                  flip((int) v.getTag(), (ImageView)v);
+                  clicked = true;
+                }
+              });
     }
   }
-  public boolean getClicked(){
-    return clicked;
+  public ImageView getCard_view() {
+    return card_view;
   }
-  public int getCard_num(){
-    return card_num;
+
+  public void flip(int card, ImageView iv) {
+    // return other side of the card
+    if (cardsArray[card] == 101 || cardsArray[card] == 201) {
+      iv.setImageResource(R.drawable.orange_circle);
+    } else if (cardsArray[card] == 102 || cardsArray[card] == 202){
+      iv.setImageResource(R.drawable.pink_ring);
+    } else if (cardsArray[card] == 103 || cardsArray[card] == 203){
+      iv.setImageResource(R.drawable.green_ring);
+    } else if (cardsArray[card] == 104 || cardsArray[card] == 204){
+      iv.setImageResource(R.drawable.red_circle);
+    } else if (cardsArray[card] == 105 || cardsArray[card] == 205){
+      iv.setImageResource(R.drawable.yellow_square);
+    } else if (cardsArray[card] == 106 || cardsArray[card] == 206){
+      iv.setImageResource(R.drawable.blue_square);
+    }
+
+    // checks which card has been selected to send to back end
+    if(cardNum == 1){
+      firstCard = cardsArray[card];
+      if(firstCard > 200){
+        firstCard = firstCard - 100;
+      }
+      cardNum = 2;
+      clickedFirst = card;
+
+      iv.setEnabled(false);
+    } else if (cardNum == 2) {
+      secondCard = cardsArray[card];
+      if (secondCard > 200) {
+        secondCard = secondCard - 100;
+      }
+      cardNum = 1;
+      clickedSecond = card;
+
+      for (int i = 0; i < buttons.size(); i++) {
+        buttons.get(i).setEnabled(false);
+      }
+      update();
+      }
+  }
+  public void update(){
+    if(cardGame.check(firstCard, secondCard)){
+      if(clickedFirst == 0 || clickedSecond == 0){
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 1 || clickedSecond == 1) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 2 || clickedSecond == 2) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 3 || clickedSecond == 3) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 4 || clickedSecond == 4) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 5 || clickedSecond == 5) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 6 || clickedSecond == 6) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 7 || clickedSecond == 7) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 8 || clickedSecond == 8) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 9 || clickedSecond == 9) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 10 || clickedSecond == 10) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      } else if (clickedFirst == 11 || clickedSecond == 11) {
+        findViewById(R.id.card_11).setVisibility(View.INVISIBLE);
+      }
+    } else {
+      for (int i = 0; i < buttons.size(); i++) {
+        buttons.get(i).setImageResource(R.drawable.memory_card);
+        buttons.get(i).setEnabled(true);
+      }
+    }
   }
 }

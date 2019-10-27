@@ -44,11 +44,6 @@ public class CardGame extends Game { //  extends GameManager
   public void play() {
     //calls methods needed for play
     //can move this
-    CardGameActivity activity = new CardGameActivity();
-    if (activity.getClicked()) {
-      flip(activity.getCard_num());
-    }
-
   }
 
   public boolean check(int card1, int card2) {
@@ -57,9 +52,5 @@ public class CardGame extends Game { //  extends GameManager
       setScore(getScore() + 1);
     }
     return false;
-  }
-
-  public void flip(int card) {
-    // return other side of the card
   }
 }
