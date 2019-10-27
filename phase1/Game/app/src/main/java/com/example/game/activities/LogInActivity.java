@@ -1,4 +1,4 @@
-package com.example.game;
+package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -11,10 +11,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.game.R;
+
 import java.io.Serializable;
 
-import utilities.AppManager;
-import utilities.Player;
+import com.example.game.utilities.AppManager;
 
 public class LogInActivity extends AppCompatActivity implements Serializable {
 

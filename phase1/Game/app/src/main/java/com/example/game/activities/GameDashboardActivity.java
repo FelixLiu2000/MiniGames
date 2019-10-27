@@ -1,4 +1,4 @@
-package com.example.game;
+package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import utilities.AppManager;
-import utilities.Player;
+import com.example.game.R;
+
+import com.example.game.utilities.AppManager;
 
 public class GameDashboardActivity extends AppCompatActivity {
 

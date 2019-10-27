@@ -1,12 +1,8 @@
-package utilities;
+package com.example.game.utilities;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 
-import com.example.game.CardGameActivity;
-import com.example.game.GameDashboardActivity;
-import com.example.game.LogInActivity;
+import com.example.game.activities.CardGameActivity;
 
 import java.io.Serializable;
 

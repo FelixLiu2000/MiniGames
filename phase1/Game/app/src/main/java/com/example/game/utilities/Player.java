@@ -1,4 +1,4 @@
-package utilities;
+package com.example.game.utilities;
 
 import java.io.Serializable;
 
