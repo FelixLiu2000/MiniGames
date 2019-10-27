@@ -33,7 +33,6 @@ public class LogInActivity extends AppCompatActivity implements Serializable {
         new View.OnClickListener() {
           public void onClick(View v) {
             appManager.createPlayer("Diego", "Nunez", "UNT", "PWT");
-            //                Player currentPlayer = appManager.getCurrentPlayer();
             Intent logInIntent = new Intent(LogInActivity.this, GameDashboardActivity.class);
             logInIntent.putExtra("appManager", appManager);
             startActivity(logInIntent);
