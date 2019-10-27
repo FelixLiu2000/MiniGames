@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SubwayGameActivity"></activity>
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +25,7 @@
             android:parentActivityName=".GameDashboardActivity" />
         <activity
             android:name=".GameDashboardActivity"
-            android:parentActivityName=".LogInActivity"/>
+            android:parentActivityName=".LogInActivity" />
     </application>
 
 </manifest>
