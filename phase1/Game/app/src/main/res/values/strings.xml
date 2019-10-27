@@ -12,4 +12,5 @@
     <string name="total_rounds_label">Total Rounds:</string>
     <string name="total_score_label">Total Score:</string>
     <string name="highscore_label">HighScore:</string>
+    <string name="score">Score:</string>
 </resources>
