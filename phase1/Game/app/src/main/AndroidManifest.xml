@@ -14,6 +14,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SubwayGameActivity"></activity>
         <activity android:name=".LogInActivity">
+        <activity android:name=".activities.BallGameActivity"></activity>
+        <activity android:name=".activities.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +23,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CardGameActivity"
-            android:parentActivityName=".GameDashboardActivity" />
+            android:name=".activities.CardGameActivity"
+            android:parentActivityName=".activities.GameDashboardActivity" />
         <activity
-            android:name=".GameDashboardActivity"
-            android:parentActivityName=".LogInActivity" />
+            android:name=".activities.GameDashboardActivity"
+            android:parentActivityName=".activities.LogInActivity" />
     </application>
 
 </manifest>
