@@ -1,6 +1,8 @@
 package com.example.game.games.ballgame;
 
 
+import android.view.View;
+
 class Target extends BallGameObject implements Collidable<Ball> , Renderable {
     public Target(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -17,7 +19,7 @@ class Target extends BallGameObject implements Collidable<Ball> , Renderable {
     }
 
     @Override
-    public void render() {
+    public void render(View view) {
 
     }
 }

@@ -1,5 +1,7 @@
 package com.example.game.games.ballgame;
 
+import android.view.View;
+
 class Ball extends BallGameObject implements Collidable<Target>,  Renderable {
   private double speedX, speedY = 0;
   private final double GRAVITY = 0.1;
@@ -30,7 +32,7 @@ class Ball extends BallGameObject implements Collidable<Target>,  Renderable {
   }
 
   @Override
-  public void render() {
+  public void render(View view) {
 
   }
 }
