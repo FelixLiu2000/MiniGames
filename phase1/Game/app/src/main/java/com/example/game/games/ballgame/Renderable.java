@@ -4,4 +4,5 @@ import android.view.View;
 
 interface Renderable {
     void render(View view);
+    View getObjectView();
 }
