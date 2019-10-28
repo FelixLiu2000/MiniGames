@@ -2,6 +2,7 @@ package com.example.game.utilities;
 
 import android.content.Context;
 
+import com.example.game.activities.BallGameActivity;
 import com.example.game.activities.CardGameActivity;
 
 import java.io.Serializable;
@@ -32,11 +33,11 @@ public class AppManager implements Serializable {
 
   public void pickGameToPlay() {
     if (this.currentPlayer.getCurrentRoundProgress() == 0) {
-      setGameToPlay(CardGameActivity.class);
+      //setGameToPlay(CardGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
-      // call game 2
+      setGameToPlay(CardGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
-      // call game 3
+      setGameToPlay(BallGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 3) {
       // reset
     }

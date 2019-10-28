@@ -21,7 +21,7 @@ public class Player implements Serializable {
     this.totalScore = 0;
     this.highScore = 0;
     this.totalRoundsPlayed = 0;
-    this.currentRoundProgress = 0;
+    this.currentRoundProgress = 1;
     this.currentRoundScore = 0;
   }
 
