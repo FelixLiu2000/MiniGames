@@ -42,7 +42,7 @@ public class SubwayGameActivity extends AppCompatActivity {
             runnerRight.setDuration(500);
             runner.startAnimation(runnerRight);
             System.out.println("Moved right and the runner was in lane 1");
-            runnerX = 204;
+            runnerX += 204;
 
         // if runner is in lane 2
         } else if (runnerX <= 204+30 || runnerX >= 204-30) {
@@ -52,7 +52,7 @@ public class SubwayGameActivity extends AppCompatActivity {
             runnerRight.setDuration(500);
             runner.startAnimation(runnerRight);
             System.out.println("Moved right and the runner was in lane 2");
-            runnerX = 340;
+            runnerX += 340;
         }
 
     }
@@ -64,21 +64,21 @@ public class SubwayGameActivity extends AppCompatActivity {
         // if runner is in lane 3
         if (runnerX <= 340+30 || runnerX >= 340-30) {
             // move to lane 2
-            TranslateAnimation runnerLeft = new TranslateAnimation(runnerX, 204, runnerY, runnerY);
+            TranslateAnimation runnerLeft = new TranslateAnimation(runnerX, -204, runnerY, runnerY);
             runnerLeft.setFillAfter(true);
             runnerLeft.setDuration(500);
             runner.startAnimation(runnerLeft);
             System.out.println("Moved left and the runner was in lane 3");
-            runnerX = 204;
+            runnerX -= 204;
         // if  runner is in lane 2
         } else if (runnerX <= 204+30 || runnerX >= 204-30) {
             // move to lane 1
-            TranslateAnimation runnerLeft = new TranslateAnimation(runnerX, 16, runnerY, runnerY);
+            TranslateAnimation runnerLeft = new TranslateAnimation(runnerX, -16, runnerY, runnerY);
             runnerLeft.setFillAfter(true);
             runnerLeft.setDuration(500);
             runner.startAnimation(runnerLeft);
             System.out.println("Moved left and the runner was in lane 2");
-            runnerX = 16;
+            runnerX -= 16;
         }
     }
 
