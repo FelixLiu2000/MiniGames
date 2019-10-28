@@ -6,4 +6,120 @@
     android:layout_height="match_parent"
     tools:context=".activities.BallGameActivity">
 
+    <TextView
+        android:id="@+id/txtScore"
+        android:layout_width="63dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnShoot"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="#B30000"
+        android:text="@string/shoot"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAngleDown"
+        app:layout_constraintEnd_toStartOf="@+id/btnPowerUp"
+        app:layout_constraintStart_toEndOf="@+id/btnPowerDown"
+        app:layout_constraintTop_toBottomOf="@+id/btnAngleUp" />
+
+    <ImageButton
+        android:id="@+id/btnPowerDown"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="6dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:cropToPadding="false"
+        android:rotation="180"
+        android:scaleType="fitCenter"
+        android:scaleX="3"
+        android:scaleY="3"
+        app:layout_constraintBottom_toBottomOf="@+id/btnShoot"
+        app:layout_constraintEnd_toStartOf="@+id/btnShoot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnShoot"
+        app:srcCompat="@drawable/right_arrow" />
+
+    <ImageButton
+        android:id="@+id/btnAngleDown"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:cropToPadding="false"
+        android:rotation="90"
+        android:scaleType="fitCenter"
+        android:scaleX="3"
+        android:scaleY="3"
+        app:layout_constraintEnd_toEndOf="@+id/btnShoot"
+        app:layout_constraintStart_toStartOf="@+id/btnShoot"
+        app:layout_constraintTop_toBottomOf="@+id/btnShoot"
+        app:srcCompat="@drawable/right_arrow" />
+
+    <ImageButton
+        android:id="@+id/btnPowerUp"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="6dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
+        android:scaleX="3"
+        android:scaleY="3"
+        app:layout_constraintBottom_toBottomOf="@+id/btnShoot"
+        app:layout_constraintStart_toEndOf="@+id/btnShoot"
+        app:layout_constraintTop_toTopOf="@+id/btnShoot"
+        app:srcCompat="@drawable/right_arrow" />
+
+    <ImageButton
+        android:id="@+id/btnAngleUp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="6dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:rotation="-90"
+        android:scaleType="fitCenter"
+        android:scaleX="3"
+        android:scaleY="3"
+        app:layout_constraintBottom_toTopOf="@+id/btnShoot"
+        app:layout_constraintEnd_toEndOf="@+id/btnShoot"
+        app:layout_constraintStart_toStartOf="@+id/btnShoot"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/right_arrow" />
+
+    <ImageView
+        android:id="@+id/picPlayer"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ballgame_player" />
+
+    <ImageView
+        android:id="@+id/picTarget"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ballgame_target" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

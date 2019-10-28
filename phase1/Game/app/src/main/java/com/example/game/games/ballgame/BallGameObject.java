@@ -1,9 +1,11 @@
 package com.example.game.games.ballgame;
 
 import android.graphics.RectF;
+import android.view.View;
 
-abstract class BallGameObject {
+abstract class BallGameObject implements Renderable {
     private RectF boundingBox;
+    private View view;
 
     BallGameObject(float x, float y, float width, float height) {
         this.boundingBox = new RectF(x, y, x + width, x + height);
@@ -33,5 +35,10 @@ abstract class BallGameObject {
 
     void setLocation(float x, float y) {
         this.boundingBox.set(x, y, this.boundingBox.right, this.boundingBox.bottom);
+    }
+
+    @Override
+    public View getObjectView() {
+        return view;
     }
 }
