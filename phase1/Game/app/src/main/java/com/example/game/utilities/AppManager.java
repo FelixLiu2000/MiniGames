@@ -27,8 +27,7 @@ public class AppManager implements Serializable {
   }
 
   public void createPlayer(String firstName, String lastName, String userName, String password) {
-    Player currentPlayer = new Player(firstName, lastName, userName, password);
-    this.currentPlayer = currentPlayer;
+    this.currentPlayer = new Player(firstName, lastName, userName, password);
   }
 
   public void pickGameToPlay() {
