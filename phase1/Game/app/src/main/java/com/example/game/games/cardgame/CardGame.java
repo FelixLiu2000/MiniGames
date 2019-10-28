@@ -39,6 +39,7 @@ public class CardGame extends Game { //  extends GameManager
     // check if two cards are matches and increase total
     if (card1 == card2) {
       setScore(getScore() + 1);
+      return true;
     }
     return false;
   }
