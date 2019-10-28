@@ -24,6 +24,7 @@ public class SubwayGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subway_game);
+        runner = findViewById(R.id.subwayRunner);
         runnerX = runner.getX();
         runnerY = runner.getY();
     }
@@ -34,13 +35,22 @@ public class SubwayGameActivity extends AppCompatActivity {
 //        float yPosition = view.getY();
 //        float xPosition = view.getX();
         // if runner is in lane 1
-        if (runnerX == 16) {
+        if (runnerX <= 30+16 || runnerX <= 30-16) {
             // move to lane 2
             TranslateAnimation runnerRight = new TranslateAnimation(runnerX, 204, runnerY, runnerY);
+            runnerRight.setDuration(500);
+            runnerRight.setFillAfter(true);
+            runner.startAnimation(runnerRight);
+            System.out.println("Moved right and the runner was in lane 1");
+
         // if runner is in lane 2
-        } else if (runnerX == 204) {
+        } else if (runnerX <= 204+30 || runnerX >= 204-30) {
             // move to lane 3
             TranslateAnimation runnerRight = new TranslateAnimation(runnerX, 340, runnerY, runnerY);
+            runnerRight.setDuration(500);
+            runnerRight.setFillAfter(true);
+            runner.startAnimation(runnerRight);
+            System.out.println("Moved right and the runner was in lane 2");
         }
 
     }
