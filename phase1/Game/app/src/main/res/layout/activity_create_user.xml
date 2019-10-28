@@ -7,36 +7,31 @@
     tools:context=".activities.CreateUserActivity">
 
     <Button
-        android:id="@+id/switchToLogInButton"
-        android:layout_width="181dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="100dp"
+        android:id="@+id/createUserSwitchToLogInButton"
+        android:layout_width="257dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="60dp"
         android:text="@string/switch_to_log_in_text"
-        android:enabled="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/submitNewUserButton"
-        app:layout_constraintHorizontal_bias="0.207"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toTopOf="@+id/creatUserFirstNameTextBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/passWordTextBox"
+        android:id="@+id/createUserPassWordTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="252dp"
+        android:layout_marginBottom="40dp"
         android:autofillHints='First Name'
         android:ems="10"
         android:hint="@string/password_hint_text"
         android:inputType="textPersonName|textPassword"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/createUserSubmitButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/lastNameTextBox"
+        android:id="@+id/createUserLastNameTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
@@ -45,13 +40,12 @@
         android:hint="@string/last_name_hint_text"
         android:inputType="textPersonName"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/userNameTextBox"
+        app:layout_constraintBottom_toTopOf="@+id/createUserUsernameTextBox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/userNameTextBox"
+        android:id="@+id/createUserUsernameTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
@@ -60,13 +54,12 @@
         android:hint="@string/username_hint_text"
         android:inputType="textPersonName"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/passWordTextBox"
+        app:layout_constraintBottom_toTopOf="@+id/createUserPassWordTextBox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/firstNameTextBox"
+        android:id="@+id/creatUserFirstNameTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
@@ -75,24 +68,21 @@
         android:hint="@string/first_name_hint_text"
         android:inputType="textPersonName"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/lastNameTextBox"
+        app:layout_constraintBottom_toTopOf="@+id/createUserLastNameTextBox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/submitNewUserButton"
+        android:id="@+id/createUserSubmitButton"
         android:layout_width="122dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="116dp"
         android:enabled="false"
         android:text="@string/single_word_create_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
