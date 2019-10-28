@@ -32,7 +32,7 @@ public class SaveManager {
 
     System.out.println(saveFolder.exists());
 
-    File saveFile = new File(filePath + player.getName() + ".sav");
+    File saveFile = new File(filePath + player.getUsername() + ".sav");
 
     FileOutputStream fileOutputStream;
     ObjectOutputStream objectOutputStream;

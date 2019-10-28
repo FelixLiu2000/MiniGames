@@ -6,25 +6,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.game.R;
 
 import com.example.game.utilities.AppManager;
 
+import org.w3c.dom.Text;
+
 public class GameDashboardActivity extends AppCompatActivity {
 
   AppManager appManager;
-
+  Intent intentGameDashboard;
+  ImageButton imageButtonPlay;
+  TextView textViewHighScore;
+  TextView textViewTotalRoundsPlayed;
+  TextView  textViewTotalScore;
+  TextView textViewUsername;
+  ProgressBar progressBarRoundProgress;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    Intent appManagerIntent = getIntent();
-    this.appManager = (AppManager) appManagerIntent.getSerializableExtra("appManager");
+    intentGameDashboard = getIntent();
+    this.appManager = (AppManager) intentGameDashboard.getSerializableExtra("appManager");
     setContentView(R.layout.activity_game_dashboard);
 
-    ImageButton playButton = findViewById(R.id.playButton);
-    playButton.setOnClickListener(
+    imageButtonPlay = findViewById(R.id.playButton);
+    imageButtonPlay.setOnClickListener(
         new View.OnClickListener() {
           public void onClick(View v) {
             appManager.pickGameToPlay();
@@ -33,14 +42,18 @@ public class GameDashboardActivity extends AppCompatActivity {
           }
         });
 
-    TextView highScoreText = findViewById(R.id.highScoreStat);
-    TextView totalRoundsPlayedText = findViewById(R.id.totalRoundsPlayedStat);
-    TextView totalScoreText = findViewById(R.id.totalScoreStat);
+    textViewHighScore = findViewById(R.id.highScoreStat);
+    textViewTotalRoundsPlayed = findViewById(R.id.totalRoundsPlayedStat);
+    textViewTotalScore = findViewById(R.id.totalScoreStat);
+    textViewUsername = findViewById(R.id.usernameTextLabel);
+    progressBarRoundProgress = findViewById(R.id.roundProgressBar);
 
-    highScoreText.setText(String.valueOf(this.appManager.getCurrentPlayer().getHighScore()));
-    totalRoundsPlayedText.setText(
+    textViewHighScore.setText(String.valueOf(this.appManager.getCurrentPlayer().getHighScore()));
+    textViewTotalRoundsPlayed.setText(
         String.valueOf(this.appManager.getCurrentPlayer().getTotalRoundsPlayed()));
-    totalScoreText.setText(String.valueOf(this.appManager.getCurrentPlayer().getTotalScore()));
+    textViewTotalScore.setText(String.valueOf(this.appManager.getCurrentPlayer().getTotalScore()));
+    textViewUsername.setText(String.valueOf(this.appManager.getCurrentPlayer().getUsername()));
+    progressBarRoundProgress.setProgress(appManager.getCurrentPlayer().getCurrentRoundProgress());
   }
 
   public void startGame(View view) {

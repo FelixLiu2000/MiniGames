@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.CreateUserActivity"></activity>
+        <activity android:name=".activities.LogInActivity" />
         <activity android:name=".activities.BallGameActivity" />
-        <activity android:name=".activities.LogInActivity">
+        <activity android:name=".activities.AppStartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +27,7 @@
             android:parentActivityName=".activities.GameDashboardActivity" />
         <activity
             android:name=".activities.GameDashboardActivity"
-            android:parentActivityName=".activities.LogInActivity" />
+            android:parentActivityName=".activities.AppStartActivity" />
     </application>
 
 </manifest>
