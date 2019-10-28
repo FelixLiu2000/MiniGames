@@ -1,8 +1,9 @@
-package com.example.game;
+package com.example.game.games.subwaygame;
 
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
+import java.util.ArrayList;
 
 import utilities.Game;
 
