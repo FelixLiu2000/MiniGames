@@ -30,11 +30,12 @@ public class AppStartActivity extends AppCompatActivity implements Serializable 
     this.appManager = new AppManager(this);
     setContentView(R.layout.activity_app_start);
 
-    Button buttonCreateUser = findViewById(R.id.createUserButton);
-    Button buttonLogInUser = findViewById(R.id.signInButton);
-    Button buttonSkipToDashboard = findViewById(R.id.skipToDashboardButton);
+    Button buttonCreateUserPage = findViewById(R.id.appStartCreateUserButton);
+    Button buttonLogInUserPage = findViewById(R.id.appStartLogInButton);
+//    Button buttonLogInUser = findViewById(R.id.logInPageButton);
+    Button buttonSkipToDashboard = findViewById(R.id.appStartSkipToDashboardButton);
 
-    buttonCreateUser.setOnClickListener(
+    buttonCreateUserPage.setOnClickListener(
         new View.OnClickListener() {
           public void onClick(View v) {
             Intent intentAppStartToCreateUser = new Intent (AppStartActivity.this, CreateUserActivity.class);
@@ -43,14 +44,15 @@ public class AppStartActivity extends AppCompatActivity implements Serializable 
           }
         });
 
-    buttonLogInUser.setOnClickListener(
+    buttonLogInUserPage.setOnClickListener(
             new View.OnClickListener() {
-              public void onClick(View v) {
-                Intent intentAppStartToLogInUser = new Intent (AppStartActivity.this, LogInActivity.class);
-                intentAppStartToLogInUser.putExtra("appManager", appManager);
-                startActivity(intentAppStartToLogInUser);
-              }
-            });
+                public void onClick(View v) {
+                    Intent intentAppStartToLogInUser = new Intent (AppStartActivity.this, LogInActivity.class);
+                    intentAppStartToLogInUser.putExtra("appManager", appManager);
+                    startActivity(intentAppStartToLogInUser);
+                }
+            }
+    );
 
     buttonSkipToDashboard.setOnClickListener(
             new View.OnClickListener() {

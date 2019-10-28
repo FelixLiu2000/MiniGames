@@ -7,24 +7,23 @@
     tools:context=".activities.AppStartActivity">
 
     <Button
-        android:id="@+id/signInButton"
+        android:id="@+id/appStartLogInButton"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_marginBottom="212dp"
         android:text="@string/sign_in_button_text"
-        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/createUserButton"
+        android:id="@+id/appStartCreateUserButton"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_marginTop="156dp"
         android:text="@string/create_user_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        app:layout_constraintBottom_toTopOf="@+id/appStartLogInButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,13 +31,13 @@
         app:layout_constraintVertical_bias="0.11" />
 
     <Button
-        android:id="@+id/skipToDashboardButton"
+        android:id="@+id/appStartSkipToDashboardButton"
         android:layout_width="322dp"
         android:layout_height="47dp"
         android:text="@string/skip_to_dashboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+        app:layout_constraintTop_toBottomOf="@+id/appStartLogInButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

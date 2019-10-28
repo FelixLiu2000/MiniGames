@@ -33,7 +33,7 @@ public class AppManager implements Serializable {
 
   public void pickGameToPlay() {
     if (this.currentPlayer.getCurrentRoundProgress() == 0) {
-      //setGameToPlay(CardGameActivity.class);
+      //setGameToPlay(SubwayGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
       setGameToPlay(CardGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
