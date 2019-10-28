@@ -3,6 +3,7 @@ package com.example.game.utilities;
 import android.content.Context;
 
 import com.example.game.activities.CardGameActivity;
+import com.example.game.activities.SubwayGameActivity;
 
 import java.io.Serializable;
 
@@ -44,6 +45,7 @@ public class AppManager implements Serializable {
       this.gameToPlay = CardGameActivity.class;
     } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
       // call game 2
+        this.gameToPlay = SubwayGameActivity.class;
     } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
       // call game 3
     } else if (this.currentPlayer.getCurrentRoundProgress() == 3) {

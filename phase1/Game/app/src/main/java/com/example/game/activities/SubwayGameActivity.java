@@ -7,10 +7,13 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.game.R;
+import com.example.game.games.subwaygame.SubwayGame;
+
 import java.util.ArrayList;
 
 public class SubwayGameActivity extends AppCompatActivity {
-    ArrayList<ImageView> obstacles = new ArrayList<>();
+    public ArrayList<ImageView> obstacles = new ArrayList<>();
     private ImageView runner;
     private SubwayGame game;
     // runner's x and y coordinates
