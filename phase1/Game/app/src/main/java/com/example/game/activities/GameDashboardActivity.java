@@ -3,6 +3,7 @@ package com.example.game.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -31,6 +32,8 @@ public class GameDashboardActivity extends AppCompatActivity {
     intentGameDashboard = getIntent();
     this.appManager = (AppManager) intentGameDashboard.getSerializableExtra("appManager");
     setContentView(R.layout.activity_game_dashboard);
+
+    getWindow().getDecorView().setBackgroundColor(appManager.getCurrentPlayer().getGameDashboardBackgroundColor());
 
     imageButtonPlay = findViewById(R.id.playButton);
     imageButtonPlay.setOnClickListener(
