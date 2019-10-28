@@ -13,4 +13,5 @@
     <string name="total_score_label">Total Score:</string>
     <string name="highscore_label">HighScore:</string>
     <string name="score">Score:</string>
+    <string name="shoot">FIRE</string>
 </resources>
