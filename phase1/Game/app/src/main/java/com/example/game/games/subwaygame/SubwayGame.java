@@ -12,7 +12,6 @@ import com.example.game.games.Game;
 
 public class SubwayGame extends Game {
   private SubwayGameActivity activity;
-  //    private ArrayList<SubwayObstacle> obstacles = new ArrayList<>();
   private int score;
 
   public SubwayGame(SubwayGameActivity activity) {
@@ -22,12 +21,7 @@ public class SubwayGame extends Game {
     play();
   }
 
-  //    private void startRound() {
-  //        SubwayRunner runner = new SubwayRunner();
-  //    }
-
   private int play() {
-//            startRound();
     // create 60 second timer
     new CountDownTimer(60000, 1000) {
       @Override
@@ -37,9 +31,9 @@ public class SubwayGame extends Game {
         checkCollision();
         // move all obstacles down every second
         activity.moveDown();
-        // create new obstacle every 3 seconds
+        // create new obstacle every 4 seconds
         double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
-        if (nearestThousand % 3000 == 0) {
+        if (nearestThousand % 4000 == 0) {
           createObstacle();
         }
       }
@@ -65,8 +59,8 @@ public class SubwayGame extends Game {
 
   }
   private void setSize(ImageView newObstacle){
-      newObstacle.getLayoutParams().height = 48;
-      newObstacle.getLayoutParams().width = 48;
+      newObstacle.getLayoutParams().height = 70;
+      newObstacle.getLayoutParams().width = 70;
   }
   /** Set location of the new obstacle */
   private void setPosition(ImageView newObstacle) {
@@ -76,11 +70,11 @@ public class SubwayGame extends Game {
     int obstacleLane = pickLane();
     // set obstacle's x position based on the lane
     if (obstacleLane == 1) {
-      newObstacle.setX(16);
+      newObstacle.setX(160);
     } else if (obstacleLane == 2) {
-      newObstacle.setX(204);
+      newObstacle.setX(500);
     } else {
-        newObstacle.setX(340); // lane 3
+        newObstacle.setX(860); // lane 3
     }
 
       System.out.println("Obstacle x value: " + newObstacle.getX());

@@ -64,17 +64,16 @@ public class SubwayGameActivity extends AppCompatActivity {
         // loop through obstacles
         for (int i=0; i<obstacles.size(); i++) {
             ImageView obstacle = obstacles.get(i);
-//            float obstacleX = obstacle.getX();
             float obstacleY = obstacle.getY();
             // move down
             TranslateAnimation obstacleDown = new TranslateAnimation(0,
                     0,
                     0,
-                    50);
+                    100);
             obstacleDown.setFillAfter(true);
             obstacleDown.setDuration(0);
             obstacle.startAnimation(obstacleDown);
-            obstacleY += 50;
+            obstacleY += 100;
             obstacle.setY(obstacleY);
         }
     }
