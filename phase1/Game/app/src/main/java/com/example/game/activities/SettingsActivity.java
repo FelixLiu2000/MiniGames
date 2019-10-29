@@ -13,16 +13,28 @@ import android.widget.Spinner;
 import com.example.game.R;
 import com.example.game.utilities.AppManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
     AppManager appManager;
     Intent intentSettings;
     Spinner spinnerColorChoice;
+    Spinner spinnerDisplayNameChoice;
     ArrayAdapter<CharSequence> arrayAdapterColorChoiceAdapter;
+    ArrayAdapter<CharSequence> arrayAdapterDisplayNameChoiceAdapter;
     Button buttonCancel;
     Button buttonSave;
     String chosenColor;
-    String loadedColor;
+    String loadedColorChoice;
     int loadedColorPosition;
+    String chosenDisplayName;
+    String loadedDisplayNameChoice;
+    int loadedDisplayNameChoicePosition;
+    ArrayList<String> arrayListColorChoices;
+    ArrayList<String> arrayListDisplayNameChoices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +42,36 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         intentSettings = getIntent();
         appManager = (AppManager) intentSettings.getSerializableExtra("appManager");
         setContentView(R.layout.activity_settings);
+
+        getWindow().getDecorView().setBackgroundColor(appManager.getCurrentPlayer().getGameDashboardBackgroundColor());
+
         spinnerColorChoice = findViewById(R.id.colorChoiceSpinner);
         arrayAdapterColorChoiceAdapter = ArrayAdapter.createFromResource(this,
                 R.array.color_choices, android.R.layout.simple_spinner_item);
         arrayAdapterColorChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerColorChoice.setAdapter(arrayAdapterColorChoiceAdapter);
         spinnerColorChoice.setOnItemSelectedListener(this);
+        chosenColor = appManager.getCurrentPlayerCurrentDashboardColor();
+        loadedColorChoice = appManager.getCurrentPlayerCurrentDashboardColor();
+        loadedColorPosition = arrayAdapterColorChoiceAdapter.getPosition(loadedColorChoice);
+        spinnerColorChoice.setSelection(loadedColorPosition);
+
+        spinnerDisplayNameChoice = findViewById(R.id.displayNameChoiceSpinner);
+        arrayAdapterDisplayNameChoiceAdapter = ArrayAdapter.createFromResource(this,
+                R.array.display_name_choices, android.R.layout.simple_spinner_item);
+        arrayAdapterDisplayNameChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDisplayNameChoice.setAdapter(arrayAdapterDisplayNameChoiceAdapter);
+        spinnerDisplayNameChoice.setOnItemSelectedListener(this);
+        chosenDisplayName = appManager.getCurrentPlayerDisplayName();
+        loadedDisplayNameChoice = appManager.getCurrentPlayerDisplayName();
+        loadedDisplayNameChoicePosition = arrayAdapterDisplayNameChoiceAdapter.getPosition(loadedDisplayNameChoice);
+        spinnerDisplayNameChoice.setSelection(loadedDisplayNameChoicePosition);
+
         buttonCancel = findViewById(R.id.settingsCancelButton);
         buttonSave = findViewById(R.id.settingsSaveButton);
-        loadedColor = appManager.getCurrentPlayerCurrentDashboardColor();
-        loadedColorPosition = arrayAdapterColorChoiceAdapter.getPosition(loadedColor);
-        spinnerColorChoice.setSelection(loadedColorPosition);
+        arrayListColorChoices = new ArrayList<>(Arrays.asList("WHITE", "RED", "GREEN", "BLUE", "YELLOW"));
+        arrayListDisplayNameChoices = new ArrayList<>(Arrays.asList("FIRST NAME", "LAST NAME", "USERNAME"));
+
 
         buttonCancel.setOnClickListener(
                 new View.OnClickListener() {
@@ -54,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         buttonSave.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        appManager.saveCustomizationChanges(chosenColor);
+                        appManager.saveCustomizationChanges(chosenColor, chosenDisplayName);
                         Intent settingsToGameDashboardSave = new Intent(SettingsActivity.this, GameDashboardActivity.class);
                         settingsToGameDashboardSave.putExtra("appManager", appManager);
                         startActivity(settingsToGameDashboardSave);
@@ -67,7 +98,12 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
-        chosenColor = parent.getItemAtPosition(pos).toString();
+        String chosenItem = parent.getItemAtPosition(pos).toString();
+        if (arrayListColorChoices.contains(chosenItem)) {
+            chosenColor = parent.getItemAtPosition(pos).toString();
+        } else if (arrayListDisplayNameChoices.contains(chosenItem)) {
+            chosenDisplayName = parent.getItemAtPosition(pos).toString();
+        }
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

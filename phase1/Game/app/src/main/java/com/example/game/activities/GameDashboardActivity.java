@@ -21,7 +21,7 @@ public class GameDashboardActivity extends AppCompatActivity {
   TextView textViewHighScore;
   TextView textViewTotalRoundsPlayed;
   TextView  textViewTotalScore;
-  TextView textViewUsername;
+  TextView textViewDisplayName;
   ProgressBar progressBarRoundProgress;
   ImageButton imageButtonSettings;
 
@@ -38,7 +38,7 @@ public class GameDashboardActivity extends AppCompatActivity {
     textViewHighScore = findViewById(R.id.highScoreStat);
     textViewTotalRoundsPlayed = findViewById(R.id.totalRoundsPlayedStat);
     textViewTotalScore = findViewById(R.id.totalScoreStat);
-    textViewUsername = findViewById(R.id.usernameTextLabel);
+    textViewDisplayName = findViewById(R.id.displayNameTextLabel);
     progressBarRoundProgress = findViewById(R.id.roundProgressBar);
     imageButtonSettings = findViewById(R.id.gameDashboardSettingsButton);
 
@@ -61,11 +61,19 @@ public class GameDashboardActivity extends AppCompatActivity {
               }
             });
 
-    textViewHighScore.setText(String.valueOf(this.appManager.getCurrentPlayer().getHighScore()));
+    textViewHighScore.setText(String.valueOf(appManager.getCurrentPlayer().getHighScore()));
     textViewTotalRoundsPlayed.setText(
-        String.valueOf(this.appManager.getCurrentPlayer().getTotalRoundsPlayed()));
-    textViewTotalScore.setText(String.valueOf(this.appManager.getCurrentPlayer().getTotalScore()));
-    textViewUsername.setText(String.valueOf(this.appManager.getCurrentPlayer().getUsername()));
+        String.valueOf(appManager.getCurrentPlayer().getTotalRoundsPlayed()));
+      textViewTotalScore.setText(String.valueOf(appManager.getCurrentPlayer().getTotalScore()));
+
+    if (appManager.getCurrentPlayerDisplayName().equals("USERNAME")){
+        textViewDisplayName.setText(String.valueOf(appManager.getCurrentPlayer().getUsername()));
+    } else if (appManager.getCurrentPlayerDisplayName().equals("FIRST NAME")){
+        textViewDisplayName.setText(String.valueOf(appManager.getCurrentPlayer().getFirstName()));
+    } else if (appManager.getCurrentPlayerDisplayName().equals("LAST NAME")){
+        textViewDisplayName.setText(String.valueOf(appManager.getCurrentPlayer().getLastName()));
+    }
+
     progressBarRoundProgress.setProgress(appManager.getCurrentPlayer().getCurrentRoundProgress());
   }
 
