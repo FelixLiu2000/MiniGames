@@ -26,7 +26,7 @@ public class SubwayGame extends Game {
     new CountDownTimer(60000, 1000) {
       @Override
       public void onTick(long millisUntilFinished) {
-        System.out.println("Timer is ticking! " + millisUntilFinished);
+//        System.out.println("Timer is ticking! " + millisUntilFinished);
         // check for collisions every second
         checkCollision();
         // move all obstacles down every second
@@ -41,7 +41,7 @@ public class SubwayGame extends Game {
       @Override
       public void onFinish() {
         System.out.println("Game Over!");
-        System.out.println(score);
+        System.out.println("Final score is: " + score);
       }
     }.start();
     return score;
@@ -49,7 +49,7 @@ public class SubwayGame extends Game {
 
   /** create a new obstacle and add it to obstacles ArrayList in SubwayGameActivity */
   private void createObstacle() {
-    System.out.println("obstacle created");
+//    System.out.println("obstacle created");
     ImageView newObstacle = new ImageView(activity);
     newObstacle.setImageResource(R.drawable.circle_card);
     // set obstacle position
@@ -77,8 +77,6 @@ public class SubwayGame extends Game {
     } else {
         newObstacle.setX(860); // lane 3
     }
-
-      System.out.println("Obstacle x value: " + newObstacle.getX());
   }
 
   /** randomly determine which lane the new obstacle is in */
@@ -100,10 +98,10 @@ public class SubwayGame extends Game {
       float obstacleY = obstacle.getY();
       // check if runner and obstacle are in the same lane
       boolean sameLane = checkLane(obstacleX);
-      System.out.println("sameLane is " + sameLane);
+//      System.out.println("sameLane is " + sameLane);
       // check if runner and obstacle have the same y coordinate
       boolean sameY = checkCoordY(obstacleY);
-      System.out.println("sameY is " + sameY);
+//      System.out.println("sameY is " + sameY);
       if (sameLane && sameY)
         // decrease score
         decreaseScore();
@@ -111,7 +109,7 @@ public class SubwayGame extends Game {
     }
 
     private boolean checkCoordY(float obstacleY) {
-      return (obstacleY == 600);
+      return (obstacleY == 1200);
     }
 
     private boolean checkLane(float obstacleX) {
@@ -127,7 +125,7 @@ public class SubwayGame extends Game {
     /** decrease the score by 1 */
   private void decreaseScore() {
     this.score -= 1;
-    System.out.println(this.score);
+    System.out.println("Current score is: " + this.score);
   }
 
   /** A wrapper method to implement abstract method from Game */

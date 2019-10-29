@@ -31,7 +31,7 @@ public class SubwayGameActivity extends AppCompatActivity {
         runnerY = runner.getY();
         runnerLane = 2;
         game = new SubwayGame(this);
-        System.out.println("Initial X and Y are: " + runnerX + runnerY);
+//        System.out.println("Initial X and Y are: " + runnerX + runnerY);
 
 
     }
@@ -54,7 +54,7 @@ public class SubwayGameActivity extends AppCompatActivity {
         // if runner is in lane 2 or 3
         if (runnerX == 0) {
             // move to leftmost lane
-            System.out.print(runnerX);
+//            System.out.print(runnerX);
             changeLanes("Left", runnerX, runnerY, -350);
             runnerLane = 1;
         } else if (runnerX == 350) {
