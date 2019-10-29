@@ -13,10 +13,11 @@ public class SubwayGame extends Game {
   //    private ArrayList<SubwayObstacle> obstacles = new ArrayList<>();
   private int score;
 
-  SubwayGame(SubwayGameActivity activity) {
+  public SubwayGame(SubwayGameActivity activity) {
     super(60);
     this.score = 10;
     this.activity = activity;
+    play();
   }
 
   //    private void startRound() {
@@ -30,12 +31,14 @@ public class SubwayGame extends Game {
         new CountDownTimer(60000, 1000) {
           @Override
           public void onTick(long millisUntilFinished) {
+            System.out.println("Timer is ticking!" + millisUntilFinished);
             // check for collisions every second
             checkCollision();
             // move all obstacles down every second
             activity.moveDown();
             // create new obstacle every 3 seconds
-            if (millisUntilFinished % 3000 == 0) {
+            double nearestThousand = Math.ceil(millisUntilFinished/1000) * 1000;
+            if (nearestThousand % 3000 == 0) {
               createObstacle();
             }
           }
@@ -44,13 +47,13 @@ public class SubwayGame extends Game {
           public void onFinish() {
             System.out.println("Game Over!");
           }
-        };
-    timer.start();
+        }.start();
     return score;
   }
 
   /** create a new obstacle and add it to obstacles ArrayList in SubwayGameActivity */
   private void createObstacle() {
+    System.out.println("obstacle created");
     ImageView newObstacle = new ImageView(activity);
     // set obstacle position
     setPosition(newObstacle);

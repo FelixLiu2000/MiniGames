@@ -27,6 +27,7 @@ public class SubwayGameActivity extends AppCompatActivity {
         runner = findViewById(R.id.subwayRunner);
         runnerX = runner.getX();
         runnerY = runner.getY();
+        game = new SubwayGame(this);
     }
 
 
