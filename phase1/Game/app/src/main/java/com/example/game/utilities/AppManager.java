@@ -1,6 +1,7 @@
 package com.example.game.utilities;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.example.game.activities.BallGameActivity;
 import com.example.game.activities.CardGameActivity;
@@ -41,5 +42,23 @@ public class AppManager implements Serializable {
     } else if (this.currentPlayer.getCurrentRoundProgress() == 3) {
       // reset
     }
+  }
+
+  public void saveCustomizationChanges(String gameDashboardBackgroundColor) {
+    int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
+    if (gameDashboardBackgroundColor == "WHITE"){
+      chosenColorInt = Color.WHITE;
+    } else if (gameDashboardBackgroundColor == "RED"){
+      chosenColorInt = Color.RED;
+    } else if (gameDashboardBackgroundColor.equals("GREEN")) {
+      chosenColorInt = Color.GREEN;
+    } else if (gameDashboardBackgroundColor == "BLUE") {
+      chosenColorInt = Color.BLUE;
+    } else if (gameDashboardBackgroundColor == "YELLOW") {
+      chosenColorInt = Color.YELLOW;
+    }
+
+    this.currentPlayer.setGameDashboardBackgroundColor(chosenColorInt);
+
   }
 }
