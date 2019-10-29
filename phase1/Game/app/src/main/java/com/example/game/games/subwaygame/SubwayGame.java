@@ -4,6 +4,8 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.game.R;
 import com.example.game.activities.SubwayGameActivity;
 import com.example.game.games.Game;
@@ -27,27 +29,26 @@ public class SubwayGame extends Game {
   private int play() {
 //            startRound();
     // create 60 second timer
-    CountDownTimer timer =
-        new CountDownTimer(60000, 1000) {
-          @Override
-          public void onTick(long millisUntilFinished) {
-            System.out.println("Timer is ticking!" + millisUntilFinished);
-            // check for collisions every second
-            checkCollision();
-            // move all obstacles down every second
-            activity.moveDown();
-            // create new obstacle every 3 seconds
-            double nearestThousand = Math.ceil(millisUntilFinished/1000) * 1000;
-            if (nearestThousand % 3000 == 0) {
-              createObstacle();
-            }
-          }
+    new CountDownTimer(60000, 1000) {
+      @Override
+      public void onTick(long millisUntilFinished) {
+        System.out.println("Timer is ticking! " + millisUntilFinished);
+        // check for collisions every second
+        checkCollision();
+        // move all obstacles down every second
+        activity.moveDown();
+        // create new obstacle every 3 seconds
+        double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
+        if (nearestThousand % 3000 == 0) {
+          createObstacle();
+        }
+      }
 
-          @Override
-          public void onFinish() {
-            System.out.println("Game Over!");
-          }
-        }.start();
+      @Override
+      public void onFinish() {
+        System.out.println("Game Over!");
+      }
+    }.start();
     return score;
   }
 
@@ -57,14 +58,19 @@ public class SubwayGame extends Game {
     ImageView newObstacle = new ImageView(activity);
     newObstacle.setImageResource(R.drawable.circle_card);
     // set obstacle position
+    activity.obstacles.add(newObstacle);
+    ((ConstraintLayout)activity.findViewById(R.id.Layout)).addView(newObstacle);
+    setSize(newObstacle);
     setPosition(newObstacle);
-    //        SubwayObstacle newObstacle = new SubwayObstacle(obstacleLane);
-    //        obstacles.add(newObstacle);
-  }
 
+  }
+  private void setSize(ImageView newObstacle){
+      newObstacle.getLayoutParams().height = 48;
+      newObstacle.getLayoutParams().width = 48;
+  }
   /** Set location of the new obstacle */
   private void setPosition(ImageView newObstacle) {
-    // automatically set y variable to 0
+    // set y variable to 0
     newObstacle.setY(0);
     // randomly pick a lane
     int obstacleLane = pickLane();
@@ -73,22 +79,16 @@ public class SubwayGame extends Game {
       newObstacle.setX(16);
     } else if (obstacleLane == 2) {
       newObstacle.setX(204);
-    } else newObstacle.setX(340); // lane 3
+    } else {
+        newObstacle.setX(340); // lane 3
+    }
+
+      System.out.println("Obstacle x value: " + newObstacle.getX());
   }
 
   /** randomly determine which lane the new obstacle is in */
   private int pickLane() {
     return (int) (Math.random() * 4);
-
-    //        int lane;
-    //        double random = Math.random();
-    //        if (random < 0.33) {
-    //            lane = 1;
-    //        } else if (random < 0.66) {
-    //            lane = 2;
-    //        } else lane = 3;
-    //
-    //        return lane;
   }
 
   /** check if runner and obstacle are in the same position and decrease score by 1 if they are */

@@ -28,7 +28,6 @@ public class SubwayGameActivity extends AppCompatActivity {
         runnerX = runner.getX();
         runnerY = runner.getY();
         game = new SubwayGame(this);
-        obstacles.add((ImageView) findViewById(R.id.movingObstacle));
 
     }
 
