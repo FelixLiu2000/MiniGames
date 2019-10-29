@@ -4,7 +4,6 @@ import android.view.View;
 
 class Ball extends BallGameObject implements Collidable<Target>, Renderable {
   private double speedX, speedY = 0;
-  private final double GRAVITY = 0.1;
   private View view;
 
   Ball(float x, float y, float width, float height, int angle, int power) {
@@ -19,8 +18,9 @@ class Ball extends BallGameObject implements Collidable<Target>, Renderable {
   }
 
   private void move() {
+    final double GRAVITY = 0.1;
     speedY += GRAVITY;
-    setLocation((float)(getX() + speedX), (float)(getY() + speedY));
+    setLocation((float) (getX() + speedX), (float) (getY() + speedY));
     view.setX(getX());
     view.setY(getY());
   }
@@ -31,9 +31,7 @@ class Ball extends BallGameObject implements Collidable<Target>, Renderable {
   }
 
   @Override
-  public void onCollide(Target collidingObject) {
-
-  }
+  public void onCollide(Target collidingObject) {}
 
   @Override
   public View getObjectView() {

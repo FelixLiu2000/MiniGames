@@ -1,7 +1,6 @@
 package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -84,7 +83,7 @@ public class BallGameActivity extends AppCompatActivity {
           new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              ballGame.performPlayerAction((PlayerActions)view.getTag());
+              ballGame.performPlayerAction((PlayerActions) view.getTag());
             }
           });
     }

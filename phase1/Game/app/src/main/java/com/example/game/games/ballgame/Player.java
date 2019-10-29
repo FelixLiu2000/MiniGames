@@ -15,31 +15,32 @@ class Player {
     this.location = new PointF(x, y);
   }
 
-  public float getX() {
+  float getX() {
     return location.x;
   }
 
-  public float getY() {
+  float getY() {
     return location.y;
   }
 
-  public int getShotAngle() {
+  int getShotAngle() {
     return shotAngle;
   }
 
-  public int getShotPower() {
+  int getShotPower() {
     return shotPower;
   }
 
-  public void setShotAngle(int angle) {
+  void setShotAngle(int angle) {
     this.shotAngle = angle;
   }
 
-  public void setShotPower(int power) {
+  void setShotPower(int power) {
     this.shotPower = power;
   }
 
   Ball shootBall(int width, int height) {
-    return new Ball(this.location.x, this.location.y, width, height, getShotAngle(), getShotPower());
+    return new Ball(
+        this.location.x, this.location.y, width, height, getShotAngle(), getShotPower());
   }
 }

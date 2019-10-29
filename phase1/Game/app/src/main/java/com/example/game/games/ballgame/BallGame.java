@@ -1,11 +1,9 @@
 package com.example.game.games.ballgame;
 
 import android.os.CountDownTimer;
-import android.os.SystemClock;
 import android.view.View;
 
 import com.example.game.games.Game;
-import com.example.game.utilities.Timer;
 import java.util.ArrayList;
 
 public class BallGame extends Game {
