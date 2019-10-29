@@ -22,7 +22,7 @@ public class SubwayGame extends Game {
     play();
   }
 
-  private int play() {
+  protected int play() {
     // create 60 second timer
     new CountDownTimer(60000, 1000) {
       @Override
@@ -136,7 +136,6 @@ public class SubwayGame extends Game {
   }
 
   /** A wrapper method to implement abstract method from Game */
-  @Override
   public void updateGame() {
     play();
   }
