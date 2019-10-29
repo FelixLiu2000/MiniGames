@@ -46,15 +46,15 @@ public class AppManager implements Serializable {
 
   public void saveCustomizationChanges(String gameDashboardBackgroundColor) {
     int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
-    if (gameDashboardBackgroundColor == "WHITE"){
+    if (gameDashboardBackgroundColor.equals("WHITE")){
       chosenColorInt = Color.WHITE;
-    } else if (gameDashboardBackgroundColor == "RED"){
+    } else if (gameDashboardBackgroundColor.equals("RED")){
       chosenColorInt = Color.RED;
     } else if (gameDashboardBackgroundColor.equals("GREEN")) {
       chosenColorInt = Color.GREEN;
-    } else if (gameDashboardBackgroundColor == "BLUE") {
+    } else if (gameDashboardBackgroundColor.equals("BLUE")) {
       chosenColorInt = Color.BLUE;
-    } else if (gameDashboardBackgroundColor == "YELLOW") {
+    } else if (gameDashboardBackgroundColor.equals("YELLOW")) {
       chosenColorInt = Color.YELLOW;
     }
 
