@@ -2,6 +2,7 @@ package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ public class CardGameActivity extends AppCompatActivity {
   int clickedFirst, clickedSecond;
   int cardNum = 1;
   CardGame cardGame = new CardGame(60);
-
+  TextView time;
 
   public CardGameActivity() {
     Collections.shuffle(Arrays.asList(cardsArray));
@@ -34,6 +35,7 @@ public class CardGameActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_card_game);
     score = findViewById(R.id.score);
+    time = findViewById(R.id.time);
 
     buttons.add((ImageView) findViewById(R.id.card_11));
     buttons.add((ImageView) findViewById(R.id.card_12));
@@ -60,6 +62,18 @@ public class CardGameActivity extends AppCompatActivity {
                 }
               });
     }
+    new CountDownTimer(60000, 1000) {
+      public void onTick(long millisUntilFinished) {
+        String timeLeft = String.valueOf(millisUntilFinished / 1000);
+        String timeText = "Time Remaining: " + timeLeft;
+        time.setText(timeText);
+      }
+
+      public void onFinish() {
+        String timeText = "Time Is Up";
+        time.setText(timeText);
+      }
+    }.start();
   }
   public ImageView getCard_view() {
     return card_view;
@@ -165,7 +179,7 @@ public class CardGameActivity extends AppCompatActivity {
       } else if (clickedSecond == 11) {
         findViewById(R.id.card_34).setVisibility(View.INVISIBLE);
       }
-    } else{
+    } else {
       for (int i = 0; i < buttons.size(); i++) {
         buttons.get(i).setImageResource(R.drawable.memory_card);
       }
@@ -173,5 +187,6 @@ public class CardGameActivity extends AppCompatActivity {
       for (int i = 0; i < buttons.size(); i++) {
           buttons.get(i).setEnabled(true);
       }
+
   }
 }
