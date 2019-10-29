@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,19 +22,19 @@ public class SubwayGameActivity extends AppCompatActivity {
     public float runnerY;
     // runner'x lane
     public int runnerLane;
+    private TextView currentScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subway_game);
+        currentScore = findViewById(R.id.score);
         runner = findViewById(R.id.subwayRunner);
         runnerX = runner.getX();
         runnerY = runner.getY();
         runnerLane = 2;
         game = new SubwayGame(this);
 //        System.out.println("Initial X and Y are: " + runnerX + runnerY);
-
-
     }
 
     /** move runner right when right button is clicked */
@@ -91,5 +92,9 @@ public class SubwayGameActivity extends AppCompatActivity {
             obstacleY += 100;
             obstacle.setY(obstacleY);
         }
+    }
+
+    public void updateScore(int score) {
+        currentScore.setText("Current Score: " + score);
     }
 }

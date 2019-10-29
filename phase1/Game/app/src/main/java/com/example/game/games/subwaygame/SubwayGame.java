@@ -105,6 +105,7 @@ public class SubwayGame extends Game {
       if (sameLane && sameY)
         // decrease score
         decreaseScore();
+        activity.updateScore(score);
       }
     }
 
