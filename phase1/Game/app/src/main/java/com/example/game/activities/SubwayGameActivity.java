@@ -17,8 +17,8 @@ public class SubwayGameActivity extends AppCompatActivity {
     private ImageView runner;
     private SubwayGame game;
     // runner's x and y coordinates
-    private float runnerX;
-    private float runnerY;
+    public float runnerX;
+    public float runnerY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,35 +28,43 @@ public class SubwayGameActivity extends AppCompatActivity {
         runnerX = runner.getX();
         runnerY = runner.getY();
         game = new SubwayGame(this);
+        System.out.println("Initial X and Y are: " + runnerX + runnerY);
+
 
     }
 
     /** move runner right when right button is clicked */
     public void moveRight(View view) {
         // if runner is in lane 1 or 2
-        if (runnerX <= 0) {
+        if (runnerX == 0) {
             // move to rightmost lane
-            changeLanes(runnerX, runnerY, 350);
+            changeLanes("Right", runnerX, runnerY, 350);
+        } else if (runnerX == -350) {
+            changeLanes("Right", runnerX, runnerY, 0);
         }
     }
 
     /** move runner left when left button is clicked */
     public void moveLeft(View view) {
         // if runner is in lane 2 or 3
-        if (runnerX >= 0) {
+        if (runnerX == 0) {
             // move to leftmost lane
             System.out.print(runnerX);
-            changeLanes(runnerX, runnerY, -350);
+            changeLanes("Left", runnerX, runnerY, -350);
+        } else if (runnerX == 350) {
+            changeLanes("Left", runnerX, runnerY, -0);
         }
     }
 
     /** creates the animation that translates the runner into the leftmost or rightmost lane */
-    public void changeLanes(float xCord, float yCord, int toX) {
+    public void changeLanes(String direction, float xCord, float yCord, int toX) {
         TranslateAnimation runnerDirection = new TranslateAnimation(0, toX, yCord, yCord);
         runnerDirection.setFillAfter(true);
         runnerDirection.setDuration(500);
         runner.startAnimation(runnerDirection);
-        runnerX += toX;
+        if (direction.equals("Right")) {
+            runnerX += 350;
+        } else runnerX -= 350;
     }
 
     /** move all obstacles down */
