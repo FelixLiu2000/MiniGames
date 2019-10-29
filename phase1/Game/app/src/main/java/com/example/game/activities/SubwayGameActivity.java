@@ -70,12 +70,12 @@ public class SubwayGameActivity extends AppCompatActivity {
             // move down
             TranslateAnimation obstacleDown = new TranslateAnimation(0,
                     0,
-                    obstacleY,
-                    1);
+                    0,
+                    50);
             obstacleDown.setFillAfter(true);
-            obstacleDown.setDuration(1000);
+            obstacleDown.setDuration(0);
             obstacle.startAnimation(obstacleDown);
-            obstacleY += 1;
+            obstacleY += 50;
             obstacle.setY(obstacleY);
         }
     }
