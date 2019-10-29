@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import com.example.game.R;
 import com.example.game.utilities.AppManager;
+import com.example.game.utilities.Player;
+import com.example.game.utilities.SaveManager;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -48,17 +50,25 @@ public class LogInActivity extends AppCompatActivity {
                 }
         );
 
-        // TODO: Make this check if user exists and return error message or log into that user
-//         buttonSignIn.setOnClickListener(
-//                new View.OnClickListener() {
-//                    public void onClick(View v) {
-//                        Intent intentLogInToDashboard = new Intent (LogInActivity.this, CreateUserActivity.class);
-//                        intentLogInToDashboard.putExtra("appManager", appManager);
-//                        startActivity(intentLogInToDashboard);
-//
-//                    }
-//                }
-//        );
+         // TODO: Make this check if user exists and return error message or log into that user
+         buttonSignIn.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Player currentPlayer = SaveManager.loadPlayer(editTextUsername.getText().toString().trim());
+                        if (currentPlayer == null) {
+                            System.out.println("current player null");
+                        } else if (currentPlayer.getPassword().equals(editTextPassword.getText().toString().trim())) {
+                            appManager.setCurrentPlayer(currentPlayer);
+                            Intent intentLogInToDashboard = new Intent (LogInActivity.this, GameDashboardActivity.class);
+                            intentLogInToDashboard.putExtra("appManager", appManager);
+                            startActivity(intentLogInToDashboard);
+                        } else {
+                            System.out.println("Password didn't match.");
+                        }
+
+                    }
+                }
+        );
     }
 
     private TextWatcher logInUserPageTextWatcher = new TextWatcher() {
