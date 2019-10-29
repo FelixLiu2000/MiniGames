@@ -25,6 +25,7 @@ public class CardGameActivity extends AppCompatActivity {
   int cardNum = 1;
   CardGame cardGame = new CardGame(60);
   TextView time;
+  int stat = 0;
 
   public CardGameActivity() {
     Collections.shuffle(Arrays.asList(cardsArray));
@@ -34,8 +35,9 @@ public class CardGameActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_card_game);
-    score = findViewById(R.id.score);
+    score = findViewById(R.id.scoreValueText);
     time = findViewById(R.id.time);
+    time.setText(String.valueOf(0));
 
     buttons.add((ImageView) findViewById(R.id.card_11));
     buttons.add((ImageView) findViewById(R.id.card_12));
@@ -182,6 +184,8 @@ public class CardGameActivity extends AppCompatActivity {
     } else {
       for (int i = 0; i < buttons.size(); i++) {
         buttons.get(i).setImageResource(R.drawable.memory_card);
+        stat += 1;
+        score.setText(String.valueOf(stat));
       }
     }
       for (int i = 0; i < buttons.size(); i++) {
