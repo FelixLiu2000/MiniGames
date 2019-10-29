@@ -1,6 +1,7 @@
 package com.example.game.utilities;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.example.game.activities.BallGameActivity;
 import com.example.game.activities.CardGameActivity;
@@ -33,7 +34,7 @@ public class AppManager implements Serializable {
 
   public void pickGameToPlay() {
     if (this.currentPlayer.getCurrentRoundProgress() == 0) {
-      //setGameToPlay(CardGameActivity.class);
+      //setGameToPlay(SubwayGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
       setGameToPlay(CardGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
@@ -41,5 +42,23 @@ public class AppManager implements Serializable {
     } else if (this.currentPlayer.getCurrentRoundProgress() == 3) {
       // reset
     }
+  }
+
+  public void saveCustomizationChanges(String gameDashboardBackgroundColor) {
+    int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
+    if (gameDashboardBackgroundColor.equals("WHITE")){
+      chosenColorInt = Color.WHITE;
+    } else if (gameDashboardBackgroundColor.equals("RED")){
+      chosenColorInt = Color.RED;
+    } else if (gameDashboardBackgroundColor.equals("GREEN")) {
+      chosenColorInt = Color.GREEN;
+    } else if (gameDashboardBackgroundColor.equals("BLUE")) {
+      chosenColorInt = Color.BLUE;
+    } else if (gameDashboardBackgroundColor.equals("YELLOW")) {
+      chosenColorInt = Color.YELLOW;
+    }
+
+    this.currentPlayer.setGameDashboardBackgroundColor(chosenColorInt);
+
   }
 }

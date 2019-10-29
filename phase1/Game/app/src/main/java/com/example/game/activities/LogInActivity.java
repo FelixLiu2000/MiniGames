@@ -1,63 +1,83 @@
 package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.game.R;
-
-import java.io.Serializable;
-
 import com.example.game.utilities.AppManager;
 
-public class LogInActivity extends AppCompatActivity implements Serializable {
+public class LogInActivity extends AppCompatActivity {
 
-  AppManager appManager;
+    AppManager appManager;
+    Intent intentLogInUser;
+    EditText editTextUsername;
+    EditText editTextPassword;
+    Button buttonSwitchToCreateUser;
+    Button buttonSignIn;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    this.appManager = new AppManager(this);
-    setContentView(R.layout.activity_log_in);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.intentLogInUser = getIntent();
+        this.appManager = (AppManager) this.intentLogInUser.getSerializableExtra("appManager");
+        setContentView(R.layout.activity_log_in);
 
-    Button playButton = findViewById(R.id.signInButton);
+        editTextUsername = findViewById(R.id.logInUserNameTextBox);
+        editTextPassword = findViewById(R.id.logInPasswordTextBox);
+        buttonSignIn = findViewById(R.id.logInSubmitLogInUserButton);
+        buttonSwitchToCreateUser = findViewById(R.id.logInSwitchToLogInButton);
 
-    playButton.setOnClickListener(
-        new View.OnClickListener() {
-          public void onClick(View v) {
-            appManager.createPlayer("Diego", "Nunez", "UNT", "PWT");
-            Intent logInIntent = new Intent(LogInActivity.this, GameDashboardActivity.class);
-            logInIntent.putExtra("appManager", appManager);
-            startActivity(logInIntent);
-          }
-        });
+        editTextUsername.addTextChangedListener(logInUserPageTextWatcher);
+        editTextPassword.addTextChangedListener(logInUserPageTextWatcher);
 
-    // THIS IS NEEDED ON APP START UP!
-    checkFilePermissions();
-  }
+        buttonSwitchToCreateUser.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intentLogInToCreateUser = new Intent (LogInActivity.this, CreateUserActivity.class);
+                        intentLogInToCreateUser.putExtra("appManager", appManager);
+                        startActivity(intentLogInToCreateUser);
 
-  /** Needed to be able to save */
-  private void checkFilePermissions() {
-    boolean readGranted =
-        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED;
-    boolean writeGranted =
-        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED;
-    if (!readGranted || !writeGranted) {
-      ActivityCompat.requestPermissions(
-          this,
-          new String[] {
-            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-          },
-          100);
+                    }
+                }
+        );
+
+        // TODO: Make this check if user exists and return error message or log into that user
+//         buttonSignIn.setOnClickListener(
+//                new View.OnClickListener() {
+//                    public void onClick(View v) {
+//                        Intent intentLogInToDashboard = new Intent (LogInActivity.this, CreateUserActivity.class);
+//                        intentLogInToDashboard.putExtra("appManager", appManager);
+//                        startActivity(intentLogInToDashboard);
+//
+//                    }
+//                }
+//        );
     }
-  }
+
+    private TextWatcher logInUserPageTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String usernameInput = editTextUsername.getText().toString().trim();
+            String passwordInput = editTextPassword.getText().toString().trim();
+
+            buttonSignIn.setEnabled(!usernameInput.isEmpty() && !passwordInput.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }

@@ -1,5 +1,7 @@
 package com.example.game.utilities;
 
+import android.graphics.Color;
+
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -12,6 +14,7 @@ public class Player implements Serializable {
   private int totalRoundsPlayed;
   private int currentRoundProgress;
   private int currentRoundScore;
+  private int gameDashboardBackgroundColor;
 
   Player(String firstName, String lastName, String username, String password) {
     this.firstName = firstName;
@@ -23,6 +26,7 @@ public class Player implements Serializable {
     this.totalRoundsPlayed = 0;
     this.currentRoundProgress = 1;
     this.currentRoundScore = 0;
+    this.gameDashboardBackgroundColor = Color.WHITE;
   }
 
   public String getFirstName() { return firstName; }
@@ -75,4 +79,10 @@ public class Player implements Serializable {
     return currentRoundScore;
   }
   public void setCurrentRoundScore(int currentRoundScore) { this.currentRoundScore = currentRoundScore; }
+
+  public int getGameDashboardBackgroundColor() { return this.gameDashboardBackgroundColor; }
+
+  public void setGameDashboardBackgroundColor(int gameDashboardBackgroundColor) {
+    this.gameDashboardBackgroundColor = gameDashboardBackgroundColor;
+  }
 }

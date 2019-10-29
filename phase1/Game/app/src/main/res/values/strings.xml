@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Game</string>
+    <string name="app_name">Survive UofT</string>
     <string name="total_score">TOTAL SCORE:</string>
     <string name="high_score">HIGH SCORE:</string>
     <string name="total_rounds">TOTAL ROUNDS:</string>
@@ -24,4 +24,15 @@
     <string name="switch_to_create_user_text">Switch to Create User</string>
     <string name="submit_log_in_text">Log In</string>
     <string name="welcome_text">Welcome</string>
+    <string name="settings_dashboard_background_text">Dashboard Background:</string>
+    <string name="settings_save_button_text">Save</string>
+
+    <string-array name="color_choices">
+        <item>WHITE</item>
+        <item>RED</item>
+        <item>GREEN</item>
+        <item>BLUE</item>
+        <item>YELLOW</item>
+    </string-array>
+
 </resources>

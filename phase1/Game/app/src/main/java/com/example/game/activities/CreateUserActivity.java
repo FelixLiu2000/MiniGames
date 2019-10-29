@@ -32,12 +32,12 @@ public class CreateUserActivity extends AppCompatActivity {
         this.appManager = (AppManager) intentCreateUser.getSerializableExtra("appManager");
         setContentView(R.layout.activity_create_user);
 
-        editTextFirstName = findViewById(R.id.firstNameTextBox);
-        editTextLastName = findViewById(R.id.lastNameTextBox);
-        editTextUsername = findViewById(R.id.userNameTextBox);
-        editTextPassword = findViewById(R.id.passWordTextBox);
-        buttonSwitchToLogIn = findViewById(R.id.switchToLogInButton);
-        buttonCreateUser = findViewById(R.id.submitNewUserButton);
+        editTextFirstName = findViewById(R.id.creatUserFirstNameTextBox);
+        editTextLastName = findViewById(R.id.createUserLastNameTextBox);
+        editTextUsername = findViewById(R.id.createUserUsernameTextBox);
+        editTextPassword = findViewById(R.id.createUserPassWordTextBox);
+        buttonSwitchToLogIn = findViewById(R.id.createUserSwitchToLogInButton);
+        buttonCreateUser = findViewById(R.id.createUserSubmitButton);
 
         editTextUsername.addTextChangedListener(createUserPageTextWatcher);
         editTextLastName.addTextChangedListener(createUserPageTextWatcher);
@@ -47,11 +47,13 @@ public class CreateUserActivity extends AppCompatActivity {
         buttonSwitchToLogIn.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent createUserToLogInIntent = new Intent (CreateUserActivity.this, LogInActivity.class);
-                        createUserToLogInIntent.putExtra("appManager", appManager);
-                        startActivity(createUserToLogInIntent);
+                        Intent intentCreateUserToLogIn = new Intent (CreateUserActivity.this, LogInActivity.class);
+                        intentCreateUserToLogIn.putExtra("appManager", appManager);
+                        startActivity(intentCreateUserToLogIn);
+
                     }
-                });
+                }
+        );
 
         buttonCreateUser.setOnClickListener(
                 new View.OnClickListener() {
@@ -60,9 +62,9 @@ public class CreateUserActivity extends AppCompatActivity {
                                 editTextLastName.getText().toString().trim(),
                                 editTextUsername.getText().toString().trim(),
                                 editTextPassword.getText().toString().trim());
-                        Intent createUserToGameDashboardIntent = new Intent (CreateUserActivity.this, GameDashboardActivity.class);
-                        createUserToGameDashboardIntent.putExtra("appManager", appManager);
-                        startActivity(createUserToGameDashboardIntent);
+                        Intent intentCreateUserToGameDashboard = new Intent (CreateUserActivity.this, GameDashboardActivity.class);
+                        intentCreateUserToGameDashboard.putExtra("appManager", appManager);
+                        startActivity(intentCreateUserToGameDashboard);
                     }
                 });
     }

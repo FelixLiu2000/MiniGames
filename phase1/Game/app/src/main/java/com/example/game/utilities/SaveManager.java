@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Hashtable;
 
 /**
  * This class provides static methods for saving and loading, i.e., do not create an instance of
@@ -17,7 +18,7 @@ import java.io.ObjectOutputStream;
  */
 public class SaveManager {
   static final String filePath = Environment.getExternalStorageDirectory() + "/" + "saves" + "/";
-
+  static Hashtable<String, Player> playerDict = new Hashtable<>();
   /**
    * Saves a player.
    *
@@ -48,6 +49,27 @@ public class SaveManager {
     }
     return true;
   }
+
+  /**
+   * Loads all players in the folder
+   */
+  public void loadAllPlayers(){
+    File[] files = new File(filePath).listFiles();
+    ObjectInputStream objectInputStream;
+    FileInputStream fileInputStream;
+    for (File file : files){
+      try{
+        fileInputStream = new FileInputStream(file);
+        objectInputStream = new ObjectInputStream(fileInputStream);
+        Player playerToAdd = (Player) objectInputStream.readObject();
+        objectInputStream.close();
+        playerDict.put(playerToAdd.getUsername(), playerToAdd);
+      } catch (Exception e){
+        System.out.println("Couldn't read file");
+      }
+    }
+  }
+
 
   /**
    * This method will load a player, provided their username
