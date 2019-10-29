@@ -19,6 +19,8 @@ public class SubwayGameActivity extends AppCompatActivity {
     // runner's x and y coordinates
     public float runnerX;
     public float runnerY;
+    // runner'x lane
+    public int runnerLane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class SubwayGameActivity extends AppCompatActivity {
         runner = findViewById(R.id.subwayRunner);
         runnerX = runner.getX();
         runnerY = runner.getY();
+        runnerLane = 2;
         game = new SubwayGame(this);
         System.out.println("Initial X and Y are: " + runnerX + runnerY);
 
@@ -39,8 +42,10 @@ public class SubwayGameActivity extends AppCompatActivity {
         if (runnerX == 0) {
             // move to rightmost lane
             changeLanes("Right", runnerX, runnerY, 350);
+            runnerLane = 3;
         } else if (runnerX == -350) {
             changeLanes("Right", runnerX, runnerY, 0);
+            runnerLane = 2;
         }
     }
 
@@ -51,8 +56,10 @@ public class SubwayGameActivity extends AppCompatActivity {
             // move to leftmost lane
             System.out.print(runnerX);
             changeLanes("Left", runnerX, runnerY, -350);
+            runnerLane = 1;
         } else if (runnerX == 350) {
             changeLanes("Left", runnerX, runnerY, -0);
+            runnerLane = 2;
         }
     }
 

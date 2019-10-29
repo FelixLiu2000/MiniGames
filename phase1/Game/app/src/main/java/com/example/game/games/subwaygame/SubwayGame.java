@@ -41,6 +41,7 @@ public class SubwayGame extends Game {
       @Override
       public void onFinish() {
         System.out.println("Game Over!");
+        System.out.println(score);
       }
     }.start();
     return score;
@@ -97,17 +98,36 @@ public class SubwayGame extends Game {
       View obstacle = activity.obstacles.get(i);
       float obstacleX = obstacle.getX();
       float obstacleY = obstacle.getY();
-      // if position of runner and obstacle is the same
-      if (obstacleX == runnerX && obstacleY == runnerY) {
+      // check if runner and obstacle are in the same lane
+      boolean sameLane = checkLane(obstacleX);
+      System.out.println("sameLane is " + sameLane);
+      // check if runner and obstacle have the same y coordinate
+      boolean sameY = checkCoordY(obstacleY);
+      System.out.println("sameY is " + sameY);
+      if (sameLane && sameY)
         // decrease score
         decreaseScore();
       }
     }
+
+    private boolean checkCoordY(float obstacleY) {
+      return (obstacleY == 600);
+    }
+
+    private boolean checkLane(float obstacleX) {
+    if (activity.runnerLane == 1 && obstacleX == 160) { // if both are in lane 1
+      return true;
+    } else if (activity.runnerLane == 2 && obstacleX == 500) { // if both are in lane 2
+      return true;
+    } else if (activity.runnerLane == 3 && obstacleX == 860) { // if both are in lane 3
+      return true;
+    } else return false;
   }
 
-  /** decrease the score by 1 */
+    /** decrease the score by 1 */
   private void decreaseScore() {
     this.score -= 1;
+    System.out.println(this.score);
   }
 
   /** A wrapper method to implement abstract method from Game */
