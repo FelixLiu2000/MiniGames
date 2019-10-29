@@ -25,7 +25,7 @@ public class SubwayGame extends Game {
   //    }
 
   private int play() {
-    //        startRound();
+//            startRound();
     // create 60 second timer
     CountDownTimer timer =
         new CountDownTimer(60000, 1000) {
@@ -55,6 +55,7 @@ public class SubwayGame extends Game {
   private void createObstacle() {
     System.out.println("obstacle created");
     ImageView newObstacle = new ImageView(activity);
+    newObstacle.setImageResource(R.drawable.circle_card);
     // set obstacle position
     setPosition(newObstacle);
     //        SubwayObstacle newObstacle = new SubwayObstacle(obstacleLane);

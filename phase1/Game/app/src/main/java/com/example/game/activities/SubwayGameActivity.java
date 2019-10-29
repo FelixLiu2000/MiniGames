@@ -28,71 +28,55 @@ public class SubwayGameActivity extends AppCompatActivity {
         runnerX = runner.getX();
         runnerY = runner.getY();
         game = new SubwayGame(this);
-    }
+        obstacles.add((ImageView) findViewById(R.id.movingObstacle));
 
+    }
 
     /** move runner right when right button is clicked */
     public void moveRight(View view) {
-
-
-        // if runner is in lane 1
-        if (runnerX <= 30+16 || runnerX <= 30-16) {
-            // move to lane 2
-            TranslateAnimation runnerRight = new TranslateAnimation(runnerX, 204, runnerY, runnerY);
-            runnerRight.setFillAfter(true);
-            runnerRight.setDuration(500);
-            runner.startAnimation(runnerRight);
-            System.out.println("Moved right and the runner was in lane 1");
-            runnerX += 204;
-
-        // if runner is in lane 2
-        } else if (runnerX <= 204+30 || runnerX >= 204-30) {
-            // move to lane 3
-            TranslateAnimation runnerRight = new TranslateAnimation(runnerX, 340, runnerY, runnerY);
-            runnerRight.setFillAfter(true);
-            runnerRight.setDuration(500);
-            runner.startAnimation(runnerRight);
-            System.out.println("Moved right and the runner was in lane 2");
-            runnerX += 340;
+        // if runner is in lane 1 or 2
+        if (runnerX <= 0) {
+            // move to rightmost lane
+            changeLanes(runnerX, runnerY, 350);
         }
-
     }
 
     /** move runner left when left button is clicked */
     public void moveLeft(View view) {
-//        float yPosition = view.getY();
-//        float xPosition = view.getX();
-        // if runner is in lane 3
-        if (runnerX <= 340+30 || runnerX >= 340-30) {
-            // move to lane 2
-            TranslateAnimation runnerLeft = new TranslateAnimation(runnerX, -204, runnerY, runnerY);
-            runnerLeft.setFillAfter(true);
-            runnerLeft.setDuration(500);
-            runner.startAnimation(runnerLeft);
-            System.out.println("Moved left and the runner was in lane 3");
-            runnerX -= 204;
-        // if  runner is in lane 2
-        } else if (runnerX <= 204+30 || runnerX >= 204-30) {
-            // move to lane 1
-            TranslateAnimation runnerLeft = new TranslateAnimation(runnerX, -16, runnerY, runnerY);
-            runnerLeft.setFillAfter(true);
-            runnerLeft.setDuration(500);
-            runner.startAnimation(runnerLeft);
-            System.out.println("Moved left and the runner was in lane 2");
-            runnerX -= 16;
+        // if runner is in lane 2 or 3
+        if (runnerX >= 0) {
+            // move to leftmost lane
+            System.out.print(runnerX);
+            changeLanes(runnerX, runnerY, -350);
         }
     }
 
-    /** move all obstacles down every second */
+    /** creates the animation that translates the runner into the leftmost or rightmost lane */
+    public void changeLanes(float xCord, float yCord, int toX) {
+        TranslateAnimation runnerDirection = new TranslateAnimation(0, toX, yCord, yCord);
+        runnerDirection.setFillAfter(true);
+        runnerDirection.setDuration(500);
+        runner.startAnimation(runnerDirection);
+        runnerX += toX;
+    }
+
+    /** move all obstacles down */
     public void moveDown() {
         // loop through obstacles
         for (int i=0; i<obstacles.size(); i++) {
             ImageView obstacle = obstacles.get(i);
+//            float obstacleX = obstacle.getX();
+            float obstacleY = obstacle.getY();
             // move down
-            TranslateAnimation obstacleDown = new TranslateAnimation(obstacle.getX(),
-                    obstacle.getX(),
-                    obstacle.getY(),
-                    obstacle.getY()+1);
+            TranslateAnimation obstacleDown = new TranslateAnimation(0,
+                    0,
+                    obstacleY,
+                    1);
+            obstacleDown.setFillAfter(true);
+            obstacleDown.setDuration(1000);
+            obstacle.startAnimation(obstacleDown);
+            obstacleY += 1;
+            obstacle.setY(obstacleY);
         }
     }
 }
