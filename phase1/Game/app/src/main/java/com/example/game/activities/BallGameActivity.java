@@ -22,7 +22,6 @@ public class BallGameActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_ball_game);
     // Set landscape orientation
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     // Set fullscreen
@@ -31,8 +30,17 @@ public class BallGameActivity extends AppCompatActivity {
             WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     // Remove title
-    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    initializeGameViews();
+    getSupportActionBar().hide();
+    setContentView(R.layout.activity_ball_game);
+    initializeGameButtons();
+  }
+
+  @Override
+  public void onWindowFocusChanged(boolean hasFocus) {
+    if (hasFocus) {
+      initializeGameViews();
+      startGame();
+    }
   }
 
   private void initializeGameViews() {
@@ -40,38 +48,48 @@ public class BallGameActivity extends AppCompatActivity {
     targetView = findViewById(R.id.picTarget);
     ballGame.initializePlayer(playerView);
     ballGame.initializeTarget(targetView);
-    initializeGameButtons();
   }
 
   private void initializeGameButtons() {
-    ImageButton newButton = findViewById(R.id.btnAngleUp);
-    newButton.setTag(PlayerActions.AngleUp);
-    imageButtons.add(newButton);
-    newButton = findViewById(R.id.btnAngleDown);
-    newButton.setTag(PlayerActions.AngleDown);
-    imageButtons.add(newButton);
-    newButton = findViewById(R.id.btnPowerUp);
-    newButton.setTag(PlayerActions.PowerUp);
-    imageButtons.add(newButton);
-    newButton = findViewById(R.id.btnPowerDown);
-    newButton.setTag(PlayerActions.PowerDown);
-    imageButtons.add(newButton);
+    ImageButton btnAngleUp = findViewById(R.id.btnAngleUp);
+    btnAngleUp.setTag(PlayerActions.AngleUp);
+    imageButtons.add(btnAngleUp);
+    ImageButton btnAngleDown = findViewById(R.id.btnAngleDown);
+    btnAngleDown.setTag(PlayerActions.AngleDown);
+    imageButtons.add(btnAngleDown);
+    ImageButton btnPowerUp = findViewById(R.id.btnPowerUp);
+    btnPowerUp.setTag(PlayerActions.PowerUp);
+    imageButtons.add(btnPowerUp);
+    ImageButton btnPowerDown = findViewById(R.id.btnPowerDown);
+    btnPowerDown.setTag(PlayerActions.PowerDown);
+    imageButtons.add(btnPowerDown);
     shootButton = findViewById(R.id.btnShoot);
+
     shootButton.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            ballGame.performPlayerAction(PlayerActions.Shoot);
+            LinearLayout ballLayout = findViewById(R.id.ballLayout);
+            ImageView ballView = new ImageView(BallGameActivity.this);
+            ballView.setImageDrawable(getDrawable(R.drawable.ball_projectile));
+            ballView.setLayoutParams(new LinearLayout.LayoutParams(32, 32));
+            ballLayout.addView(ballView);
+
+            ballGame.performPlayerAction(PlayerActions.Shoot, ballView);
           }
         });
     for (ImageButton button : imageButtons) {
       button.setOnClickListener(
           new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-              ballGame.performPlayerAction((PlayerActions) v.getTag());
+            public void onClick(View view) {
+              ballGame.performPlayerAction((PlayerActions) view.getTag());
             }
           });
     }
+  }
+
+  private void startGame() {
+    ballGame.play();
   }
 }
