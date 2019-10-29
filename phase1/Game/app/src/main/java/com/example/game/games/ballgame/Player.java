@@ -39,7 +39,7 @@ class Player {
     this.shotPower = power;
   }
 
-  Ball shootBall() {
-    return new Ball(this.location.x, this.location.y, 0, 0, getShotAngle(), getShotPower());
+  Ball shootBall(int width, int height) {
+    return new Ball(this.location.x, this.location.y, width, height, getShotAngle(), getShotPower());
   }
 }

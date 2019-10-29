@@ -2,9 +2,10 @@ package com.example.game.games.ballgame;
 
 import android.view.View;
 
-class Ball extends BallGameObject implements Collidable<Target> {
+class Ball extends BallGameObject implements Collidable<Target>, Renderable {
   private double speedX, speedY = 0;
   private final double GRAVITY = 0.1;
+  private View view;
 
   Ball(float x, float y, float width, float height, int angle, int power) {
     super(x, y, width, height);
@@ -12,13 +13,16 @@ class Ball extends BallGameObject implements Collidable<Target> {
   }
 
   private void calculateInitialSpeed(int angle, int power) {
-    this.speedX = power * Math.cos(angle);
-    this.speedY = power * Math.sin(angle);
+    this.speedX = power * Math.cos(Math.toRadians(angle));
+    this.speedY = -(power * Math.sin(Math.toRadians(angle)));
+    System.out.println(speedX + " SPD " + speedY);
   }
 
   private void move() {
-    speedY -= GRAVITY;
+    speedY += GRAVITY;
     setLocation((float)(getX() + speedX), (float)(getY() + speedY));
+    view.setX(getX());
+    view.setY(getY());
   }
 
   @Override
@@ -32,7 +36,12 @@ class Ball extends BallGameObject implements Collidable<Target> {
   }
 
   @Override
-  public void render(View view) {
+  public View getObjectView() {
+    return view;
+  }
 
+  @Override
+  public void setObjectView(View view) {
+    this.view = view;
   }
 }
