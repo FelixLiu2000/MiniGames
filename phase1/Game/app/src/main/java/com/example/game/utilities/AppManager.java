@@ -61,4 +61,20 @@ public class AppManager implements Serializable {
     this.currentPlayer.setGameDashboardBackgroundColor(chosenColorInt);
 
   }
+
+  public String getCurrentPlayerCurrentDashboardColor() {
+    int currentColor = currentPlayer.getGameDashboardBackgroundColor();
+    if (currentColor == Color.WHITE) {
+      return "WHITE";
+    } else if (currentColor == Color.RED) {
+      return "RED";
+    } else if (currentColor == Color.GREEN) {
+      return "GREEN";
+    } else if (currentColor == Color.BLUE) {
+      return "BLUE";
+    } else if (currentColor == Color.YELLOW) {
+      return "YELLOW";
+    }
+    return "WHITE";
+  }
 }

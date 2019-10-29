@@ -26,6 +26,7 @@
     <string name="welcome_text">Welcome</string>
     <string name="settings_dashboard_background_text">Dashboard Background:</string>
     <string name="settings_save_button_text">Save</string>
+    <string name="settings_page_text_header">Choose your customization and press SAVE.</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>

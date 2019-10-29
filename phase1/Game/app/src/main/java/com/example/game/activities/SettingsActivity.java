@@ -21,6 +21,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     Button buttonCancel;
     Button buttonSave;
     String chosenColor;
+    String loadedColor;
+    int loadedColorPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         spinnerColorChoice.setOnItemSelectedListener(this);
         buttonCancel = findViewById(R.id.settingsCancelButton);
         buttonSave = findViewById(R.id.settingsSaveButton);
+        loadedColor = appManager.getCurrentPlayerCurrentDashboardColor();
+        loadedColorPosition = arrayAdapterColorChoiceAdapter.getPosition(loadedColor);
+        spinnerColorChoice.setSelection(loadedColorPosition);
 
         buttonCancel.setOnClickListener(
                 new View.OnClickListener() {
@@ -62,9 +67,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
-        Object newColorObj = parent.getItemAtPosition(pos);
-        String newColor = parent.getItemAtPosition(pos).toString();
-        chosenColor = newColor;
+        chosenColor = parent.getItemAtPosition(pos).toString();
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
