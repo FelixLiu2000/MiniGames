@@ -26,7 +26,7 @@ public abstract class Game {
     return timeLimit;
   }
 
-  public void createGameEnvironment() {} // takes code from XML
+  public void createGameEnvironment() {}
 
   protected abstract int play();
 }
