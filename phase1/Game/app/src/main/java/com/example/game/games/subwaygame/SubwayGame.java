@@ -3,6 +3,7 @@ package com.example.game.games.subwaygame;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -36,6 +37,8 @@ public class SubwayGame extends Game {
         if (nearestThousand % 4000 == 0) {
           createObstacle();
         }
+
+        updateTime(millisUntilFinished);
       }
 
       @Override
@@ -45,6 +48,9 @@ public class SubwayGame extends Game {
       }
     }.start();
     return score;
+  }
+  public void updateTime(long timeLeft){
+    ((TextView) activity.findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft/1000);
   }
 
   /** create a new obstacle and add it to obstacles ArrayList in SubwayGameActivity */
