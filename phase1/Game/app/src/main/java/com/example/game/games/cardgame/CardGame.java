@@ -1,15 +1,16 @@
 package com.example.game.games.cardgame;
 
+
+import android.os.CountDownTimer;
+
+import com.example.game.R;
+import com.example.game.activities.CardGameActivity;
 import com.example.game.games.Game;
 
-public class CardGame extends Game { //  extends GameManager
+public class CardGame extends Game {
 
   public CardGame(int timeLimit) {
     super(timeLimit);
-  }
-
-  public void setRoundStats() {
-    // updates the stats during play
   }
 
   @Override
@@ -21,25 +22,7 @@ public class CardGame extends Game { //  extends GameManager
     setScore(0);
   }
 
-  /*    @Override
-  public void startGame() {
-      setScore(0);
-      run(); // calls parent run function
-  }*/
-
-  //    public void run() {
-  //    }
-  public void updateGame() {}
-
-  public void endGame() {}
-  //    public int endRound() {
-  //        return stats;
-  //    }
-
-  // TODO: INCORPORATE PLAY INTO STARTGAME()
   public int play() {
-    // calls methods needed for play
-    // can move this
     return 0;
   }
 

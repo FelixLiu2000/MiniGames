@@ -6,14 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".activities.LogInActivity">
 
+    <EditText
+        android:id="@+id/logInPasswordTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/password_hint_text"
+        android:inputType="textPersonName|textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/logInSubmitLogInUserButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/logInUserNameTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/username_hint_text"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/logInPasswordTextBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
-        android:id="@+id/signInButton"
-        android:layout_width="141dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="564dp"
+        android:id="@+id/logInSwitchToLogInButton"
+        android:layout_width="254dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/switch_to_create_user_text"
+        app:layout_constraintBottom_toTopOf="@+id/logInUserNameTextBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/logInSubmitLogInUserButton"
+        android:layout_width="137dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="304dp"
+        android:enabled="false"
         android:text="@string/sign_in_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.185"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
