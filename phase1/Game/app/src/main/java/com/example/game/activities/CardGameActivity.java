@@ -1,6 +1,8 @@
 package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -37,6 +39,7 @@ public class CardGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_game);
         score = findViewById(R.id.score);
+        time = findViewById(R.id.time);
 
         buttons.add((ImageView) findViewById(R.id.card_11));
         buttons.add((ImageView) findViewById(R.id.card_12));
@@ -180,13 +183,19 @@ public class CardGameActivity extends AppCompatActivity {
         }
 
         new CountDownTimer(60000, 1000) {
+            @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished) {
-                ((TextView)time.findViewById(R.id.score)).
-                        setText("Time Remaining: " + millisUntilFinished / 1000);
+                String timeLeft = String.valueOf(millisUntilFinished / 1000);
+                time.setText("Time Remaining: " + timeLeft);
+
+//                ((TextView)time.findViewById(R.id.time)).
+//                        setText("Time Remaining: " + millisUntilFinished / 1000);
             }
 
+            @SuppressLint("SetTextI18n")
             public void onFinish() {
-                ((TextView)time.findViewById(R.id.score)).setText("Time Is Up!");
+                time.setText("Time Is Up!");
+//                ((TextView)time.findViewById(R.id.score)).setText("Time Is Up!");
             }
         }.start();
     }
