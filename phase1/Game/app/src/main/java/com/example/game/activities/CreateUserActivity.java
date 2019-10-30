@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.example.game.R;
 import com.example.game.utilities.AppManager;
+import com.example.game.utilities.SaveManager;
 
 public class CreateUserActivity extends AppCompatActivity {
 
@@ -62,6 +63,7 @@ public class CreateUserActivity extends AppCompatActivity {
                                 editTextLastName.getText().toString().trim(),
                                 editTextUsername.getText().toString().trim(),
                                 editTextPassword.getText().toString().trim());
+                        SaveManager.save(appManager.getCurrentPlayer());
                         Intent intentCreateUserToGameDashboard = new Intent (CreateUserActivity.this, GameDashboardActivity.class);
                         intentCreateUserToGameDashboard.putExtra("appManager", appManager);
                         startActivity(intentCreateUserToGameDashboard);

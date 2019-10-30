@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.game.R;
@@ -16,57 +15,30 @@ import com.example.game.utilities.AppManager;
 public class GameDashboardActivity extends AppCompatActivity {
 
   AppManager appManager;
-  Intent intentGameDashboard;
-  ImageButton imageButtonPlay;
-  TextView textViewHighScore;
-  TextView textViewTotalRoundsPlayed;
-  TextView  textViewTotalScore;
-  TextView textViewUsername;
-  ProgressBar progressBarRoundProgress;
-  ImageButton imageButtonSettings;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    intentGameDashboard = getIntent();
-    this.appManager = (AppManager) intentGameDashboard.getSerializableExtra("appManager");
+    Intent appManagerIntent = getIntent();
+    this.appManager = (AppManager) appManagerIntent.getSerializableExtra("appManager");
     setContentView(R.layout.activity_game_dashboard);
 
-    getWindow().getDecorView().setBackgroundColor(appManager.getCurrentPlayer().getGameDashboardBackgroundColor());
-
-    imageButtonPlay = findViewById(R.id.gameDashboardPlayButton);
-    textViewHighScore = findViewById(R.id.highScoreStat);
-    textViewTotalRoundsPlayed = findViewById(R.id.totalRoundsPlayedStat);
-    textViewTotalScore = findViewById(R.id.totalScoreStat);
-    textViewUsername = findViewById(R.id.usernameTextLabel);
-    progressBarRoundProgress = findViewById(R.id.roundProgressBar);
-    imageButtonSettings = findViewById(R.id.gameDashboardSettingsButton);
-
-    imageButtonPlay.setOnClickListener(
+    ImageButton playButton = findViewById(R.id.playButton);
+    playButton.setOnClickListener(
         new View.OnClickListener() {
           public void onClick(View v) {
-            appManager.pickGameToPlay();
-            Intent gameDashboardToCurrentGameIntent = new Intent(GameDashboardActivity.this, appManager.getGameToPlay());
-//            gameDashboardToCurrentGameIntent.putExtra("appManager", appManager);
-            startActivity(gameDashboardToCurrentGameIntent);
+            startActivity(new Intent(GameDashboardActivity.this, SubwayGameActivity.class));
           }
         });
 
-    imageButtonSettings.setOnClickListener(
-            new View.OnClickListener() {
-              public void onClick(View v) {
-                Intent gameDashboardToSettings = new Intent(GameDashboardActivity.this, SettingsActivity.class);
-                gameDashboardToSettings.putExtra("appManager", appManager);
-                startActivity(gameDashboardToSettings);
-              }
-            });
+    TextView highScoreText = findViewById(R.id.highScoreStat);
+    TextView totalRoundsPlayedText = findViewById(R.id.totalRoundsPlayedStat);
+    TextView totalScoreText = findViewById(R.id.totalScoreStat);
 
-    textViewHighScore.setText(String.valueOf(this.appManager.getCurrentPlayer().getHighScore()));
-    textViewTotalRoundsPlayed.setText(
+    highScoreText.setText(String.valueOf(this.appManager.getCurrentPlayer().getHighScore()));
+    totalRoundsPlayedText.setText(
         String.valueOf(this.appManager.getCurrentPlayer().getTotalRoundsPlayed()));
-    textViewTotalScore.setText(String.valueOf(this.appManager.getCurrentPlayer().getTotalScore()));
-    textViewUsername.setText(String.valueOf(this.appManager.getCurrentPlayer().getUsername()));
-    progressBarRoundProgress.setProgress(appManager.getCurrentPlayer().getCurrentRoundProgress());
+    totalScoreText.setText(String.valueOf(this.appManager.getCurrentPlayer().getTotalScore()));
   }
 
   public void startGame(View view) {
