@@ -17,7 +17,8 @@ public class BallGameActivity extends AppCompatActivity {
   private BallGame ballGame = new BallGame(60);
   private ArrayList<ImageButton> imageButtons = new ArrayList<>();
   private Button shootButton;
-  private ImageView playerView, targetView;
+  //private ImageView playerView, targetView;
+  private LinearLayout ballLayout;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,13 @@ public class BallGameActivity extends AppCompatActivity {
   }
 
   private void initializeGameViews() {
-    playerView = findViewById(R.id.picPlayer);
-    targetView = findViewById(R.id.picTarget);
+    ImageView playerView = findViewById(R.id.picPlayer);
+    ImageView targetView = findViewById(R.id.picTarget);
     ballGame.initializePlayer(playerView);
     ballGame.initializeTarget(targetView);
+    // Give game the layout used for ball views
+    ballLayout = findViewById(R.id.ballLayout);
+    ballGame.initializeBallLayout(ballLayout);
   }
 
   private void initializeGameButtons() {
@@ -69,7 +73,6 @@ public class BallGameActivity extends AppCompatActivity {
         new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            LinearLayout ballLayout = findViewById(R.id.ballLayout);
             ImageView ballView = new ImageView(BallGameActivity.this);
             ballView.setImageDrawable(getDrawable(R.drawable.ball_projectile));
             ballView.setLayoutParams(new LinearLayout.LayoutParams(32, 32));

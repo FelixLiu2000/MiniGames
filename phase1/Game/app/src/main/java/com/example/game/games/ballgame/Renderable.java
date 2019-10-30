@@ -3,7 +3,7 @@ package com.example.game.games.ballgame;
 import android.view.View;
 
 interface Renderable {
-  View getObjectView();
+  View getView();
 
   void setObjectView(View view);
 }

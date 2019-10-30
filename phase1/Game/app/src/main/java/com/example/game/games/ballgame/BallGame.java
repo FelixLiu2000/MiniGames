@@ -2,6 +2,7 @@ package com.example.game.games.ballgame;
 
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.game.games.Game;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class BallGame extends Game {
   private ArrayList<Ball> ballObjects = new ArrayList<>();
   private Player player;
   private Target target;
+  private LinearLayout ballLayout;
 
   public BallGame(int timeLimit) {
     super(timeLimit);
@@ -36,15 +38,20 @@ public class BallGame extends Game {
     target.setObjectView(view);
   }
 
-  /**
+  public void initializeBallLayout(LinearLayout layout) {
+    this.ballLayout = layout;
+  }
+
+  /* @Deprecated
    * Main game loop. Loop from https://dewitters.com/dewitters-gameloop/ private void gameLoop() {
    * final double FRAME_TIME = 1000 / 60; final int MAX_FRAMES_SKIPPED = 5; Timer gameTimer = new
    * Timer(getTimeLimit() * 1000); double nextTick = SystemClock.uptimeMillis(); while
    * (!gameTimer.isStopped()) { int frames = 0; while (SystemClock.uptimeMillis() > nextTick &&
-   * frames < MAX_FRAMES_SKIPPED) { updateGame(); nextTick += FRAME_TIME; frames++; }
+   * frames < MAX_FRAMES_SKIPPED) { updateMovements(); nextTick += FRAME_TIME; frames++; }
    *
    * <p>renderGame((float)((SystemClock.uptimeMillis() + FRAME_TIME - nextTick) / FRAME_TIME)); } }
    */
+
   private void gameLoop() {
     final int FPS = 60;
     final long TIMER_REFRESH = 1000 / FPS;
@@ -52,7 +59,8 @@ public class BallGame extends Game {
         new CountDownTimer(getTimeLimit() * 1000, TIMER_REFRESH) {
           @Override
           public void onTick(long l) {
-            updateGame();
+            updateMovements();
+            updateCollisions();
           }
 
           @Override
@@ -97,10 +105,22 @@ public class BallGame extends Game {
     }
   }
 
-  private void updateGame() {
+  private void updateMovements() {
     for (Ball object : ballObjects) {
       object.update();
       System.out.println("BALL UPDATED");
+    }
+  }
+
+  private void updateCollisions() {
+    ArrayList<Ball> collidedBalls = CollisionManager.checkTargetBallCollisions(ballObjects, target);
+    if (!collidedBalls.isEmpty()) {
+      for (Ball ball : collidedBalls) {
+        ball.onCollide(target);
+        // Destroy ball, remove view from parent layout and object from game ArrayList
+        ballLayout.removeView(ball.getView());
+        ballObjects.remove(ball);
+      }
     }
   }
 }

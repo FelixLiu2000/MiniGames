@@ -1,37 +1,35 @@
 package com.example.game.games.ballgame;
 
-import android.graphics.RectF;
-
 abstract class BallGameObject {
-  private RectF boundingBox;
+  private float x, y, width, height;
 
   BallGameObject(float x, float y, float width, float height) {
-    this.boundingBox = new RectF(x, y, x + width, x + height);
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
   }
 
   abstract void update();
 
   float getX() {
-    return boundingBox.left;
+    return x;
   }
 
   float getY() {
-    return boundingBox.top;
+    return y;
   }
 
   float getWidth() {
-    return boundingBox.width();
+    return width;
   }
 
   float getHeight() {
-    return boundingBox.height();
-  }
-
-  RectF getBoundingBox() {
-    return boundingBox;
+    return height;
   }
 
   void setLocation(float x, float y) {
-    this.boundingBox.set(x, y, this.boundingBox.right, this.boundingBox.bottom);
+    this.x = x;
+    this.y = y;
   }
 }
