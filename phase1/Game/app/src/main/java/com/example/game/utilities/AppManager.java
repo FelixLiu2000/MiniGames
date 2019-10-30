@@ -5,6 +5,7 @@ import android.graphics.Color;
 
 import com.example.game.activities.BallGameActivity;
 import com.example.game.activities.CardGameActivity;
+import com.example.game.activities.SubwayGameActivity;
 
 import java.io.Serializable;
 
@@ -34,7 +35,7 @@ public class AppManager implements Serializable {
 
   public void pickGameToPlay() {
     if (this.currentPlayer.getCurrentRoundProgress() == 0) {
-      //setGameToPlay(SubwayGameActivity.class);
+      setGameToPlay(SubwayGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
       setGameToPlay(CardGameActivity.class);
     } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
@@ -44,7 +45,7 @@ public class AppManager implements Serializable {
     }
   }
 
-  public void saveCustomizationChanges(String gameDashboardBackgroundColor) {
+  public void saveCustomizationChanges(String gameDashboardBackgroundColor, String gameDashboardDisplayName) {
     int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
     if (gameDashboardBackgroundColor.equals("WHITE")){
       chosenColorInt = Color.WHITE;
@@ -57,8 +58,28 @@ public class AppManager implements Serializable {
     } else if (gameDashboardBackgroundColor.equals("YELLOW")) {
       chosenColorInt = Color.YELLOW;
     }
-
     this.currentPlayer.setGameDashboardBackgroundColor(chosenColorInt);
+    this.currentPlayer.setCurrentDisplayNameChoice(gameDashboardDisplayName);
 
+  }
+
+  public String getCurrentPlayerCurrentDashboardColor() {
+    int currentColor = currentPlayer.getGameDashboardBackgroundColor();
+    if (currentColor == Color.WHITE) {
+      return "WHITE";
+    } else if (currentColor == Color.RED) {
+      return "RED";
+    } else if (currentColor == Color.GREEN) {
+      return "GREEN";
+    } else if (currentColor == Color.BLUE) {
+      return "BLUE";
+    } else if (currentColor == Color.YELLOW) {
+      return "YELLOW";
+    }
+    return "WHITE";
+  }
+
+  public String getCurrentPlayerDisplayName() {
+    return currentPlayer.getCurrentDisplayNameChoice();
   }
 }

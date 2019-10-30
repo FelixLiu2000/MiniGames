@@ -17,14 +17,10 @@ public abstract class Game {
   protected int getScore() {
     return this.score;
   }
+  protected void setScore(int score) { this.score = score; }
 
-  protected void setScore(int score) {
-    this.score = score;
-  }
-
-  protected int getTimeLimit() {
-    return timeLimit;
-  }
+  protected int getTimeLimit() { return timeLimit; }
+  protected void setTimeLimit(int timeLimit) { this.timeLimit = timeLimit; }
 
   public void createGameEnvironment() {}
 
