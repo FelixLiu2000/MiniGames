@@ -11,7 +11,7 @@
     <string name="total_rounds_label">Total Rounds:</string>
     <string name="total_score_label">Total Score:</string>
     <string name="highscore_label">HighScore:</string>
-    <string name="score">Score:</string>
+    <string name="score">Score: 0</string>
     <string name="shoot">FIRE</string>
     <string name="create_user_button_text">Create User</string>
     <string name="skip_to_dashboard">Skip To Dashboard</string>
@@ -30,6 +30,7 @@
     <string name="settings_page_display_name_text_label">Display Name:</string>
     <string name="angle">Angle:</string>
     <string name="power">Power:</string>
+    <string name="time">Time:</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>

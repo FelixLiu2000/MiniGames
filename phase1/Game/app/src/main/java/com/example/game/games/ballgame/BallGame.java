@@ -13,7 +13,7 @@ public class BallGame extends Game {
   private Player player;
   private Target target;
   private LinearLayout ballLayout;
-  private TextView scoreView, powerView, angleView;
+  private TextView scoreView, timeView, powerView, angleView;
 
   static final double GRAVITY = 0.1;
   public static final int SHOT_STARTING_POWER = 2;
@@ -49,8 +49,9 @@ public class BallGame extends Game {
     this.ballLayout = layout;
   }
 
-  public void initializeOutputViews(TextView score, TextView power, TextView angle) {
+  public void initializeOutputViews(TextView score, TextView time, TextView power, TextView angle) {
     this.scoreView = score;
+    this.timeView = time;
     this.powerView = power;
     this.angleView = angle;
     updateShotPowerText(SHOT_STARTING_POWER);
@@ -72,10 +73,15 @@ public class BallGame extends Game {
     final long TIMER_REFRESH = 1000 / FPS;
     CountDownTimer gameTimer =
         new CountDownTimer(getTimeLimit() * 1000, TIMER_REFRESH) {
+          private int currentTimeRemaining = getTimeLimit();
           @Override
           public void onTick(long l) {
             updateMovements();
             updateCollisions();
+            if ((int)(Math.ceil(l/ 1000)) < currentTimeRemaining) {
+              currentTimeRemaining--;
+              updateTimeText(currentTimeRemaining);
+            }
           }
 
           @Override
@@ -110,6 +116,11 @@ public class BallGame extends Game {
   private void updateShotPowerText(int power) {
     String newPower = "Power: " + power;
     this.powerView.setText(newPower);
+  }
+
+  private void updateTimeText(int time) {
+    String newTime = "Time: " + time;
+    this.timeView.setText(newTime);
   }
 
   private void updateMovements() {

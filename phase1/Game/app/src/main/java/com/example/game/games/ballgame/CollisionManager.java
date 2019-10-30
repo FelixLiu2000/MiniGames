@@ -56,13 +56,15 @@ class CollisionManager {
     return RectF.intersects(obj1.getBoundingBox(), obj2.getBoundingBox());
   }
 
-  private static boolean checkCollided(Collidable obj1, RectF outerBounds) {
-    return !RectF.intersects(obj1.getBoundingBox(), outerBounds);
+  private static boolean checkCollided(Collidable collidingObj, RectF outerBounds) {
+    RectF collidingBB = collidingObj.getBoundingBox();
+    return collidingBB.right <= outerBounds.left ||
+            collidingBB.left >= outerBounds.right || collidingBB.top >= outerBounds.bottom;
   }
 
-  private static boolean checkCollisionFromTop(Collidable objColliding, Collidable objReceiving) {
+  private static boolean checkCollisionFromTop(Collidable collidingObj, Collidable receivingObj) {
     final int COLLISION_MARGIN = 6;
-    return checkCollided(objColliding, objReceiving)
-        && objColliding.getBoundingBox().bottom - COLLISION_MARGIN <= objReceiving.getBoundingBox().top;
+    return checkCollided(collidingObj, receivingObj)
+        && collidingObj.getBoundingBox().bottom - COLLISION_MARGIN <= receivingObj.getBoundingBox().top;
   }
 }

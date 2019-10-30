@@ -10,8 +10,6 @@ import android.widget.*;
 import com.example.game.R;
 import com.example.game.games.ballgame.BallGame;
 
-import java.util.ArrayList;
-
 public class BallGameActivity extends AppCompatActivity {
   private BallGame ballGame = new BallGame(60);
   // private ImageView playerView, targetView;
@@ -28,7 +26,9 @@ public class BallGameActivity extends AppCompatActivity {
             WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     // Remove title
-    getSupportActionBar().hide();
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().hide();
+    }
     setContentView(R.layout.activity_ball_game);
     initializeGameButtons();
   }
@@ -53,6 +53,7 @@ public class BallGameActivity extends AppCompatActivity {
     // Give game text control of output views (score, power, angle)
     ballGame.initializeOutputViews(
         (TextView) findViewById(R.id.txtScore),
+        (TextView) findViewById(R.id.txtTime),
         (TextView) findViewById(R.id.txtPower),
         (TextView) findViewById(R.id.txtAngle));
   }
@@ -114,6 +115,6 @@ public class BallGameActivity extends AppCompatActivity {
   }
 
   private void startGame() {
-      ballGame.play();
+    ballGame.play();
   }
 }

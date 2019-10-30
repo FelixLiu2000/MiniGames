@@ -23,11 +23,11 @@ class Player {
     return location.y;
   }
 
-  int getShotAngle() {
+  private int getShotAngle() {
     return shotAngle;
   }
 
-  int getShotPower() {
+  private int getShotPower() {
     return shotPower;
   }
 
