@@ -6,10 +6,10 @@ import android.view.View;
 import java.util.ArrayList;
 
 class Player {
-  private final int DEFAULT_POWER = 10;
   private PointF location;
-  private int shotAngle = 0;
-  private int shotPower = DEFAULT_POWER;
+  private int shotAngle = BallGame.SHOT_STARTING_ANGLE;
+  private int shotPower = BallGame.SHOT_STARTING_POWER;
+  private int score;
 
   Player(float x, float y) {
     this.location = new PointF(x, y);
@@ -42,5 +42,14 @@ class Player {
   Ball shootBall(int width, int height) {
     return new Ball(
         this.location.x, this.location.y, width, height, getShotAngle(), getShotPower());
+  }
+
+  int getScore() {
+    return this.score;
+  }
+
+  int setScore(int newScore) {
+    this.score = newScore;
+    return this.score;
   }
 }

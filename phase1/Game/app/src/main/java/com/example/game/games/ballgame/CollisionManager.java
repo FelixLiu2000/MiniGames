@@ -6,17 +6,16 @@ import java.util.ArrayList;
 
 class CollisionManager {
 
-
   /**
    * Perform collision checking for any balls that have collided with the top of the target.
    *
    * @param ballObjects the active ball objects that may be colliding.
    * @param target the target that the balls may be colliding with.
-   *
    * @return the balls that have collided with the target.
    */
-  static ArrayList<Ball> checkTargetBallCollisions(ArrayList<Ball> ballObjects, Target target) {
-    ArrayList<Ball> collidedBalls = new ArrayList<Ball>();
+  static ArrayList<Ball> checkTargetBallCollisions(
+      ArrayList<Ball> ballObjects, Target target) {
+    ArrayList<Ball> collidedBalls = new ArrayList<>();
     for (Ball obj1 : ballObjects) {
       if (obj1 != null) {
         if (checkCollisionFromTop(obj1, target)) {
@@ -28,32 +27,42 @@ class CollisionManager {
   }
 
   /**
-   * Perform all general collision checking between a list of collidable objects.
-   *
-   * @param collidableObjects the collidable objects that is being checked.
+   * Perform collision checking for any balls that have collided with the screen bounds.
+   * @param ballObjects the active ball objects to be checked.
+   * @param screenLeft the left of the screen.
+   * @param screenTop the top of the screen.
+   * @param screenRight the right of the screen.
+   * @param screenBottom the bottom of the screen.
+   * @return the list of collided balls detected.
    */
-  @SuppressWarnings("unchecked") // check for type was done in method
-  static void checkAllCollisions(ArrayList<Collidable> collidableObjects) {
-    for (Collidable obj1 : collidableObjects) {
-      if (obj1 != null) {
-        for (Collidable obj2 : collidableObjects) {
-          // ensures that obj1 implements Collidable<obj2.class> to allow onCollide(obj2) call
-          if (obj1 != obj2
-              && obj2.getClass() == obj1.getCollidableType()
-              && checkCollided(obj1, obj2)) {
-
-          }
+  static ArrayList<Ball> checkScreenBallCollisions(
+      ArrayList<Ball> ballObjects,
+      float screenLeft,
+      float screenTop,
+      float screenRight,
+      float screenBottom) {
+    ArrayList<Ball> collidedBalls = new ArrayList<>();
+    for (Ball ball : ballObjects) {
+      if (ball != null) {
+        if (checkCollided(ball, new RectF(screenLeft, screenTop, screenRight, screenBottom))) {
+          collidedBalls.add(ball);
         }
       }
     }
+    return collidedBalls;
   }
 
   private static boolean checkCollided(Collidable obj1, Collidable obj2) {
     return RectF.intersects(obj1.getBoundingBox(), obj2.getBoundingBox());
   }
 
+  private static boolean checkCollided(Collidable obj1, RectF outerBounds) {
+    return !RectF.intersects(obj1.getBoundingBox(), outerBounds);
+  }
+
   private static boolean checkCollisionFromTop(Collidable objColliding, Collidable objReceiving) {
+    final int COLLISION_MARGIN = 6;
     return checkCollided(objColliding, objReceiving)
-        && objColliding.getBoundingBox().top >= objReceiving.getBoundingBox().top;
+        && objColliding.getBoundingBox().bottom - COLLISION_MARGIN <= objReceiving.getBoundingBox().top;
   }
 }

@@ -9,15 +9,12 @@ import android.widget.*;
 
 import com.example.game.R;
 import com.example.game.games.ballgame.BallGame;
-import com.example.game.games.ballgame.PlayerActions;
 
 import java.util.ArrayList;
 
 public class BallGameActivity extends AppCompatActivity {
   private BallGame ballGame = new BallGame(60);
-  private ArrayList<ImageButton> imageButtons = new ArrayList<>();
-  private Button shootButton;
-  //private ImageView playerView, targetView;
+  // private ImageView playerView, targetView;
   private LinearLayout ballLayout;
 
   @Override
@@ -40,6 +37,7 @@ public class BallGameActivity extends AppCompatActivity {
   public void onWindowFocusChanged(boolean hasFocus) {
     if (hasFocus) {
       initializeGameViews();
+      initializeGameSeekBars();
       startGame();
     }
   }
@@ -49,25 +47,18 @@ public class BallGameActivity extends AppCompatActivity {
     ImageView targetView = findViewById(R.id.picTarget);
     ballGame.initializePlayer(playerView);
     ballGame.initializeTarget(targetView);
-    // Give game the layout used for ball views
+    // Give game control of layout used for ball views (also used for screen boundaries)
     ballLayout = findViewById(R.id.ballLayout);
-    ballGame.initializeBallLayout(ballLayout);
+    ballGame.initializeLayouts(ballLayout);
+    // Give game text control of output views (score, power, angle)
+    ballGame.initializeOutputViews(
+        (TextView) findViewById(R.id.txtScore),
+        (TextView) findViewById(R.id.txtPower),
+        (TextView) findViewById(R.id.txtAngle));
   }
 
   private void initializeGameButtons() {
-    ImageButton btnAngleUp = findViewById(R.id.btnAngleUp);
-    btnAngleUp.setTag(PlayerActions.AngleUp);
-    imageButtons.add(btnAngleUp);
-    ImageButton btnAngleDown = findViewById(R.id.btnAngleDown);
-    btnAngleDown.setTag(PlayerActions.AngleDown);
-    imageButtons.add(btnAngleDown);
-    ImageButton btnPowerUp = findViewById(R.id.btnPowerUp);
-    btnPowerUp.setTag(PlayerActions.PowerUp);
-    imageButtons.add(btnPowerUp);
-    ImageButton btnPowerDown = findViewById(R.id.btnPowerDown);
-    btnPowerDown.setTag(PlayerActions.PowerDown);
-    imageButtons.add(btnPowerDown);
-    shootButton = findViewById(R.id.btnShoot);
+    Button shootButton = findViewById(R.id.btnShoot);
 
     shootButton.setOnClickListener(
         new View.OnClickListener() {
@@ -78,21 +69,51 @@ public class BallGameActivity extends AppCompatActivity {
             ballView.setLayoutParams(new LinearLayout.LayoutParams(32, 32));
             ballLayout.addView(ballView);
 
-            ballGame.performPlayerAction(PlayerActions.Shoot, ballView);
+            ballGame.shootBall(ballView);
           }
         });
-    for (ImageButton button : imageButtons) {
-      button.setOnClickListener(
-          new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              ballGame.performPlayerAction((PlayerActions) view.getTag());
+  }
+
+  private void initializeGameSeekBars() {
+    SeekBar angleSeekBar = findViewById(R.id.seekAngle);
+    angleSeekBar.setProgress(BallGame.SHOT_STARTING_ANGLE, true);
+    angleSeekBar.setMax(BallGame.SHOT_MAX_ANGLE);
+    angleSeekBar.setOnSeekBarChangeListener(
+        new SeekBar.OnSeekBarChangeListener() {
+          @Override
+          public void onProgressChanged(SeekBar seekBar, int angle, boolean b) {
+            if (ballGame != null) {
+              ballGame.setShotAngle(angle);
             }
-          });
-    }
+          }
+
+          @Override
+          public void onStartTrackingTouch(SeekBar seekBar) {}
+
+          @Override
+          public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    SeekBar powerSeekBar = findViewById(R.id.seekPower);
+    powerSeekBar.setProgress(BallGame.SHOT_STARTING_POWER, true);
+    powerSeekBar.setMax(BallGame.SHOT_MAX_POWER);
+    powerSeekBar.setOnSeekBarChangeListener(
+        new SeekBar.OnSeekBarChangeListener() {
+          @Override
+          public void onProgressChanged(SeekBar seekBar, int power, boolean b) {
+            if (ballGame != null) {
+              ballGame.setShotPower(power);
+            }
+          }
+
+          @Override
+          public void onStartTrackingTouch(SeekBar seekBar) {}
+
+          @Override
+          public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
   }
 
   private void startGame() {
-    ballGame.play();
+      ballGame.play();
   }
 }
