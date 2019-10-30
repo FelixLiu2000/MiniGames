@@ -28,7 +28,6 @@ public class CardGameActivity extends AppCompatActivity {
   CardGame cardGame = new CardGame(60);
   TextView time;
   int stat = 0;
-  int cardsLeft = 12;
 
 //  public CardGameActivity() {
 //    Collections.shuffle(Arrays.asList(cardsArray));
@@ -159,11 +158,16 @@ public class CardGameActivity extends AppCompatActivity {
         }
       }
       stat += 1;
-      cardsLeft -= 2;
       String updatedScore = "Score: " + stat;
       score.setText(updatedScore);
-      if (cardsLeft == 0){
-        // TODO : reshuffle and make visible
+      if (cardGame.boardEmpty()){
+          for (int i = 0; i < buttons.size(); i++) {
+                buttons.get(i).setImageResource(R.drawable.memory_card);
+                buttons.get(i).setVisibility(View.VISIBLE);
+                buttons.get(i).setEnabled(true);
+                Collections.shuffle(Arrays.asList(cardsArray));
+                cardGame.resetGame();
+          }
       }
     } else {
       // If the two cards are not the same, set the image resource back to the green square

@@ -13,6 +13,8 @@ public class CardGame extends Game {
     super(timeLimit);
   }
 
+  private int cardsLeft = 12;
+
   @Override
   public void createGameEnvironment() {
     // takes code from XML file
@@ -30,8 +32,17 @@ public class CardGame extends Game {
     // check if two cards are matches and increase total
     if (card1 == card2) {
       setScore(getScore() + 1);
+      cardsLeft -= 2;
       return true;
     }
     return false;
+  }
+
+  public boolean boardEmpty(){
+    return cardsLeft == 0;
+  }
+
+  public void resetGame(){
+    cardsLeft = 12;
   }
 }
