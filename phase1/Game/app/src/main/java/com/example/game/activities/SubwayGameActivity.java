@@ -18,8 +18,8 @@ public class SubwayGameActivity extends AppCompatActivity {
     private ImageView runner;
     private SubwayGame game;
     // runner's x and y coordinates
-    public float runnerX;
-    public float runnerY;
+    private float runnerX;
+    private float runnerY;
     // runner'x lane
     public int runnerLane;
     private TextView currentScore;

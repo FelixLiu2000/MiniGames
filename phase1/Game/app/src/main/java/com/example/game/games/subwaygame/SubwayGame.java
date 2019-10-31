@@ -131,8 +131,10 @@ public class SubwayGame extends Game {
 
     /** decrease the score by 1 */
   private void decreaseScore() {
-    this.score -= 1;
-    System.out.println("Current score is: " + this.score);
+    if (this.score > 0) {
+      this.score -= 1;
+      System.out.println("Current score is: " + this.score);
+    }
   }
 
   /** A wrapper method to implement abstract method from Game */

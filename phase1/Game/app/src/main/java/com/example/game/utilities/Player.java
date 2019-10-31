@@ -25,7 +25,7 @@ public class Player implements Serializable {
     this.totalScore = 0;
     this.highScore = 0;
     this.totalRoundsPlayed = 0;
-    this.currentRoundProgress = 1;
+    this.currentRoundProgress = 0;
     this.currentRoundScore = 0;
     this.gameDashboardBackgroundColor = Color.WHITE;
     this.currentDisplayNameChoice = "USERNAME";
