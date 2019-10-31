@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Code inspired by https://www.zoftino.com/android-shape-drawable-examples
+HTML Color Code from: https://www.rapidtables.com/web/color/html-color-codes.html -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
 
 <corners

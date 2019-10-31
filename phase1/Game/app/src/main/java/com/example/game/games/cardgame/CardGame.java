@@ -7,6 +7,8 @@ import com.example.game.R;
 import com.example.game.activities.CardGameActivity;
 import com.example.game.games.Game;
 
+import java.util.ArrayList;
+
 public class CardGame extends Game {
 
   public CardGame(int timeLimit) {
@@ -30,6 +32,11 @@ public class CardGame extends Game {
 
   public boolean check(int card1, int card2) {
     // check if two cards are matches and increase total
+    if (card1 >= 200){
+      card1 -= 100;
+    } else if (card2 >= 200){
+      card2 -= 100;
+    }
     if (card1 == card2) {
       setScore(getScore() + 1);
       cardsLeft -= 2;
@@ -45,4 +52,5 @@ public class CardGame extends Game {
   public void resetGame(){
     cardsLeft = 12;
   }
+
 }

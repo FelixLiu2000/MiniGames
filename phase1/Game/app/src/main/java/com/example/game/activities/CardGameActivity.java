@@ -12,37 +12,36 @@ import com.example.game.R;
 import com.example.game.games.cardgame.CardGame;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class CardGameActivity extends AppCompatActivity {
+  // Structure of memory game loosely adapted from https://stackoverflow.com/questions/51002449/developing-a-memory-game
   private ArrayList<ImageView> buttons = new ArrayList<>();
   protected TextView score;
-  private ImageView card_view;
   // Initializes an array of integers that will refer to the images to be compared. The
   // cards that end in the same numbers will be considered matches (ex. 11 matches 21).
-  private Integer[] cardsArray = {11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26};
-  int firstCard, secondCard;
+  private ArrayList<Integer> cardArray1 = new ArrayList<>();
+  private ArrayList<Integer> cardArray2 = new ArrayList<>();
   int clickedFirst, clickedSecond;
   int cardNum = 1;
   CardGame cardGame = new CardGame(60);
   TextView time;
   int stat = 0;
-
-//  public CardGameActivity() {
-//    Collections.shuffle(Arrays.asList(cardsArray));
-//  }
+  int size = 12;
 
   @Override
+  // Source: https://developer.android.com/reference/android/widget/Button
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    Collections.shuffle(Arrays.asList(cardsArray));
+    Collections.shuffle(cardArray1);
     setContentView(R.layout.activity_card_game);
     score = findViewById(R.id.score);
     time = findViewById(R.id.time);
     time.setText(String.valueOf(0));
+    setCardsArray();
 
     // Adds all the images to an array so they can be iterated through.
+    // Source: https://stackoverflow.com/questions/15112742/how-to-set-an-imageview-array
     buttons.add((ImageView) findViewById(R.id.card_11));
     buttons.add((ImageView) findViewById(R.id.card_12));
     buttons.add((ImageView) findViewById(R.id.card_13));
@@ -56,9 +55,9 @@ public class CardGameActivity extends AppCompatActivity {
     buttons.add((ImageView) findViewById(R.id.card_33));
     buttons.add((ImageView) findViewById(R.id.card_34));
 
+    // For each card button, set a indexing tag and turn on the Click Listener.
     for (int i = 0; i < buttons.size(); i++) {
       buttons.get(i).setTag(i);
-      card_view = buttons.get(i);
       buttons.get(i).setOnClickListener(
               new View.OnClickListener() {
                 @Override
@@ -68,47 +67,48 @@ public class CardGameActivity extends AppCompatActivity {
                 }
               });
     }
+
+    //Start countdown timer that will appear on screen (and end the game).
     new CountDownTimer(60000, 1000) {
       public void onTick(long millisUntilFinished) {
         String timeLeft = String.valueOf(millisUntilFinished / 1000);
         String timeText = "Time Remaining: " + timeLeft;
         time.setText(timeText);
       }
-
+      // When the timer is finished, switch the text to say Time is Up.
       public void onFinish() {
         String timeText = "Time Is Up";
         time.setText(timeText);
       }
     }.start();
   }
-  public ImageView getCard_view() {
-    return card_view;
-  }
 
+  /**
+   * When one card is clicked, flip the card and disable to the card to be clicked.
+   * - If the card is the second card to be checked, disable all other cards.
+   * @param card The integer representation of the image that was clicked.
+   * @param iv The card button that was clicked.
+   */
   public void flip(int card, ImageView iv) {
     // Set the image resource for each button, so the item to be compared. This is how the
     // numbers in the array (100 vs. 200) each get connected to the same image.
-    if (cardsArray[card] == 11 || cardsArray[card] == 21) {
+    if (cardArray1.get(card) == 100 || cardArray1.get(card) == 200) {
       iv.setImageResource(R.drawable.orange_circle);
-    } else if (cardsArray[card] == 12 || cardsArray[card] == 22){
+    } else if (cardArray1.get(card) == 101 || cardArray1.get(card) == 201){
       iv.setImageResource(R.drawable.pink_ring);
-    } else if (cardsArray[card] == 13 || cardsArray[card] == 23){
+    } else if (cardArray1.get(card) == 102 || cardArray1.get(card) == 202){
       iv.setImageResource(R.drawable.green_ring);
-    } else if (cardsArray[card] == 14 || cardsArray[card] == 24){
+    } else if (cardArray1.get(card) == 103 || cardArray1.get(card) == 203){
       iv.setImageResource(R.drawable.red_circle);
-    } else if (cardsArray[card] == 15 || cardsArray[card] == 25){
+    } else if (cardArray1.get(card) == 104 || cardArray1.get(card) == 204){
       iv.setImageResource(R.drawable.yellow_square);
-    } else if (cardsArray[card] == 16 || cardsArray[card] == 26){
+    } else if (cardArray1.get(card) == 105 || cardArray1.get(card) == 205){
       iv.setImageResource(R.drawable.blue_square);
     }
 
-    // checks which card has been selected and sets to temporary variables, to be used in Activity
+    // Checks which card has been selected and sets to temporary variables, to be used in Activity
     // or sent to back end.
     if(cardNum == 1){
-      firstCard = cardsArray[card];
-      if(firstCard > 20){
-        firstCard = firstCard - 10;
-      }
       // updates number of card being checked to look for second card.
       cardNum = 2;
       clickedFirst = card;
@@ -116,11 +116,7 @@ public class CardGameActivity extends AppCompatActivity {
       // Sets the card that was just flipped so that it cannot be clicked again.
       iv.setEnabled(false);
     } else if (cardNum == 2) {
-      secondCard = cardsArray[card];
-      if (secondCard > 20) {
-        secondCard = secondCard - 10;
-      }
-      // updates number of card so that it goes back to looking for first card.
+      // Updates number of card so that it goes back to looking for first card.
       cardNum = 1;
       clickedSecond = card;
 
@@ -132,6 +128,7 @@ public class CardGameActivity extends AppCompatActivity {
       // This puts a delay the call to update (which either deletes or flips back the
       // cards so that, the player can see which cards have been flipped and try and
       // remember the cards.
+      // Source: https://stackoverflow.com/questions/42379301/how-to-use-postdelayed-correctly-in-android-studio
       final Handler handler = new Handler();
       handler.postDelayed(new Runnable(){
           @Override
@@ -143,8 +140,28 @@ public class CardGameActivity extends AppCompatActivity {
           }, 1000);
       }
   }
+
+  /**
+   * Creates two temporary cardArrays for 100 level images that match on to 200 level images
+   * depending on the size of the board. Concatenate both ArrayLists into the first.
+   */
+  public void setCardsArray(){
+    int half = size / 2;
+    for (int i = 0; i < half; i++){
+      cardArray1.add(100 + i);
+      cardArray2.add(200 + i);
+    }
+    cardArray1.addAll(cardArray2);
+  }
+
+  /**
+   * After both cards have been collected: update the game board.
+   * - If cards are a match, remove those cards and updates the score.
+   * - If the cards are not a match, turn the cards back over and enable them.
+   * - If the game board is empty, refill the board and enable all cards.
+   */
   public void update(){
-    if(cardGame.check(firstCard, secondCard)){
+    if(cardGame.check(cardArray1.get(clickedFirst), cardArray1.get(clickedSecond))){
       // If the two cards are equal (checked on back-end) set the first card/button to invisible.
       for (int i = 0; i < buttons.size(); i++) {
         if (clickedFirst == i) {
@@ -165,7 +182,7 @@ public class CardGameActivity extends AppCompatActivity {
                 buttons.get(i).setImageResource(R.drawable.memory_card);
                 buttons.get(i).setVisibility(View.VISIBLE);
                 buttons.get(i).setEnabled(true);
-                Collections.shuffle(Arrays.asList(cardsArray));
+                Collections.shuffle(cardArray1);
                 cardGame.resetGame();
           }
       }
