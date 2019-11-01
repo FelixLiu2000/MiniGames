@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.game.R;
 import com.example.game.utilities.AppManager;
@@ -19,10 +20,9 @@ public class LogInActivity extends AppCompatActivity {
 
     AppManager appManager;
     Intent intentLogInUser;
-    EditText editTextUsername;
-    EditText editTextPassword;
-    Button buttonSwitchToCreateUser;
-    Button buttonSignIn;
+    EditText editTextUsername, editTextPassword;
+    Button buttonSwitchToCreateUser, buttonSignIn;
+    TextView textViewErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class LogInActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.logInPasswordTextBox);
         buttonSignIn = findViewById(R.id.logInSubmitLogInUserButton);
         buttonSwitchToCreateUser = findViewById(R.id.logInSwitchToLogInButton);
+        textViewErrorMessage = findViewById(R.id.logInErrorMessage);
 
         editTextUsername.addTextChangedListener(logInUserPageTextWatcher);
         editTextPassword.addTextChangedListener(logInUserPageTextWatcher);
@@ -50,20 +51,22 @@ public class LogInActivity extends AppCompatActivity {
                 }
         );
 
-         // TODO: Make this check if user exists and return error message or log into that user
          buttonSignIn.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
+                        textViewErrorMessage.setVisibility(View.INVISIBLE);
                         Player currentPlayer = SaveManager.loadPlayer(editTextUsername.getText().toString().trim());
                         if (currentPlayer == null) {
-                            System.out.println("current player null");
+                            //show error message
+                            textViewErrorMessage.setVisibility(View.VISIBLE);
                         } else if (currentPlayer.getPassword().equals(editTextPassword.getText().toString().trim())) {
                             appManager.setCurrentPlayer(currentPlayer);
                             Intent intentLogInToDashboard = new Intent (LogInActivity.this, GameDashboardActivity.class);
                             intentLogInToDashboard.putExtra("appManager", appManager);
                             startActivity(intentLogInToDashboard);
                         } else {
-                            System.out.println("Password didn't match.");
+                            //show error message
+                            textViewErrorMessage.setVisibility(View.VISIBLE);
                         }
 
                     }

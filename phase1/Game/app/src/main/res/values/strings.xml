@@ -35,6 +35,8 @@
     <string name="settings_difficulty_label">Difficulty Level \n (changes times per game)</string>
     <string name="results_back_to_dashboard">Back To Dashboard</string>
     <string name="results_next_game_label">Next Game</string>
+    <string name="create_error_message">Username already exists!</string>
+    <string name="login_error_message">Invalid login credentials!</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>

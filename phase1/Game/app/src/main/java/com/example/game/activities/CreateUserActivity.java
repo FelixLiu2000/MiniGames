@@ -9,21 +9,20 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.game.R;
 import com.example.game.utilities.AppManager;
+import com.example.game.utilities.Player;
 import com.example.game.utilities.SaveManager;
 
 public class CreateUserActivity extends AppCompatActivity {
 
     AppManager appManager;
     Intent intentCreateUser;
-    private EditText editTextFirstName;
-    private EditText editTextLastName;
-    private EditText editTextUsername;
-    private EditText editTextPassword;
-    private Button buttonSwitchToLogIn;
-    private Button buttonCreateUser;
+    private EditText editTextFirstName, editTextLastName, editTextUsername, editTextPassword;
+    private Button buttonSwitchToLogIn, buttonCreateUser;
+    private TextView textViewErrorMessage;
 
 
     @Override
@@ -39,6 +38,7 @@ public class CreateUserActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.createUserPassWordTextBox);
         buttonSwitchToLogIn = findViewById(R.id.createUserSwitchToLogInButton);
         buttonCreateUser = findViewById(R.id.createUserSubmitButton);
+        textViewErrorMessage = findViewById(R.id.createUserErrorUsernameExists);
 
         editTextUsername.addTextChangedListener(createUserPageTextWatcher);
         editTextLastName.addTextChangedListener(createUserPageTextWatcher);
@@ -59,14 +59,22 @@ public class CreateUserActivity extends AppCompatActivity {
         buttonCreateUser.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        appManager.createPlayer(editTextFirstName.getText().toString().trim(),
-                                editTextLastName.getText().toString().trim(),
-                                editTextUsername.getText().toString().trim(),
-                                editTextPassword.getText().toString().trim());
-                        SaveManager.save(appManager.getCurrentPlayer());
-                        Intent intentCreateUserToGameDashboard = new Intent (CreateUserActivity.this, GameDashboardActivity.class);
-                        intentCreateUserToGameDashboard.putExtra("appManager", appManager);
-                        startActivity(intentCreateUserToGameDashboard);
+                        textViewErrorMessage.setVisibility(View.INVISIBLE);
+                        String usernameInput = editTextUsername.getText().toString().trim();
+                        Player playerSearch = SaveManager.loadPlayer(usernameInput);
+                        if (playerSearch == null) {
+                            appManager.createPlayer(editTextFirstName.getText().toString().trim(),
+                                    editTextLastName.getText().toString().trim(),
+                                    editTextUsername.getText().toString().trim(),
+                                    editTextPassword.getText().toString().trim());
+                            SaveManager.save(appManager.getCurrentPlayer());
+                            Intent intentCreateUserToGameDashboard = new Intent (CreateUserActivity.this, GameDashboardActivity.class);
+                            intentCreateUserToGameDashboard.putExtra("appManager", appManager);
+                            startActivity(intentCreateUserToGameDashboard);
+                        } else {
+                            // Show error message
+                            textViewErrorMessage.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
     }
