@@ -47,7 +47,7 @@ public class AppManager implements Serializable {
   }
 
   //TODO: TIMER CHOICE
-  public void saveCustomizationChanges(String gameDashboardBackgroundColor, String gameDashboardDisplayName) {
+  public void saveCustomizationChanges(String gameDashboardBackgroundColor, String gameDashboardDisplayName, String chosenDifficulty) {
     int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
     if (gameDashboardBackgroundColor.equals("WHITE")){
       chosenColorInt = Color.WHITE;
@@ -62,7 +62,20 @@ public class AppManager implements Serializable {
     }
     this.currentPlayer.setGameDashboardBackgroundColor(chosenColorInt);
     this.currentPlayer.setCurrentDisplayNameChoice(gameDashboardDisplayName);
+    this.currentPlayer.setDifficulty(chosenDifficulty);
+    this.currentPlayer.setTimeChoice(chooseTimeChoice());
 
+  }
+
+  private int[] chooseTimeChoice() {
+    if (currentPlayer.getDifficulty().equals("EASY")) {
+      return currentPlayer.getEasyTimes();
+    } else if (currentPlayer.getDifficulty().equals("MEDIUM")) {
+      return currentPlayer.getMediumTimes();
+    } else if (currentPlayer.getDifficulty().equals("HARD")) {
+      return currentPlayer.getHardTimes();
+    }
+    return currentPlayer.getEasyTimes();
   }
 
   public String getCurrentPlayerCurrentDashboardColor() {
@@ -85,6 +98,10 @@ public class AppManager implements Serializable {
     return currentPlayer.getCurrentDisplayNameChoice();
   }
 
+  public String getCurrentPlayerDifficulty() {
+    return currentPlayer.getDifficulty();
+  }
+
   public void updatePlayerTotalScore() {
     int updatedScore = this.currentPlayer.getTotalScore() + this.currentPlayer.getCurrentGameScore();
     this.currentPlayer.setTotalScore(updatedScore);
@@ -105,11 +122,13 @@ public class AppManager implements Serializable {
     this.currentPlayer.setTotalRoundsPlayed(updatedTotalRounds);
   }
 
-  public void updatePlayerHighScore() {
+  public boolean updatePlayerHighScore() {
     int currentHighScore = this.currentPlayer.getHighScore();
     int currentRoundFinalScore = this.currentPlayer.getCurrentRoundScore();
     if (currentRoundFinalScore > currentHighScore) {
       this.currentPlayer.setHighScore(currentRoundFinalScore);
+      return true;
     }
+    return false;
   }
 }

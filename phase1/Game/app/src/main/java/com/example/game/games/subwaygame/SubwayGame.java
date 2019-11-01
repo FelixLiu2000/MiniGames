@@ -25,7 +25,7 @@ public class SubwayGame extends Game {
 
   protected int play() {
     // create 60 second timer
-    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice(), 1000) {
+    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
       @Override
       public void onTick(long millisUntilFinished) {
 //        System.out.println("Timer is ticking! " + millisUntilFinished);

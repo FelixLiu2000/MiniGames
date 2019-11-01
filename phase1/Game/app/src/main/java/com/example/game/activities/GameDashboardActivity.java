@@ -22,6 +22,8 @@ public class GameDashboardActivity extends AppCompatActivity {
   TextView textViewTotalRoundsPlayed;
   TextView  textViewTotalScore;
   TextView textViewDisplayName;
+  TextView textViewCurrentRoundProgress;
+  String currentRoundProgress;
   ProgressBar progressBarRoundProgress;
   ImageButton imageButtonSettings;
 
@@ -39,6 +41,7 @@ public class GameDashboardActivity extends AppCompatActivity {
     textViewTotalRoundsPlayed = findViewById(R.id.totalRoundsPlayedStat);
     textViewTotalScore = findViewById(R.id.totalScoreStat);
     textViewDisplayName = findViewById(R.id.displayNameTextLabel);
+    textViewCurrentRoundProgress = findViewById(R.id.currentRound);
     progressBarRoundProgress = findViewById(R.id.roundProgressBar);
     imageButtonSettings = findViewById(R.id.gameDashboardSettingsButton);
 
@@ -73,6 +76,8 @@ public class GameDashboardActivity extends AppCompatActivity {
     } else if (appManager.getCurrentPlayerDisplayName().equals("LAST NAME")){
       textViewDisplayName.setText(String.valueOf(appManager.getCurrentPlayer().getLastName()));
     }
+    currentRoundProgress = "Round " + (appManager.getCurrentPlayer().getTotalRoundsPlayed() + 1) + " Progress:";
+    textViewCurrentRoundProgress.setText(currentRoundProgress);
 
     progressBarRoundProgress.setProgress(appManager.getCurrentPlayer().getCurrentRoundProgress());
   }

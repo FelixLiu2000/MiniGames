@@ -4,13 +4,13 @@
     <string name="high_score">HIGH SCORE:</string>
     <string name="total_rounds">TOTAL ROUNDS:</string>
     <string name="current_round_progress">Round # Progress:</string>
-    <string name="play_button_title">BEGIN/CONTINUE ROUND</string>
+    <string name="play_button_title">PLAY ROUND</string>
     <string name="play_button_description">Button to play/continue round</string>
     <string name="developers">A. Waddell | D. Nunez | E. Mazor | E. Zhu | F. Liu | N. Kann</string>
     <string name="sign_in_button_text">Sign In</string>
     <string name="total_rounds_label">Total Rounds:</string>
     <string name="total_score_label">Total Score:</string>
-    <string name="highscore_label">HighScore:</string>
+    <string name="highscore_label">High Score:</string>
     <string name="score">Score: 0</string>
     <string name="shoot">FIRE</string>
     <string name="create_user_button_text">Create User</string>
@@ -31,6 +31,10 @@
     <string name="angle">Angle:</string>
     <string name="power">Power:</string>
     <string name="time">Time:</string>
+    <string name="results_saved_label">Your progress was saved!</string>
+    <string name="settings_difficulty_label">Difficulty Level \n (changes times per game)</string>
+    <string name="results_back_to_dashboard">Back To Dashboard</string>
+    <string name="results_next_game_label">Next Game</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>
@@ -44,5 +48,11 @@
         <item>FIRST NAME</item>
         <item>LAST NAME</item>
         <item>USERNAME</item>
+    </string-array>
+
+    <string-array name="difficulty_level_choices">
+        <item>EASY</item>
+        <item>MEDIUM</item>
+        <item>HARD</item>
     </string-array>
 </resources>

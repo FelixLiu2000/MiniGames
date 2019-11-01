@@ -3,12 +3,17 @@ package com.example.game.utilities;
 import android.graphics.Color;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class Player implements Serializable {
 
-  private String firstName, lastName, username, password, currentDisplayNameChoice;
+  private String firstName, lastName, username, password, currentDisplayNameChoice, difficulty;
   private int totalScore, highScore, totalRoundsPlayed, currentRoundProgress,
-          currentRoundScore, gameDashboardBackgroundColor, currentGameScore, timeChoice;
+          currentRoundScore, gameDashboardBackgroundColor, currentGameScore,
+          subwayGameTimeChoice, cardGameTimeChoice, ballGameTimeChoice;
+  private int[] easyTimes, mediumTimes, hardTimes, timeChoice;
 
   Player(String firstName, String lastName, String username, String password) {
     this.firstName = firstName;
@@ -16,14 +21,18 @@ public class Player implements Serializable {
     this.username = username;
     this.password = password;
     this.currentDisplayNameChoice = "USERNAME";
+    this.difficulty = "EASY";
     this.totalScore = 0;
     this.highScore = 0;
     this.totalRoundsPlayed = 0;
     this.currentRoundProgress = 0;
     this.currentRoundScore = 0;
     this.gameDashboardBackgroundColor = Color.WHITE;
-    this.currentGameScore = 0;
-    this.timeChoice = 60000;
+    this.currentGameScore = 2;
+    this.easyTimes = new int[]{30000, 120000, 150000};
+    this.mediumTimes = new int[]{60000, 60000, 120000};
+    this.hardTimes = new int[]{80000, 30000, 80000};
+    this.timeChoice = easyTimes;
   }
 
   public String getFirstName() { return firstName; }
@@ -48,6 +57,9 @@ public class Player implements Serializable {
 
   public String getCurrentDisplayNameChoice() { return this.currentDisplayNameChoice; }
   public void setCurrentDisplayNameChoice(String newCurrentDisplayNameChoice) { this.currentDisplayNameChoice = newCurrentDisplayNameChoice; }
+
+  public String getDifficulty() { return this.difficulty; }
+  public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
 
   public int getTotalScore() {
     return totalScore;
@@ -88,7 +100,16 @@ public class Player implements Serializable {
   public int getCurrentGameScore() { return this.currentGameScore; }
   public void setCurrentGameScore(int currentGameScore) { this.currentGameScore = currentGameScore; }
 
-  public int getTimeChoice() { return this.timeChoice; }
-  public void setTimeChoice(int timeChoice ) { this.timeChoice = timeChoice; }
+  public int[] getTimeChoice() { return this.timeChoice; }
+  public void setTimeChoice(int[] timeChoice ) { this.timeChoice = timeChoice; }
+
+  public int[] getEasyTimes() { return this.easyTimes; }
+  public void setEasyTimes(int[] easyTimes) { this.easyTimes = easyTimes; }
+
+  public int[] getMediumTimes() { return this.mediumTimes; }
+  public void setMediumTimes(int[] mediumTimes) { this.mediumTimes = mediumTimes; }
+
+  public int[] getHardTimes() { return this.hardTimes; }
+  public void setHardTimes(int[] hardTimes) { this.hardTimes = hardTimes; }
 
 }

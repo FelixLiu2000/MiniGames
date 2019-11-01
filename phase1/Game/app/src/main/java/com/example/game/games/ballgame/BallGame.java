@@ -4,6 +4,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.*;
 
+import com.example.game.activities.BallGameActivity;
 import com.example.game.games.Game;
 import com.example.game.utilities.AppManager;
 
@@ -16,15 +17,17 @@ public class BallGame extends Game {
   private Target target;
   private LinearLayout ballLayout;
   private TextView scoreView, timeView, powerView, angleView;
+  private BallGameActivity activity;
 
-  static final double GRAVITY = 0.1;
-  public static final int SHOT_STARTING_POWER = 2;
+  static final double GRAVITY = 2.5;
+  public static final int SHOT_STARTING_POWER = 0;
   public static final int SHOT_STARTING_ANGLE = 0;
-  public static final int SHOT_MAX_POWER = 20;
+  public static final int SHOT_MAX_POWER = 100;
   public static final int SHOT_MAX_ANGLE = 90;
 
-  public BallGame(int timeLimit, AppManager appManager) {
+  public BallGame(int timeLimit, AppManager appManager, BallGameActivity activity) {
     super(timeLimit, appManager);
+    this.activity = activity;
   }
 
   @Override
@@ -172,5 +175,7 @@ public class BallGame extends Game {
   @Override
   protected void endGame() {
     System.out.println("Game ended");
+    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.player.getScore());
+    this.activity.leaveGame(this.getAppManager());
   }
 }

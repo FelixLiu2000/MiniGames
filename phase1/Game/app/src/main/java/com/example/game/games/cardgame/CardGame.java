@@ -34,7 +34,7 @@ public class CardGame extends Game {
 
   public int play() {
 //Start countdown timer that will appear on screen (and end the game).
-    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice(), 1000) {
+    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[1], 1000) {
       public void onTick(long millisUntilFinished) {
         String timeLeft = String.valueOf(millisUntilFinished / 1000);
         String timeText = "Time Remaining: " + timeLeft;

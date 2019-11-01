@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.example.game.R;
 import com.example.game.utilities.AppManager;
+import com.example.game.utilities.SaveManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +24,10 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     Intent intentSettings;
     Spinner spinnerColorChoice;
     Spinner spinnerDisplayNameChoice;
+    Spinner spinnerDifficultyChoice;
     ArrayAdapter<CharSequence> arrayAdapterColorChoiceAdapter;
     ArrayAdapter<CharSequence> arrayAdapterDisplayNameChoiceAdapter;
+    ArrayAdapter<CharSequence> arrayAdapterDifficultyChoiceAdapter;
     Button buttonCancel;
     Button buttonSave;
     String chosenColor;
@@ -33,8 +36,12 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     String chosenDisplayName;
     String loadedDisplayNameChoice;
     int loadedDisplayNameChoicePosition;
+    int loadedDifficultyChoicePosition;
+    String loadedDiffcultyChoice;
+    String chosenDifficulty;
     ArrayList<String> arrayListColorChoices;
     ArrayList<String> arrayListDisplayNameChoices;
+    ArrayList<String> arrayListDifficultyChoices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +74,22 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         loadedDisplayNameChoicePosition = arrayAdapterDisplayNameChoiceAdapter.getPosition(loadedDisplayNameChoice);
         spinnerDisplayNameChoice.setSelection(loadedDisplayNameChoicePosition);
 
+        spinnerDifficultyChoice = findViewById(R.id.difficultyLevelChoiceSpinner);
+        arrayAdapterDifficultyChoiceAdapter = ArrayAdapter.createFromResource(this,
+                R.array.difficulty_level_choices, android.R.layout.simple_spinner_item);
+        arrayAdapterDifficultyChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDifficultyChoice.setAdapter(arrayAdapterDifficultyChoiceAdapter);
+        spinnerDifficultyChoice.setOnItemSelectedListener(this);
+        chosenDifficulty = appManager.getCurrentPlayerDifficulty();
+        loadedDiffcultyChoice = appManager.getCurrentPlayerDifficulty();
+        loadedDifficultyChoicePosition = arrayAdapterDifficultyChoiceAdapter.getPosition(loadedDiffcultyChoice);
+        spinnerDifficultyChoice.setSelection(loadedDifficultyChoicePosition);
+
         buttonCancel = findViewById(R.id.settingsCancelButton);
         buttonSave = findViewById(R.id.settingsSaveButton);
         arrayListColorChoices = new ArrayList<>(Arrays.asList("WHITE", "RED", "GREEN", "BLUE", "YELLOW"));
         arrayListDisplayNameChoices = new ArrayList<>(Arrays.asList("FIRST NAME", "LAST NAME", "USERNAME"));
+        arrayListDifficultyChoices = new ArrayList<>(Arrays.asList("EASY", "MEDIUM", "HARD"));
 
 
         buttonCancel.setOnClickListener(
@@ -85,7 +104,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         buttonSave.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        appManager.saveCustomizationChanges(chosenColor, chosenDisplayName);
+                        appManager.saveCustomizationChanges(chosenColor, chosenDisplayName, chosenDifficulty);
+                        SaveManager.save(appManager.getCurrentPlayer());
                         Intent settingsToGameDashboardSave = new Intent(SettingsActivity.this, GameDashboardActivity.class);
                         settingsToGameDashboardSave.putExtra("appManager", appManager);
                         startActivity(settingsToGameDashboardSave);
@@ -103,6 +123,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
             chosenColor = parent.getItemAtPosition(pos).toString();
         } else if (arrayListDisplayNameChoices.contains(chosenItem)) {
             chosenDisplayName = parent.getItemAtPosition(pos).toString();
+        } else if (arrayListDifficultyChoices.contains(chosenItem)) {
+            chosenDifficulty = parent.getItemAtPosition(pos).toString();
         }
     }
 

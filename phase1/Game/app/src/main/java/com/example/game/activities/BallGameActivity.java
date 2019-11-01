@@ -16,6 +16,7 @@ public class BallGameActivity extends AppCompatActivity {
 
     AppManager appManager;
     Intent intentBallGameActivity;
+    Intent intentBallGameToResultsPage;
     private BallGame ballGame;
   // private ImageView playerView, targetView;
     private LinearLayout ballLayout;
@@ -25,7 +26,7 @@ public class BallGameActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     intentBallGameActivity = getIntent();
     this.appManager = (AppManager) intentBallGameActivity.getSerializableExtra("appManager");
-    ballGame = new BallGame(appManager.getCurrentPlayer().getTimeChoice() / 1000, appManager);
+    ballGame = new BallGame(appManager.getCurrentPlayer().getTimeChoice()[2] / 1000, appManager, this);
     // Set landscape orientation
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     // Set fullscreen
@@ -125,4 +126,10 @@ public class BallGameActivity extends AppCompatActivity {
   private void startGame() {
     ballGame.play();
   }
+
+    public void leaveGame(AppManager appManager) {
+        intentBallGameToResultsPage = new Intent(BallGameActivity.this, ResultsPageActivity.class);
+        intentBallGameToResultsPage.putExtra("appManager", appManager);
+        startActivity(intentBallGameToResultsPage);
+    }
 }
