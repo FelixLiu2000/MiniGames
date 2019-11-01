@@ -11,7 +11,7 @@ import com.example.game.R;
 import com.example.game.games.ballgame.BallGame;
 
 public class BallGameActivity extends AppCompatActivity {
-  private BallGame ballGame = new BallGame(60);
+  private BallGame ballGame = new BallGame(200);
   // private ImageView playerView, targetView;
   private LinearLayout ballLayout;
 

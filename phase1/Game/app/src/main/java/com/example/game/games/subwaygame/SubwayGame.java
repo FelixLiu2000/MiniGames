@@ -15,8 +15,8 @@ public class SubwayGame extends Game {
   private SubwayGameActivity activity;
   private int score;
 
-  public SubwayGame(SubwayGameActivity activity) {
-    super(60);
+  public SubwayGame(int timelimit, SubwayGameActivity activity) {
+    super(timelimit);
     this.score = 10;
     this.activity = activity;
     play();
@@ -43,8 +43,7 @@ public class SubwayGame extends Game {
 
       @Override
       public void onFinish() {
-        System.out.println("Game Over!");
-        System.out.println("Final score is: " + score);
+        endGame();
       }
     }.start();
     return score;
@@ -135,6 +134,12 @@ public class SubwayGame extends Game {
       this.score -= 1;
       System.out.println("Current score is: " + this.score);
     }
+  }
+
+  @Override
+  protected void endGame() {
+    System.out.println("Game Over!");
+    System.out.println("Final score is: " + score);
   }
 
   /** A wrapper method to implement abstract method from Game */

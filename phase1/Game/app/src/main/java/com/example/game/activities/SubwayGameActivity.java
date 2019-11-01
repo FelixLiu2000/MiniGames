@@ -33,7 +33,7 @@ public class SubwayGameActivity extends AppCompatActivity {
         runnerX = runner.getX();
         runnerY = runner.getY();
         runnerLane = 2;
-        game = new SubwayGame(this);
+        game = new SubwayGame(60,this);
 //        System.out.println("Initial X and Y are: " + runnerX + runnerY);
     }
 

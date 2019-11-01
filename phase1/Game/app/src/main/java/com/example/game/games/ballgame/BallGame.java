@@ -86,6 +86,7 @@ public class BallGame extends Game {
 
           @Override
           public void onFinish() {
+            endGame();
           }
         }.start();
   }
@@ -164,5 +165,10 @@ public class BallGame extends Game {
     // Destroy ball, remove view from parent layout and object from game ArrayList
     ballLayout.removeView(ball.getView());
     ballObjects.remove(ball);
+  }
+
+  @Override
+  protected void endGame() {
+    System.out.println("Game ended");
   }
 }

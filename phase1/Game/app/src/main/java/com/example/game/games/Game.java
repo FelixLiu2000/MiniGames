@@ -22,7 +22,7 @@ public abstract class Game {
   protected int getTimeLimit() { return timeLimit; }
   protected void setTimeLimit(int timeLimit) { this.timeLimit = timeLimit; }
 
-  public void createGameEnvironment() {}
-
   protected abstract int play();
+
+  protected abstract void endGame();
 }
