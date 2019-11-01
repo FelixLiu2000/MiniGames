@@ -20,9 +20,6 @@ import com.example.game.utilities.AppManager;
 public class AppStartActivity extends AppCompatActivity implements Serializable {
 
   AppManager appManager;
-//  Button buttonCreateUser;
-//  Button buttonLogInUser;
-//  Button buttonSkipToDashboard;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +29,6 @@ public class AppStartActivity extends AppCompatActivity implements Serializable 
 
     Button buttonCreateUserPage = findViewById(R.id.appStartCreateUserButton);
     Button buttonLogInUserPage = findViewById(R.id.appStartLogInButton);
-//    Button buttonLogInUser = findViewById(R.id.logInPageButton);
     Button buttonSkipToDashboard = findViewById(R.id.appStartSkipToDashboardButton);
 
     buttonCreateUserPage.setOnClickListener(

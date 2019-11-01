@@ -3,16 +3,12 @@ package com.example.game.utilities;
 import android.graphics.Color;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
 
 public class Player implements Serializable {
 
   private String firstName, lastName, username, password, currentDisplayNameChoice, difficulty;
   private int totalScore, highScore, totalRoundsPlayed, currentRoundProgress,
-          currentRoundScore, gameDashboardBackgroundColor, currentGameScore,
-          subwayGameTimeChoice, cardGameTimeChoice, ballGameTimeChoice;
+          currentRoundScore, gameDashboardBackgroundColor, currentGameScore;
   private int[] easyTimes, mediumTimes, hardTimes, timeChoice;
 
   Player(String firstName, String lastName, String username, String password) {
@@ -28,7 +24,7 @@ public class Player implements Serializable {
     this.currentRoundProgress = 0;
     this.currentRoundScore = 0;
     this.gameDashboardBackgroundColor = Color.WHITE;
-    this.currentGameScore = 2;
+    this.currentGameScore = 0;
     this.easyTimes = new int[]{30000, 120000, 150000};
     this.mediumTimes = new int[]{60000, 60000, 120000};
     this.hardTimes = new int[]{80000, 30000, 80000};
@@ -55,30 +51,30 @@ public class Player implements Serializable {
     this.password = password;
   }
 
-  public String getCurrentDisplayNameChoice() { return this.currentDisplayNameChoice; }
-  public void setCurrentDisplayNameChoice(String newCurrentDisplayNameChoice) { this.currentDisplayNameChoice = newCurrentDisplayNameChoice; }
+  String getCurrentDisplayNameChoice() { return this.currentDisplayNameChoice; }
+  void setCurrentDisplayNameChoice(String newCurrentDisplayNameChoice) { this.currentDisplayNameChoice = newCurrentDisplayNameChoice; }
 
-  public String getDifficulty() { return this.difficulty; }
-  public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+  String getDifficulty() { return this.difficulty; }
+  void setDifficulty(String difficulty) { this.difficulty = difficulty; }
 
   public int getTotalScore() {
     return totalScore;
   }
-  public void setTotalScore(int totalScore) {
+  void setTotalScore(int totalScore) {
     this.totalScore = totalScore;
   }
 
   public int getHighScore() {
     return highScore;
   }
-  public void setHighScore(int highScore) {
+  void setHighScore(int highScore) {
     this.highScore = highScore;
   }
 
   public int getTotalRoundsPlayed() {
     return totalRoundsPlayed;
   }
-  public void setTotalRoundsPlayed(int roundPlayed) {
+  void setTotalRoundsPlayed(int roundPlayed) {
     this.totalRoundsPlayed = roundPlayed;
   }
 
@@ -93,7 +89,7 @@ public class Player implements Serializable {
   public void setCurrentRoundScore(int currentRoundScore) { this.currentRoundScore = currentRoundScore; }
 
   public int getGameDashboardBackgroundColor() { return this.gameDashboardBackgroundColor; }
-  public void setGameDashboardBackgroundColor(int newGameDashboardBackgroundColor) {
+  void setGameDashboardBackgroundColor(int newGameDashboardBackgroundColor) {
     this.gameDashboardBackgroundColor = newGameDashboardBackgroundColor;
   }
 
@@ -101,15 +97,15 @@ public class Player implements Serializable {
   public void setCurrentGameScore(int currentGameScore) { this.currentGameScore = currentGameScore; }
 
   public int[] getTimeChoice() { return this.timeChoice; }
-  public void setTimeChoice(int[] timeChoice ) { this.timeChoice = timeChoice; }
+  void setTimeChoice(int[] timeChoice) { this.timeChoice = timeChoice; }
 
-  public int[] getEasyTimes() { return this.easyTimes; }
+  int[] getEasyTimes() { return this.easyTimes; }
   public void setEasyTimes(int[] easyTimes) { this.easyTimes = easyTimes; }
 
-  public int[] getMediumTimes() { return this.mediumTimes; }
+  int[] getMediumTimes() { return this.mediumTimes; }
   public void setMediumTimes(int[] mediumTimes) { this.mediumTimes = mediumTimes; }
 
-  public int[] getHardTimes() { return this.hardTimes; }
+  int[] getHardTimes() { return this.hardTimes; }
   public void setHardTimes(int[] hardTimes) { this.hardTimes = hardTimes; }
 
 }
