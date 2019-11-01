@@ -32,7 +32,7 @@ public class CardGame extends Game {
     play();
   }
 
-  public int play() {
+  public void play() {
 //Start countdown timer that will appear on screen (and end the game).
     new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[1], 1000) {
       public void onTick(long millisUntilFinished) {
@@ -45,7 +45,6 @@ public class CardGame extends Game {
         endGame();
       }
     }.start();
-    return 0;
   }
 
   public boolean check(int card1, int card2) {

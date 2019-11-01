@@ -23,7 +23,7 @@ public class SubwayGame extends Game {
     play();
   }
 
-  protected int play() {
+  protected void play() {
     // create 60 second timer
     new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
       @Override
@@ -47,7 +47,6 @@ public class SubwayGame extends Game {
         endGame();
       }
     }.start();
-    return score;
   }
   public void updateTime(long timeLeft){
     ((TextView) activity.findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft/1000);

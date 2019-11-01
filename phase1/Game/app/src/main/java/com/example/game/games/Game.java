@@ -31,7 +31,7 @@ public abstract class Game {
   protected AppManager getAppManager() { return this.appManager; }
   protected void setAppManager(AppManager appManager) { this.appManager = appManager; }
 
-  protected abstract int play();
+  protected abstract void play();
 
   protected abstract void endGame();
 }

@@ -31,9 +31,8 @@ public class BallGame extends Game {
   }
 
   @Override
-  public int play() {
+  public void play() {
     gameLoop();
-    return player.getScore();
   }
 
   public void initializePlayer(View view) {
