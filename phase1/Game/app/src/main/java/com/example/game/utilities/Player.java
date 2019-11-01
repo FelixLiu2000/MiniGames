@@ -5,30 +5,25 @@ import android.graphics.Color;
 import java.io.Serializable;
 
 public class Player implements Serializable {
-  private String firstName;
-  private String lastName;
-  private String username;
-  private String password;
-  private int totalScore;
-  private int highScore;
-  private int totalRoundsPlayed;
-  private int currentRoundProgress;
-  private int currentRoundScore;
-  private int gameDashboardBackgroundColor;
-  private String currentDisplayNameChoice;
+
+  private String firstName, lastName, username, password, currentDisplayNameChoice;
+  private int totalScore, highScore, totalRoundsPlayed, currentRoundProgress,
+          currentRoundScore, gameDashboardBackgroundColor, currentGameScore, timeChoice;
 
   Player(String firstName, String lastName, String username, String password) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
     this.password = password;
+    this.currentDisplayNameChoice = "USERNAME";
     this.totalScore = 0;
     this.highScore = 0;
     this.totalRoundsPlayed = 0;
-    this.currentRoundProgress = 1;
+    this.currentRoundProgress = 0;
     this.currentRoundScore = 0;
     this.gameDashboardBackgroundColor = Color.WHITE;
-    this.currentDisplayNameChoice = "USERNAME";
+    this.currentGameScore = 0;
+    this.timeChoice = 60000;
   }
 
   public String getFirstName() { return firstName; }
@@ -50,6 +45,9 @@ public class Player implements Serializable {
   public void setPassword(String password) {
     this.password = password;
   }
+
+  public String getCurrentDisplayNameChoice() { return this.currentDisplayNameChoice; }
+  public void setCurrentDisplayNameChoice(String newCurrentDisplayNameChoice) { this.currentDisplayNameChoice = newCurrentDisplayNameChoice; }
 
   public int getTotalScore() {
     return totalScore;
@@ -87,6 +85,10 @@ public class Player implements Serializable {
     this.gameDashboardBackgroundColor = newGameDashboardBackgroundColor;
   }
 
-  public String getCurrentDisplayNameChoice() { return this.currentDisplayNameChoice; }
-  public void setCurrentDisplayNameChoice(String newCurrentDisplayNameChoice) { this.currentDisplayNameChoice = newCurrentDisplayNameChoice; }
+  public int getCurrentGameScore() { return this.currentGameScore; }
+  public void setCurrentGameScore(int currentGameScore) { this.currentGameScore = currentGameScore; }
+
+  public int getTimeChoice() { return this.timeChoice; }
+  public void setTimeChoice(int timeChoice ) { this.timeChoice = timeChoice; }
+
 }

@@ -10,13 +10,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.game.R;
 import com.example.game.activities.SubwayGameActivity;
 import com.example.game.games.Game;
+import com.example.game.utilities.AppManager;
 
 public class SubwayGame extends Game {
   private SubwayGameActivity activity;
   private int score;
 
-  public SubwayGame(int timelimit, SubwayGameActivity activity) {
-    super(timelimit);
+  public SubwayGame(int timelimit, AppManager appManager, SubwayGameActivity activity) {
+    super(timelimit, appManager);
     this.score = 10;
     this.activity = activity;
     play();
@@ -24,7 +25,7 @@ public class SubwayGame extends Game {
 
   protected int play() {
     // create 60 second timer
-    new CountDownTimer(60000, 1000) {
+    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice(), 1000) {
       @Override
       public void onTick(long millisUntilFinished) {
 //        System.out.println("Timer is ticking! " + millisUntilFinished);
@@ -140,6 +141,8 @@ public class SubwayGame extends Game {
   protected void endGame() {
     System.out.println("Game Over!");
     System.out.println("Final score is: " + score);
+    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
+    this.activity.leaveGame(this.getAppManager());
   }
 
   /** A wrapper method to implement abstract method from Game */

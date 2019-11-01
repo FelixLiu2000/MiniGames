@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.example.game.R;
 import com.example.game.activities.CardGameActivity;
 import com.example.game.games.Game;
+import com.example.game.utilities.AppManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,8 +24,8 @@ public class CardGame extends Game {
   int cardNum = 1;
   private int currentScore = 0;
 
-  public CardGame(int timeLimit, CardGameActivity activity) {
-    super(timeLimit);
+  public CardGame(int timeLimit, AppManager appManager, CardGameActivity activity) {
+    super(timeLimit, appManager);
     this.activity = activity;
     Collections.shuffle(cardArray1);
     setCardsArray();
@@ -33,7 +34,7 @@ public class CardGame extends Game {
 
   public int play() {
 //Start countdown timer that will appear on screen (and end the game).
-    new CountDownTimer(10000, 1000) {
+    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice(), 1000) {
       public void onTick(long millisUntilFinished) {
         String timeLeft = String.valueOf(millisUntilFinished / 1000);
         String timeText = "Time Remaining: " + timeLeft;
@@ -197,5 +198,7 @@ public class CardGame extends Game {
     String timeText = "Time Is Up!";
     setTime(timeText);
     disableCards();
+    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.currentScore);
+    this.activity.leaveGame(this.getAppManager());
   }
 }

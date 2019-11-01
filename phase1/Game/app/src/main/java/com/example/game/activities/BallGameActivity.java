@@ -2,6 +2,7 @@ package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.*;
@@ -9,15 +10,22 @@ import android.widget.*;
 
 import com.example.game.R;
 import com.example.game.games.ballgame.BallGame;
+import com.example.game.utilities.AppManager;
 
 public class BallGameActivity extends AppCompatActivity {
-  private BallGame ballGame = new BallGame(200);
+
+    AppManager appManager;
+    Intent intentBallGameActivity;
+    private BallGame ballGame;
   // private ImageView playerView, targetView;
-  private LinearLayout ballLayout;
+    private LinearLayout ballLayout;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    intentBallGameActivity = getIntent();
+    this.appManager = (AppManager) intentBallGameActivity.getSerializableExtra("appManager");
+    ballGame = new BallGame(appManager.getCurrentPlayer().getTimeChoice() / 1000, appManager);
     // Set landscape orientation
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     // Set fullscreen

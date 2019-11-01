@@ -33,6 +33,7 @@ public class AppManager implements Serializable {
     this.currentPlayer = new Player(firstName, lastName, userName, password);
   }
 
+  //TODO: RESET
   public void pickGameToPlay() {
     if (this.currentPlayer.getCurrentRoundProgress() == 0) {
       setGameToPlay(SubwayGameActivity.class);
@@ -45,6 +46,7 @@ public class AppManager implements Serializable {
     }
   }
 
+  //TODO: TIMER CHOICE
   public void saveCustomizationChanges(String gameDashboardBackgroundColor, String gameDashboardDisplayName) {
     int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
     if (gameDashboardBackgroundColor.equals("WHITE")){
@@ -81,5 +83,33 @@ public class AppManager implements Serializable {
 
   public String getCurrentPlayerDisplayName() {
     return currentPlayer.getCurrentDisplayNameChoice();
+  }
+
+  public void updatePlayerTotalScore() {
+    int updatedScore = this.currentPlayer.getTotalScore() + this.currentPlayer.getCurrentGameScore();
+    this.currentPlayer.setTotalScore(updatedScore);
+  }
+
+  public void updatePlayerRoundProgress() {
+    int updatedRoundProgress = this.currentPlayer.getCurrentRoundProgress() + 1;
+    this.currentPlayer.setCurrentRoundProgress(updatedRoundProgress);
+  }
+
+  public void updatePlayerRoundScore() {
+    int updatedRoundScore = this.currentPlayer.getCurrentRoundScore() + this.currentPlayer.getCurrentGameScore();
+    this.currentPlayer.setCurrentRoundScore(updatedRoundScore);
+  }
+
+  public void updatePlayerTotalRounds() {
+    int updatedTotalRounds = this.currentPlayer.getTotalRoundsPlayed() + 1;
+    this.currentPlayer.setTotalRoundsPlayed(updatedTotalRounds);
+  }
+
+  public void updatePlayerHighScore() {
+    int currentHighScore = this.currentPlayer.getHighScore();
+    int currentRoundFinalScore = this.currentPlayer.getCurrentRoundScore();
+    if (currentRoundFinalScore > currentHighScore) {
+      this.currentPlayer.setHighScore(currentRoundFinalScore);
+    }
   }
 }

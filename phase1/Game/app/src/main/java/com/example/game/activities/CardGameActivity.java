@@ -1,6 +1,8 @@
 package com.example.game.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,25 +10,32 @@ import android.widget.TextView;
 
 import com.example.game.R;
 import com.example.game.games.cardgame.CardGame;
+import com.example.game.utilities.AppManager;
 
 import java.util.ArrayList;
 
 public class CardGameActivity extends AppCompatActivity {
+  AppManager appManager;
+  Intent intentCardGameActivity;
+  Intent intentCardGameToResultsPage;
   // Structure of memory game loosely adapted from https://stackoverflow.com/questions/51002449/developing-a-memory-game
   public ArrayList<ImageView> buttons = new ArrayList<>();
   public TextView score;
   TextView time;
-  CardGame cardGame = new CardGame(60, this);
+  CardGame cardGame;
 
   @Override
   // Source: https://developer.android.com/reference/android/widget/Button
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    intentCardGameActivity = getIntent();
+    appManager = (AppManager) intentCardGameActivity.getSerializableExtra("appManager");
     setContentView(R.layout.activity_card_game);
     score = findViewById(R.id.score);
     time = findViewById(R.id.time);
     time.setText(String.valueOf(0));
     addButtons();
+    cardGame = new CardGame(60, appManager, this);
     addButtonOnClick();
   }
 
@@ -66,7 +75,9 @@ public class CardGameActivity extends AppCompatActivity {
     time.setText(timeLeftText);
   }
 
-  public void leaveGame() {
-
+  public void leaveGame(AppManager appManager) {
+    intentCardGameToResultsPage = new Intent(CardGameActivity.this, ResultsPageActivity.class);
+    intentCardGameToResultsPage.putExtra("appManager", appManager);
+    startActivity(intentCardGameToResultsPage);
   }
 }

@@ -47,7 +47,7 @@ public class GameDashboardActivity extends AppCompatActivity {
               public void onClick(View v) {
                 appManager.pickGameToPlay();
                 Intent gameDashboardToCurrentGameIntent = new Intent(GameDashboardActivity.this, appManager.getGameToPlay());
-//            gameDashboardToCurrentGameIntent.putExtra("appManager", appManager);
+                gameDashboardToCurrentGameIntent.putExtra("appManager", appManager);
                 startActivity(gameDashboardToCurrentGameIntent);
               }
             });

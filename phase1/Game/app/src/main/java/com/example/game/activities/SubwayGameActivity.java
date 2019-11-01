@@ -1,5 +1,6 @@
 package com.example.game.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -10,10 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.game.R;
 import com.example.game.games.subwaygame.SubwayGame;
+import com.example.game.utilities.AppManager;
 
 import java.util.ArrayList;
 
 public class SubwayGameActivity extends AppCompatActivity {
+    AppManager appManager;
+    Intent intentSubwayGameActivity;
+    Intent intentSubwayGameToResultsPage;
     public ArrayList<ImageView> obstacles = new ArrayList<>();
     private ImageView runner;
     private SubwayGame game;
@@ -27,13 +32,15 @@ public class SubwayGameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        intentSubwayGameActivity = getIntent();
+        this.appManager = (AppManager) intentSubwayGameActivity.getSerializableExtra("appManager");
         setContentView(R.layout.activity_subway_game);
         currentScore = findViewById(R.id.score);
         runner = findViewById(R.id.subwayRunner);
         runnerX = runner.getX();
         runnerY = runner.getY();
         runnerLane = 2;
-        game = new SubwayGame(60,this);
+        game = new SubwayGame(60, appManager, this);
 //        System.out.println("Initial X and Y are: " + runnerX + runnerY);
     }
 
@@ -96,5 +103,11 @@ public class SubwayGameActivity extends AppCompatActivity {
 
     public void updateScore(int score) {
         currentScore.setText("Current Score: " + score);
+    }
+
+    public void leaveGame(AppManager appManager) {
+        intentSubwayGameToResultsPage = new Intent(SubwayGameActivity.this, ResultsPageActivity.class);
+        intentSubwayGameToResultsPage.putExtra("appManager", appManager);
+        startActivity(intentSubwayGameToResultsPage);
     }
 }

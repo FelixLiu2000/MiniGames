@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.*;
 
 import com.example.game.games.Game;
+import com.example.game.utilities.AppManager;
+
 import java.util.ArrayList;
 
 public class BallGame extends Game {
@@ -21,8 +23,8 @@ public class BallGame extends Game {
   public static final int SHOT_MAX_POWER = 20;
   public static final int SHOT_MAX_ANGLE = 90;
 
-  public BallGame(int timeLimit) {
-    super(timeLimit);
+  public BallGame(int timeLimit, AppManager appManager) {
+    super(timeLimit, appManager);
   }
 
   @Override
