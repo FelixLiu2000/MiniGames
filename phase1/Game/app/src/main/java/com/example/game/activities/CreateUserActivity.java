@@ -40,6 +40,9 @@ public class CreateUserActivity extends AppCompatActivity {
         buttonCreateUser = findViewById(R.id.createUserSubmitButton);
         textViewErrorMessage = findViewById(R.id.createUserErrorUsernameExists);
 
+        // some of the following code for disabling the button until the fields are filed in
+        // was reused from the video https://www.youtube.com/watch?v=Vy_4sZ6JVHM
+        // no code was copy pasted from any of the videos related links.
         editTextUsername.addTextChangedListener(createUserPageTextWatcher);
         editTextLastName.addTextChangedListener(createUserPageTextWatcher);
         editTextUsername.addTextChangedListener(createUserPageTextWatcher);

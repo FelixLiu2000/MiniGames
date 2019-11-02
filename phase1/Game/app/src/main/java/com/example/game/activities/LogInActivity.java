@@ -37,6 +37,9 @@ public class LogInActivity extends AppCompatActivity {
         buttonSwitchToCreateUser = findViewById(R.id.logInSwitchToLogInButton);
         textViewErrorMessage = findViewById(R.id.logInErrorMessage);
 
+        // some of the following code for disabling the button until the fields are filed in
+        // was reused from the video https://www.youtube.com/watch?v=Vy_4sZ6JVHM
+        // no code was copy pasted from any of the videos related links.
         editTextUsername.addTextChangedListener(logInUserPageTextWatcher);
         editTextPassword.addTextChangedListener(logInUserPageTextWatcher);
 

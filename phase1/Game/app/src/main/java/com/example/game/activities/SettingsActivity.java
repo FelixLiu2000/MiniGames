@@ -20,6 +20,8 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    // Majority of implementation of spinners throughout this class
+    // was obtained via https://developer.android.com/guide/topics/ui/controls/spinner
     AppManager appManager;
     Intent intentSettings;
     Spinner spinnerColorChoice;
