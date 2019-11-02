@@ -91,10 +91,6 @@ public class SubwayGame extends Game {
 
   /** check if runner and obstacle are in the same position and decrease score by 1 if they are */
   private void checkCollision() {
-    // get position of runner
-    View runner = activity.findViewById(R.id.subwayRunner);
-    float runnerX = runner.getX();
-    float runnerY = runner.getY();
     // loop through obstacles
     for (int i = 0; i < activity.obstacles.size(); i++) {
       // get position of obstacle
