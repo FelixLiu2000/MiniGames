@@ -33,14 +33,14 @@ public class CardGame extends Game {
   }
 
   public void play() {
-//Start countdown timer that will appear on screen (and end the game).
+    // start countdown timer that will appear on screen (and end the game)
     new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[1], 1000) {
       public void onTick(long millisUntilFinished) {
         String timeLeft = String.valueOf(millisUntilFinished / 1000);
         String timeText = "Time Remaining: " + timeLeft;
         setTime(timeText);
       }
-      // When the timer is finished, switch the text to say Time is Up.
+      // when the timer is finished, switch the text to say Time is Up
       public void onFinish() {
         endGame();
       }
@@ -62,19 +62,23 @@ public class CardGame extends Game {
     return false;
   }
 
-  private boolean boardEmpty(){
+  private boolean boardEmpty() {
+    // finds out if current game round is over
     return cardsLeft == 0;
   }
 
-  private void resetGame(){
+  private void resetGame() {
+    // reassigns cardsLeft after board is empty
     cardsLeft = 12;
   }
 
   private void setTime(String timeLeftText) {
+    // sets time in the UI
     this.activity.setTime(timeLeftText);
   }
 
-  private void setCardsArray(){
+  private void setCardsArray() {
+    // arranges the cards on the board
     int half = cardsLeft / 2;
     for (int i = 0; i < half; i++){
       cardArray1.add(100 + i);
@@ -85,14 +89,14 @@ public class CardGame extends Game {
 
 
   /**
-   * When one card is clicked, flip the card and disable to the card to be clicked.
+   * When one card is clicked, flip the card and disable the card to be clicked.
    * - If the card is the second card to be checked, disable all other cards.
    * @param card The integer representation of the image that was clicked.
    * @param iv The card button that was clicked.
    */
   public void flip(int card, ImageView iv) {
-    // Set the image resource for each button, so the item to be compared. This is how the
-    // numbers in the array (100 vs. 200) each get connected to the same image.
+    // set the image resource for each button, so the item can be compared
+    // this is how the numbers in the array (100 vs. 200) each get connected to the same image
     if (cardArray1.get(card) == 100 || cardArray1.get(card) == 200) {
       iv.setImageResource(R.drawable.orange_circle);
     } else if (cardArray1.get(card) == 101 || cardArray1.get(card) == 201){
@@ -107,34 +111,33 @@ public class CardGame extends Game {
       iv.setImageResource(R.drawable.blue_square);
     }
 
-    // Checks which card has been selected and sets to temporary variables, to be used in Activity
-    // or sent to back end.
-    if(cardNum == 1){
-      // updates number of card being checked to look for second card.
+    // checks which card has been selected and sets to temporary variables, to be used in Activity
+    // or sent to back end
+    if (cardNum == 1){
+      // updates number of card being checked to look for second card
       cardNum = 2;
       clickedFirst = card;
 
-      // Sets the card that was just flipped so that it cannot be clicked again.
+      // sets the card that was just flipped so that it cannot be clicked again
       iv.setEnabled(false);
     } else if (cardNum == 2) {
-      // Updates number of card so that it goes back to looking for first card.
+      // updates number of cards so that it goes back to looking for first card
       cardNum = 1;
       clickedSecond = card;
 
-      // After two cards have been clicked, set all the cards so they cannot be clicked again,
-      // this would be cheating in a memory game.
+      // after two cards have been clicked, set all the cards so they cannot be clicked again
       disableCards();
 
-      // This puts a delay the call to update (which either deletes or flips back the
-      // cards so that, the player can see which cards have been flipped and try and
-      // remember the cards.
+      // this puts a delay on the call to update (which either deletes or flips back the
+      // cards so that the player can see which cards have been flipped and try and
+      // remember the cards)
       // Source: https://stackoverflow.com/questions/42379301/how-to-use-postdelayed-correctly-in-android-studio
       final Handler handler = new Handler();
       handler.postDelayed(new Runnable(){
         @Override
         public void run(){
-          // Checks if images are a match and either flips cards back over or removes them
-          // from the board.
+          // checks if images are a match and either flips cards back over or removes them
+          // from the board
           update();
         }
       }, 1000);
@@ -142,20 +145,20 @@ public class CardGame extends Game {
   }
 
   /**
-   * After both cards have been collected: update the game board.
-   * - If cards are a match, remove those cards and updates the score.
+   * After both cards have been collected, update the game board.
+   * - If cards are a match, remove those cards and update the score.
    * - If the cards are not a match, turn the cards back over and enable them.
    * - If the game board is empty, refill the board and enable all cards.
    */
-  private void update(){
+  private void update() {
     if(check(cardArray1.get(clickedFirst), cardArray1.get(clickedSecond))){
-      // If the two cards are equal (checked on back-end) set the first card/button to invisible.
+      // if the two cards are equal (checked on back-end) set the first card/button to invisible
       for (int i = 0; i < activity.buttons.size(); i++) {
         if (clickedFirst == i) {
           activity.buttons.get(i).setVisibility(View.INVISIBLE);
         }
       }
-      // If the two cards are equal, set the second card/button to invisible.
+      // if the two cards are equal, set the second card/button to invisible
       for (int i = 0; i < activity.buttons.size(); i++) {
         if (clickedSecond == i) {
           activity.buttons.get(i).setVisibility(View.INVISIBLE);
@@ -165,6 +168,7 @@ public class CardGame extends Game {
       String updatedScore = "Score: " + currentScore;
       activity.score.setText(updatedScore);
       if (boardEmpty()){
+        // if round has been completed, create another
         for (int i = 0; i < activity.buttons.size(); i++) {
           activity.buttons.get(i).setImageResource(R.drawable.memory_card);
           activity.buttons.get(i).setVisibility(View.VISIBLE);
@@ -174,8 +178,8 @@ public class CardGame extends Game {
         }
       }
     } else {
-      // If the two cards are not the same, set the image resource back to the green square
-      // (back of card), and enable the card so that it can be clicked again.
+      // if the two cards are not the same, set the image resource back to the green square
+      // (back of card), and enable the card so that it can be clicked again
       for (int i = 0; i < activity.buttons.size(); i++) {
         activity.buttons.get(i).setImageResource(R.drawable.memory_card);
       }
@@ -187,6 +191,7 @@ public class CardGame extends Game {
   }
 
   private void disableCards() {
+    // disables card buttons
     for (int i = 0; i < activity.buttons.size(); i++) {
       activity.buttons.get(i).setEnabled(false);
     }
@@ -194,6 +199,7 @@ public class CardGame extends Game {
 
   @Override
   protected void endGame() {
+    // shows player the game is over, score is saved, game is exited
     String timeText = "Time Is Up!";
     setTime(timeText);
     disableCards();

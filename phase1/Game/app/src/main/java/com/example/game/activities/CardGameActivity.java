@@ -57,7 +57,7 @@ public class CardGameActivity extends AppCompatActivity {
   }
 
   public void addButtonOnClick() {
-    // For each card button, set a indexing tag and turn on the Click Listener.
+    // for each card button, set an indexing tag and turn on the Click Listener
     for (int i = 0; i < buttons.size(); i++) {
       buttons.get(i).setTag(i);
       buttons.get(i).setOnClickListener(
@@ -72,10 +72,12 @@ public class CardGameActivity extends AppCompatActivity {
   }
 
   public void setTime(String timeLeftText) {
+    // sends amount of time left to display
     time.setText(timeLeftText);
   }
 
   public void leaveGame(AppManager appManager) {
+    // uses class objects to go to end screen at time end
     intentCardGameToResultsPage = new Intent(CardGameActivity.this, ResultsPageActivity.class);
     intentCardGameToResultsPage.putExtra("appManager", appManager);
     startActivity(intentCardGameToResultsPage);
