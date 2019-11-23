@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreateUserActivity">
+
+    <Button
+        android:id="@+id/createUserSwitchToLogInButton"
+        android:layout_width="257dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="28dp"
+        android:text="@string/switch_to_log_in_text"
+        app:layout_constraintBottom_toTopOf="@+id/creatUserFirstNameTextBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/createUserPassWordTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="112dp"
+        android:autofillHints='First Name'
+        android:ems="10"
+        android:hint="@string/password_hint_text"
+        android:inputType="textPersonName|textPassword"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/createUserSubmitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/createUserLastNameTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:autofillHints='First Name'
+        android:ems="10"
+        android:hint="@string/last_name_hint_text"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/createUserUsernameTextBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/createUserUsernameTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:autofillHints='First Name'
+        android:ems="10"
+        android:hint="@string/username_hint_text"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/createUserPassWordTextBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/creatUserFirstNameTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:autofillHints='First Name'
+        android:ems="10"
+        android:hint="@string/first_name_hint_text"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/createUserLastNameTextBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/createUserSubmitButton"
+        android:layout_width="122dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="92dp"
+        android:enabled="false"
+        android:text="@string/single_word_create_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/createUserErrorUsernameExists"
+        android:layout_width="272dp"
+        android:layout_height="32dp"
+        android:fontFamily="monospace"
+        android:text="@string/create_error_message"
+        android:visibility="invisible"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/createUserSubmitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createUserPassWordTextBox" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

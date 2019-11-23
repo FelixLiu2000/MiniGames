@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Survive UofT</string>
+    <string name="total_score">TOTAL SCORE:</string>
+    <string name="high_score">HIGH SCORE:</string>
+    <string name="total_rounds">TOTAL ROUNDS:</string>
+    <string name="current_round_progress">Round # Progress:</string>
+    <string name="play_button_title">SURVIVE!</string>
+    <string name="play_button_description">Button to play/continue round</string>
+    <string name="developers">A. Waddell | D. Nunez | E. Mazor | E. Zhu | F. Liu | N. Kann</string>
+    <string name="sign_in_button_text">Sign In</string>
+    <string name="total_rounds_label">Total Rounds:</string>
+    <string name="total_score_label">Total Score:</string>
+    <string name="highscore_label">High Score:</string>
+    <string name="score">Score: 0</string>
+    <string name="shoot">FIRE</string>
+    <string name="create_user_button_text">Create User</string>
+    <string name="skip_to_dashboard">Skip To Dashboard</string>
+    <string name="first_name_hint_text">First Name</string>
+    <string name="last_name_hint_text">Last Name</string>
+    <string name="username_hint_text">Username</string>
+    <string name="password_hint_text">Password</string>
+    <string name="single_word_create_text">Create</string>
+    <string name="switch_to_log_in_text">Switch to Log In</string>
+    <string name="switch_to_create_user_text">Switch to Create User</string>
+    <string name="submit_log_in_text">Log In</string>
+    <string name="welcome_text">Welcome</string>
+    <string name="settings_dashboard_background_text">Dashboard Background:</string>
+    <string name="settings_save_button_text">Save</string>
+    <string name="settings_page_text_header">Choose your customization and press SAVE.</string>
+    <string name="settings_page_display_name_text_label">Display Name:</string>
+    <string name="angle">Angle:</string>
+    <string name="power">Power:</string>
+    <string name="time">Time:</string>
+    <string name="results_saved_label">Your progress was saved!</string>
+    <string name="settings_difficulty_label">Difficulty Level \n (changes times per game)</string>
+    <string name="results_back_to_dashboard">Back To Dashboard</string>
+    <string name="results_next_game_label">Next Game</string>
+    <string name="create_error_message">Username already exists!</string>
+    <string name="login_error_message">Invalid login credentials!</string>
+
+    <string-array name="color_choices">
+        <item>WHITE</item>
+        <item>RED</item>
+        <item>GREEN</item>
+        <item>BLUE</item>
+        <item>YELLOW</item>
+    </string-array>
+
+    <string-array name="display_name_choices">
+        <item>FIRST NAME</item>
+        <item>LAST NAME</item>
+        <item>USERNAME</item>
+    </string-array>
+
+    <string-array name="difficulty_level_choices">
+        <item>EASY</item>
+        <item>MEDIUM</item>
+        <item>HARD</item>
+    </string-array>
+</resources>

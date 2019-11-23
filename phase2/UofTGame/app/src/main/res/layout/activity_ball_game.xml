@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ballGameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.BallGameActivity">
+
+    <TextView
+        android:id="@+id/txtAngle"
+        android:layout_width="70dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="6dp"
+        android:layout_weight="1"
+        android:text="@string/angle"
+        app:layout_constraintBottom_toTopOf="@+id/txtPower"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtPower"
+        android:layout_width="70dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1"
+        android:text="@string/power"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAngle" />
+
+    <TextView
+        android:id="@+id/txtScore"
+        android:layout_width="63dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="63dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtScore" />
+
+    <Button
+        android:id="@+id/btnShoot"
+        android:layout_width="50dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#B30000"
+        android:padding="0dp"
+        android:text="@string/shoot"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/seekAngle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/picPlayer"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ballgame_player" />
+
+    <ImageView
+        android:id="@+id/picTarget"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ballgame_target" />
+
+    <SeekBar
+        android:id="@+id/seekAngle"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:max="90"
+        android:progress="0"
+        app:layout_constraintStart_toEndOf="@+id/txtAngle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekPower"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:max="50"
+        android:progress="10"
+        app:layout_constraintStart_toEndOf="@+id/txtPower"
+        app:layout_constraintTop_toBottomOf="@+id/seekAngle" />
+
+    <LinearLayout
+        android:id="@+id/ballLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
