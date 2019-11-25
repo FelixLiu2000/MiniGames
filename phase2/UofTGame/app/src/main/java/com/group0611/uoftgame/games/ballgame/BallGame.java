@@ -7,7 +7,7 @@ import android.widget.*;
 import com.group0611.uoftgame.activities.BallGameActivity;
 import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.utilities.AppManager;
-
+import com.group0611.uoftgame.games.ballgame.GameConstants.*;
 import java.util.ArrayList;
 
 public class BallGame extends Game {
@@ -18,12 +18,6 @@ public class BallGame extends Game {
   private LinearLayout ballLayout;
   private TextView scoreView, timeView, powerView, angleView;
   private BallGameActivity activity;
-
-  static final double GRAVITY = 2.5;
-  public static final int SHOT_STARTING_POWER = 0;
-  public static final int SHOT_STARTING_ANGLE = 0;
-  public static final int SHOT_MAX_POWER = 100;
-  public static final int SHOT_MAX_ANGLE = 90;
 
   public BallGame(int timeLimit, AppManager appManager, BallGameActivity activity) {
     super(timeLimit, appManager);
@@ -58,8 +52,8 @@ public class BallGame extends Game {
     this.timeView = time;
     this.powerView = power;
     this.angleView = angle;
-    updateShotPowerText(SHOT_STARTING_POWER);
-    updateShotAngleText(SHOT_STARTING_ANGLE);
+    updateShotPowerText(GameConstants.SHOT_STARTING_POWER);
+    updateShotAngleText(GameConstants.SHOT_STARTING_ANGLE);
   }
 
   /* @Deprecated

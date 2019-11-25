@@ -23,7 +23,7 @@ class Ball extends BallGameObject implements Collidable<Target>, Renderable {
   }
 
   private void move() {
-    speedY += BallGame.GRAVITY;
+    speedY += GameConstants.GRAVITY;
     setLocation((float) (getX() + speedX), (float) (getY() + speedY));
     view.setX(getX());
     view.setY(getY());

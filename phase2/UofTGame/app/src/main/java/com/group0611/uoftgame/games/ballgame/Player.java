@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 class Player {
   private PointF location;
-  private int shotAngle = BallGame.SHOT_STARTING_ANGLE;
-  private int shotPower = BallGame.SHOT_STARTING_POWER;
+  private int shotAngle = GameConstants.SHOT_STARTING_ANGLE;
+  private int shotPower = GameConstants.SHOT_STARTING_POWER;
   private int score;
 
   Player(float x, float y) {
