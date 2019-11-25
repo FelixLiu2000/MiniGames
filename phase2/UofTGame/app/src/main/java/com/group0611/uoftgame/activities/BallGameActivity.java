@@ -10,23 +10,25 @@ import android.widget.*;
 
 import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.games.ballgame.BallGame;
+import com.group0611.uoftgame.games.ballgame.GameConstants;
 import com.group0611.uoftgame.utilities.AppManager;
 
 public class BallGameActivity extends AppCompatActivity {
 
-    AppManager appManager;
-    Intent intentBallGameActivity;
-    Intent intentBallGameToResultsPage;
-    private BallGame ballGame;
+  AppManager appManager;
+  Intent intentBallGameActivity;
+  Intent intentBallGameToResultsPage;
+  private BallGame ballGame;
   // private ImageView playerView, targetView;
-    private LinearLayout ballLayout;
+  private LinearLayout ballLayout;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     intentBallGameActivity = getIntent();
     this.appManager = (AppManager) intentBallGameActivity.getSerializableExtra("appManager");
-    ballGame = new BallGame(appManager.getCurrentPlayer().getTimeChoice()[2] / 1000, appManager, this);
+    ballGame =
+        new BallGame(appManager.getCurrentPlayer().getTimeChoice()[2] / 1000, appManager, this);
     // Set landscape orientation
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     // Set fullscreen
@@ -86,8 +88,8 @@ public class BallGameActivity extends AppCompatActivity {
 
   private void initializeGameSeekBars() {
     SeekBar angleSeekBar = findViewById(R.id.seekAngle);
-    angleSeekBar.setProgress(BallGame.SHOT_STARTING_ANGLE, true);
-    angleSeekBar.setMax(BallGame.SHOT_MAX_ANGLE);
+    angleSeekBar.setProgress(GameConstants.SHOT_STARTING_ANGLE, true);
+    angleSeekBar.setMax(GameConstants.SHOT_MAX_ANGLE);
     angleSeekBar.setOnSeekBarChangeListener(
         new SeekBar.OnSeekBarChangeListener() {
           @Override
@@ -104,8 +106,8 @@ public class BallGameActivity extends AppCompatActivity {
           public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     SeekBar powerSeekBar = findViewById(R.id.seekPower);
-    powerSeekBar.setProgress(BallGame.SHOT_STARTING_POWER, true);
-    powerSeekBar.setMax(BallGame.SHOT_MAX_POWER);
+    powerSeekBar.setProgress(GameConstants.SHOT_STARTING_POWER, true);
+    powerSeekBar.setMax(GameConstants.SHOT_MAX_POWER);
     powerSeekBar.setOnSeekBarChangeListener(
         new SeekBar.OnSeekBarChangeListener() {
           @Override
@@ -127,9 +129,9 @@ public class BallGameActivity extends AppCompatActivity {
     ballGame.play();
   }
 
-    public void leaveGame(AppManager appManager) {
-        intentBallGameToResultsPage = new Intent(BallGameActivity.this, ResultsPageActivity.class);
-        intentBallGameToResultsPage.putExtra("appManager", appManager);
-        startActivity(intentBallGameToResultsPage);
-    }
+  public void leaveGame(AppManager appManager) {
+    intentBallGameToResultsPage = new Intent(BallGameActivity.this, ResultsPageActivity.class);
+    intentBallGameToResultsPage.putExtra("appManager", appManager);
+    startActivity(intentBallGameToResultsPage);
+  }
 }
