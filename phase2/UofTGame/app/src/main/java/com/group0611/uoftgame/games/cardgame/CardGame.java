@@ -20,11 +20,19 @@ public class CardGame extends Game {
   private int cardsLeft = 12;
   private ArrayList<Integer> cardArray1 = new ArrayList<>();
   private ArrayList<Integer> cardArray2 = new ArrayList<>();
-  int clickedFirst, clickedSecond;
-  int cardNum = 1;
+  private int clickedFirst, clickedSecond;
+  private int cardNum = 1;
   private int currentScore = 0;
+  private int boardSize = 0;
   private CountDownTimer cardGameTimer;
 
+  /**
+   * Constructor for the CardGame. Initializes the activity, shuffle the cards, set the card
+   * array and call the play method.
+   * @param timeLimit The time limit for the game.
+   * @param appManager The appManager that the game belongs too.
+   * @param activity The activity page for the card game.
+   */
   public CardGame(int timeLimit, AppManager appManager, CardGameActivity activity) {
     super(timeLimit, appManager);
     this.activity = activity;
@@ -37,6 +45,10 @@ public class CardGame extends Game {
     return cardGameTimer;
   }
 
+  /**
+   * Initializes the timer and called to start the game.
+   * When the timer runs out, end the game.
+   */
   public void play() {
     // start countdown timer that will appear on screen (and end the game)
     cardGameTimer = new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[1], 1000) {
@@ -52,6 +64,13 @@ public class CardGame extends Game {
     }.start();
   }
 
+  /**
+   * Checks if the two cards are matches by comparing their numerical representations. If they are
+   * a match, call the match function.
+   * @param card1 The first card clicked
+   * @param card2 The second card clicked.
+   * @return boolean True if cards are a match
+   */
   private boolean check(int card1, int card2) {
     // check if two cards are matches and increase total
     if (card1 >= 200){
@@ -60,23 +79,45 @@ public class CardGame extends Game {
       card2 -= 100;
     }
     if (card1 == card2) {
-      setScore(getScore() + 1);
-      cardsLeft -= 2;
+      match();
       return true;
     }
     return false;
   }
 
+  /**
+   * Get's called when there is a match. Calls the effects of finding a match, including
+   * updating score, updating number of cards left and calling the correct sound effect.
+   */
+  private void match(){
+    setScore(getScore() + 1);
+    cardsLeft -= 2;
+    activity.correctSound();
+  }
+
+  /**
+   * Checks if the board is empty, that is there are 0 cards left showing.
+   * @return Boolean True iff empty
+   */
   private boolean boardEmpty() {
     // finds out if current game round is over
     return cardsLeft == 0;
   }
 
+  /**
+   * Before the time runs out, the cards all re-appear. This sets the cardsLeft value to the
+   * total given the board width and height.
+   */
   private void resetGame() {
     // reassigns cardsLeft after board is empty
     cardsLeft = 12;
   }
 
+  /**
+   * Calls the setTime function from CardGameActivity which sets the Textview time to the given
+   * time left in game.
+   * @param timeLeftText String representation of time left in game.
+   */
   private void setTime(String timeLeftText) {
     // sets time in the UI
     this.activity.setTime(timeLeftText);
@@ -156,15 +197,16 @@ public class CardGame extends Game {
    * - If the game board is empty, refill the board and enable all cards.
    */
   private void update() {
+    boardSize = this.activity.cardHeight * this.activity.cardWidth;
     if(check(cardArray1.get(clickedFirst), cardArray1.get(clickedSecond))){
       // if the two cards are equal (checked on back-end) set the first card/button to invisible
-      for (int i = 0; i < activity.buttons.size(); i++) {
+      for (int i = 0; i < boardSize; i++) {
         if (clickedFirst == i) {
           activity.buttons.get(i).setVisibility(View.INVISIBLE);
         }
       }
       // if the two cards are equal, set the second card/button to invisible
-      for (int i = 0; i < activity.buttons.size(); i++) {
+      for (int i = 0; i < boardSize; i++) {
         if (clickedSecond == i) {
           activity.buttons.get(i).setVisibility(View.INVISIBLE);
         }
@@ -174,8 +216,8 @@ public class CardGame extends Game {
       activity.score.setText(updatedScore);
       if (boardEmpty()){
         // if round has been completed, create another
-        for (int i = 0; i < activity.buttons.size(); i++) {
-          activity.buttons.get(i).setImageResource(R.drawable.memory_card);
+        for (int i = 0; i < boardSize; i++) {
+          activity.buttons.get(i).setImageResource(R.drawable.course);
           activity.buttons.get(i).setVisibility(View.VISIBLE);
           activity.buttons.get(i).setEnabled(true);
           Collections.shuffle(cardArray1);
@@ -185,19 +227,20 @@ public class CardGame extends Game {
     } else {
       // if the two cards are not the same, set the image resource back to the green square
       // (back of card), and enable the card so that it can be clicked again
-      for (int i = 0; i < activity.buttons.size(); i++) {
-        activity.buttons.get(i).setImageResource(R.drawable.memory_card);
+      for (int i = 0; i < boardSize; i++) {
+        activity.buttons.get(i).setImageResource(R.drawable.course);
       }
     }
-    for (int i = 0; i < activity.buttons.size(); i++) {
+    for (int i = 0; i < boardSize; i++) {
       activity.buttons.get(i).setEnabled(true);
     }
 
   }
 
   private void disableCards() {
+    boardSize = this.activity.cardHeight * this.activity.cardWidth;
     // disables card buttons
-    for (int i = 0; i < activity.buttons.size(); i++) {
+    for (int i = 0; i < boardSize; i++) {
       activity.buttons.get(i).setEnabled(false);
     }
   }

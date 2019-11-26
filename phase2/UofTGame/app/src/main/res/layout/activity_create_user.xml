@@ -20,7 +20,7 @@
         android:id="@+id/createUserPassWordTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="112dp"
+        android:layout_marginBottom="168dp"
         android:autofillHints='First Name'
         android:ems="10"
         android:hint="@string/password_hint_text"
@@ -31,10 +31,24 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+        android:id="@+id/createUserConfrimPassWordTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
+        android:autofillHints='First Name'
+        android:ems="10"
+        android:hint="@string/createUserConfirmPassword"
+        android:inputType="textPersonName|textPassword"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/createUserSubmitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
         android:id="@+id/createUserLastNameTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="24dp"
         android:autofillHints='First Name'
         android:ems="10"
         android:hint="@string/last_name_hint_text"
@@ -48,7 +62,7 @@
         android:id="@+id/createUserUsernameTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="28dp"
         android:autofillHints='First Name'
         android:ems="10"
         android:hint="@string/username_hint_text"
@@ -62,7 +76,7 @@
         android:id="@+id/creatUserFirstNameTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:autofillHints='First Name'
         android:ems="10"
         android:hint="@string/first_name_hint_text"
@@ -77,7 +91,7 @@
         android:layout_width="122dp"
         android:layout_height="50dp"
         android:layout_marginEnd="120dp"
-        android:layout_marginBottom="92dp"
+        android:layout_marginBottom="68dp"
         android:enabled="false"
         android:text="@string/single_word_create_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,16 +102,35 @@
     <TextView
         android:id="@+id/createUserErrorUsernameExists"
         android:layout_width="272dp"
-        android:layout_height="32dp"
+        android:layout_height="25dp"
         android:fontFamily="monospace"
         android:text="@string/create_error_message"
-        android:visibility="invisible"
         android:textAlignment="center"
         android:textColor="#FF0000"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/createUserSubmitButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createUserPassWordTextBox" />
+        app:layout_constraintTop_toBottomOf="@+id/createUserPassWordTextBox"
+        app:layout_constraintVertical_bias="0.945" />
+
+    <TextView
+        android:id="@+id/createUserErrorConfirmPassword"
+        android:layout_width="272dp"
+        android:layout_height="25dp"
+        android:fontFamily="monospace"
+        android:text="@string/userCreateErrorConfirmPassword"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/createUserSubmitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createUserPassWordTextBox"
+        app:layout_constraintVertical_bias="0.706" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
