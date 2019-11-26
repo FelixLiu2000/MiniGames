@@ -23,6 +23,7 @@ public class CardGame extends Game {
   int clickedFirst, clickedSecond;
   int cardNum = 1;
   private int currentScore = 0;
+  private CountDownTimer cardGameTimer;
 
   public CardGame(int timeLimit, AppManager appManager, CardGameActivity activity) {
     super(timeLimit, appManager);
@@ -32,9 +33,13 @@ public class CardGame extends Game {
     play();
   }
 
+  public CountDownTimer getCardGameTimer() {
+    return cardGameTimer;
+  }
+
   public void play() {
     // start countdown timer that will appear on screen (and end the game)
-    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[1], 1000) {
+    cardGameTimer = new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[1], 1000) {
       public void onTick(long millisUntilFinished) {
         String timeLeft = String.valueOf(millisUntilFinished / 1000);
         String timeText = "Time Remaining: " + timeLeft;
@@ -47,7 +52,7 @@ public class CardGame extends Game {
     }.start();
   }
 
-  public boolean check(int card1, int card2) {
+  private boolean check(int card1, int card2) {
     // check if two cards are matches and increase total
     if (card1 >= 200){
       card1 -= 100;

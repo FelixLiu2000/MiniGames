@@ -16,8 +16,7 @@ import java.util.ArrayList;
 
 public class CardGameActivity extends AppCompatActivity {
   AppManager appManager;
-  Intent intentCardGameActivity;
-  Intent intentCardGameToResultsPage;
+  Intent intentCardGameActivity, intentCardGameToResultsPage, intentCardGameToDashboard;
   // Structure of memory game loosely adapted from https://stackoverflow.com/questions/51002449/developing-a-memory-game
   public ArrayList<ImageView> buttons = new ArrayList<>();
   public TextView score;
@@ -83,10 +82,18 @@ public class CardGameActivity extends AppCompatActivity {
     startActivity(intentCardGameToResultsPage);
   }
 
+  public void quitGame(AppManager appManager){
+      intentCardGameToDashboard = new Intent(CardGameActivity.this, GameDashboardActivity.class);
+      intentCardGameToDashboard.putExtra("appManager", appManager);
+      startActivity(intentCardGameToDashboard);
+  }
+
+  // TODO: Diego implement this in all games
   @Override
   public void onBackPressed() {
-    System.out.println("pressed back");
-    // TODO: FIND A WAY TO QUIT CARD GAME CLASS TIMER AND END ALL PROCESSES
-    // TODO: REPEAT FOR ALL GAME ACTIVITIES
+    System.out.println("pressed back>:/");
+    cardGame.getCardGameTimer().cancel();
+    this.quitGame(appManager);
+    finish();
   }
 }
