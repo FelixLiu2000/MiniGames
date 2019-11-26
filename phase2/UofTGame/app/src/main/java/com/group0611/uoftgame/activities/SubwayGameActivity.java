@@ -19,7 +19,7 @@ public class SubwayGameActivity extends AppCompatActivity {
     AppManager appManager;
     Intent intentSubwayGameActivity;
     Intent intentSubwayGameToResultsPage;
-    public ArrayList<ImageView> obstacles = new ArrayList<>();
+    public ArrayList<ImageView> movingObjects = new ArrayList<>();
     private ImageView runner;
     private SubwayGame game;
     // runner's x and y coordinates
@@ -85,8 +85,8 @@ public class SubwayGameActivity extends AppCompatActivity {
     /** move all obstacles down */
     public void moveDown() {
         // loop through obstacles
-        for (int i=0; i<obstacles.size(); i++) {
-            ImageView obstacle = obstacles.get(i);
+        for (int i=0; i<movingObjects.size(); i++) {
+            ImageView obstacle = movingObjects.get(i);
             float obstacleY = obstacle.getY();
             // move down
             TranslateAnimation obstacleDown = new TranslateAnimation(0,
