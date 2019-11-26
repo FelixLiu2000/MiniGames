@@ -88,7 +88,7 @@ public class CardGameActivity extends AppCompatActivity {
       startActivity(intentCardGameToDashboard);
   }
 
-  // TODO: Diego implement this in all games
+  // TODO: Diego implement this in all other games
   @Override
   public void onBackPressed() {
     System.out.println("pressed back>:/");
