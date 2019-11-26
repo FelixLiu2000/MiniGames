@@ -38,7 +38,9 @@
     <string name="create_error_message">Username already exists!</string>
     <string name="login_error_message">Invalid login credentials!</string>
     <string name="settingButtonDescription">Button to access app settings</string>
-    <string name="cardGameButtonDescription">Button to launch card game</string>
+    <string name="cardGameButtonDescription">Button to launch card game, icon credits: Icon made by https://www.flaticon.com/authors/freepik from www.flaticon.com</string>
+    <string name="subwayGameButtonDescription">Button to launch subway game, icon made by https://www.flaticon.com/authors/google from www.flaticon.com</string>
+    <string name="ballGameButtonDescrioption">Button to launch ball game</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>

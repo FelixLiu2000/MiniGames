@@ -82,4 +82,11 @@ public class CardGameActivity extends AppCompatActivity {
     intentCardGameToResultsPage.putExtra("appManager", appManager);
     startActivity(intentCardGameToResultsPage);
   }
+
+  @Override
+  public void onBackPressed() {
+    System.out.println("pressed back");
+    // TODO: FIND A WAY TO QUIT CARD GAME CLASS TIMER AND END ALL PROCESSES
+    // TODO: REPEAT FOR ALL GAME ACTIVITIES
+  }
 }
