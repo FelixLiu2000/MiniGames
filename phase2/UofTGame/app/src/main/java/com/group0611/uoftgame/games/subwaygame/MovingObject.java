@@ -45,43 +45,12 @@ public abstract class MovingObject extends AppCompatImageView {
         return (int) (Math.random() * 4);
     }
 
-    /** check if runner and obstacle are in the same position and decrease score by 1 if they are */
-    void checkCollision() {
-        // loop through obstacles
-        for (int i = 0; i < activity.movingObjects.size(); i++) {
-            // get position of obstacle
-            View obstacle = activity.movingObjects.get(i);
-            float obstacleX = obstacle.getX();
-            float obstacleY = obstacle.getY();
-            // check if runner and obstacle are in the same lane
-            boolean sameLane = checkLane(obstacleX);
-//      System.out.println("sameLane is " + sameLane);
-            // check if runner and obstacle have the same y coordinate
-            boolean sameY = checkCoordY(obstacleY);
-//      System.out.println("sameY is " + sameY);
-            if (sameLane && sameY)
-                // decrease score
-                changeScore();
-            activity.updateScore(score);
-        }
-    }
 
-    private boolean checkCoordY(float obstacleY) {
-        return (obstacleY == 1200);
-    }
 
-    private boolean checkLane(float obstacleX) {
-        if (activity.runnerLane == 1 && obstacleX == 160) { // if both are in lane 1
-            return true;
-        } else if (activity.runnerLane == 2 && obstacleX == 500) { // if both are in lane 2
-            return true;
-        } else if (activity.runnerLane == 3 && obstacleX == 860) { // if both are in lane 3
-            return true;
-        } else return false;
-    }
+
 
     /** change the score by 1 */
-    abstract void changeScore() ;
+    abstract int changeScore() ;
 
 
 }

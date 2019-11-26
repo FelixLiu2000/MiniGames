@@ -12,10 +12,14 @@ import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.utilities.AppManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SubwayGame extends Game {
   private SubwayGameActivity activity;
   private int score;
   public MovingObjectFactory factory;
+
 
   public SubwayGame(int timeLimit, AppManager appManager, SubwayGameActivity activity) {
     super(timeLimit, appManager);
@@ -39,7 +43,7 @@ public class SubwayGame extends Game {
       public void onTick(long millisUntilFinished) {
 //        System.out.println("Timer is ticking! " + millisUntilFinished);
         // check for collisions every second
-        MovingObject.checkCollision();
+        checkCollision();
         // move all obstacles down every second
         activity.moveDown();
         // create new obstacle every 4 seconds
@@ -62,12 +66,47 @@ public class SubwayGame extends Game {
     ((TextView) activity.findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft/1000);
   }
 
+  /** check if runner and obstacle are in the same position and decrease score by 1 if they are */
+  void checkCollision() {
+    // loop through obstacles
+    for (int i = 0; i < activity.movingObjects.size(); i++) {
+      // get position of obstacle
+      View obstacle = activity.movingObjects.get(i);
+      float obstacleX = obstacle.getX();
+      float obstacleY = obstacle.getY();
+      // check if runner and obstacle are in the same lane
+      boolean sameLane = checkLane(obstacleX);
+//      System.out.println("sameLane is " + sameLane);
+      // check if runner and obstacle have the same y coordinate
+      boolean sameY = checkCoordY(obstacleY);
+//      System.out.println("sameY is " + sameY);
+      if (sameLane && sameY)
+        // decrease score
+        activity.updateScore(((MovingObject)obstacle).changeScore());
+    }
+  }
+  // helper method to check for the y coordinate of an obstacle
+  private boolean checkCoordY(float obstacleY) {
+    return (obstacleY == 1200);
+  }
+
+  // helper method to check for the lane of the obstacle
+  private boolean checkLane(float obstacleX) {
+    if (activity.runnerLane == 1 && obstacleX == 160) { // if both are in lane 1
+      return true;
+    } else if (activity.runnerLane == 2 && obstacleX == 500) { // if both are in lane 2
+      return true;
+    } else if (activity.runnerLane == 3 && obstacleX == 860) { // if both are in lane 3
+      return true;
+    } else return false;
+  }
+
   public void createMovingObject() {
-    MovingObject obstacle = factory.getMovingObject("OBSTACLE");
+    MovingObject obstacle = factory.createObstacle();
     obstacle.setImage();
     createObject(obstacle);
 
-    MovingObject coin = factory.getMovingObject("COIN");
+    MovingObject coin = factory.createCoin() ;
     coin.setImage();
     createObject(coin);
 

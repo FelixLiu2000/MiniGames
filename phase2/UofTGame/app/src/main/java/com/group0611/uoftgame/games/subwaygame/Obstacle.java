@@ -11,11 +11,13 @@ import com.group0611.uoftgame.R;
 public class Obstacle extends MovingObject {
 //    public SubwayGameActivity activity;
     public ImageView image;
+    protected int score;
 
     public Obstacle(Context context) {
         super(context);
 //        this.image = new ImageView(activity);
 
+        score = 10;
     }
 
     public void setImage() {
@@ -24,10 +26,11 @@ public class Obstacle extends MovingObject {
     }
 
     /** decrease the score by 1 */
-    void changeScore() {
+    public int changeScore() {
         if (this.score > 0) {
             this.score -= 1;
             System.out.println("Current score is: " + this.score);
         }
+        return this.score;
     }
 }

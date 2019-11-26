@@ -11,6 +11,7 @@ import com.group0611.uoftgame.R;
 public class Coin extends MovingObject {
 //    public SubwayGameActivity activity;
     public ImageView image;
+    private int score;
 
     public Coin(Context context){
         super(context);
@@ -24,8 +25,9 @@ public class Coin extends MovingObject {
     }
 
     /** decrease the score by 1 */
-    void changeScore() {
+    int changeScore() {
         this.score += 1;
         System.out.println("Current score is: " + this.score);
-        }
+        return this.score;
+    }
 }
