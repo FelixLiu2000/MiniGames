@@ -197,6 +197,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_preferences" />
+        app:srcCompat="@android:drawable/ic_menu_preferences"
+        android:contentDescription="@string/settingButtonDescription" />
+
+    <ImageButton
+        android:id="@+id/cardGameButton"
+        android:layout_width="76dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDashboardPlayButton"
+        app:srcCompat="@drawable/card_game_icon"
+        android:contentDescription="@string/cardGameButtonDescription"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,15 +17,10 @@ public class GameDashboardActivity extends AppCompatActivity {
 
   AppManager appManager;
   Intent intentGameDashboard;
-  ImageButton imageButtonPlay;
-  TextView textViewHighScore;
-  TextView textViewTotalRoundsPlayed;
-  TextView  textViewTotalScore;
-  TextView textViewDisplayName;
-  TextView textViewCurrentRoundProgress;
+  ImageButton imageButtonPlay, imageButtonSettings, imageButtonCardGame;
+  TextView textViewHighScore, textViewTotalRoundsPlayed, textViewTotalScore, textViewDisplayName, textViewCurrentRoundProgress;
   String currentRoundProgress;
   ProgressBar progressBarRoundProgress;
-  ImageButton imageButtonSettings;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +32,8 @@ public class GameDashboardActivity extends AppCompatActivity {
     getWindow().getDecorView().setBackgroundColor(appManager.getCurrentPlayer().getGameDashboardBackgroundColor());
 
     imageButtonPlay = findViewById(R.id.gameDashboardPlayButton);
+    imageButtonCardGame = findViewById(R.id.cardGameButton);
+
     textViewHighScore = findViewById(R.id.highScoreStat);
     textViewTotalRoundsPlayed = findViewById(R.id.totalRoundsPlayedStat);
     textViewTotalScore = findViewById(R.id.totalScoreStat);
@@ -44,6 +41,15 @@ public class GameDashboardActivity extends AppCompatActivity {
     textViewCurrentRoundProgress = findViewById(R.id.currentRound);
     progressBarRoundProgress = findViewById(R.id.roundProgressBar);
     imageButtonSettings = findViewById(R.id.gameDashboardSettingsButton);
+
+    imageButtonCardGame.setOnClickListener(
+            new View.OnClickListener() {
+              public void onClick(View v) {
+                Intent gameDashboardToCurrentGameIntent = new Intent(GameDashboardActivity.this, CardGameActivity.class);
+                gameDashboardToCurrentGameIntent.putExtra("appManager", appManager);
+                startActivity(gameDashboardToCurrentGameIntent);
+              }
+            });
 
     imageButtonPlay.setOnClickListener(
             new View.OnClickListener() {
