@@ -25,8 +25,12 @@ public class BallGamePresenter {
   }
 
   public void initializePlayer(View view) {
-    Player player = new Player(view.getX(), view.getY());
-    game.setPlayer(player);
+    Player[] players = new Player[2];
+    players[0] = new Player(view.getX(), view.getY());
+    if (game.hasMultiplayerGameMode()) {
+      players[1] = new Player(view.getX(), view.getY());
+    }
+    game.setPlayers(players);
   }
 
   public void initializeTarget(View view) {
@@ -40,11 +44,14 @@ public class BallGamePresenter {
     game.setActiveArea(left, top, right, bottom);
   }
 
-  public void initializeOutputViews() {
+  private void initializeOutputViews() {
+    setViewVisibilities();
     renderPower();
     renderAngle();
     renderTime();
     renderScore();
+    renderLives();
+    renderCurrentPlayerName();
   }
 
   public void initializeNewBall(View view) {
@@ -63,19 +70,65 @@ public class BallGamePresenter {
   }
 
   private void renderScore() {
-    activity.updateTextView(activity.getScoreView(), "Score: " + game.getScore());
+    activity.updateTextView(
+        activity.getPlayer1ScoreView(), "P1 Score: " + game.getPlayer(1).getScore());
+    if (game.hasMultiplayerGameMode()) {
+      activity.updateTextView(
+          activity.getPlayer2ScoreView(), "P2 Score: " + game.getPlayer(2).getScore());
+    }
   }
 
   private void renderAngle() {
-    activity.updateTextView(activity.getAngleView(), "Angle: " + game.getPlayer().getShotAngle());
+    activity.updateTextView(
+        activity.getAngleView(),
+        "Angle: " + game.getPlayer(game.getCurrentPlayerNumber()).getShotAngle());
   }
 
   private void renderPower() {
-    activity.updateTextView(activity.getPowerView(), "Power: " + game.getPlayer().getShotPower());
+    activity.updateTextView(
+        activity.getPowerView(),
+        "Power: " + game.getPlayer(game.getCurrentPlayerNumber()).getShotPower());
   }
 
   private void renderTime() {
-    activity.updateTextView(activity.getTimeView(), "Time: " + game.getTimeRemaining());
+    if (game.hasTimedGameMode()) {
+      activity.updateTextView(activity.getTimeView(), "Time: " + game.getTimeRemaining());
+    }
+  }
+
+  private void renderLives() {
+    if (game.hasLivesGameMode()) {
+      activity.updateTextView(
+          activity.getPlayer1LivesView(), "P1 Lives: " + game.getPlayer(1).getLives());
+      if (game.hasMultiplayerGameMode()) {
+        activity.updateTextView(
+            activity.getPlayer2LivesView(), "P2 Lives: " + game.getPlayer(2).getLives());
+      }
+    }
+  }
+
+  private void renderCurrentPlayerName() {
+    activity.updateTextView(
+        activity.getPlayerNameView(),
+        String.format(
+            "Current Player: %s (PLAYER %d)",
+            game.getPlayer(game.getCurrentPlayerNumber()).getUsername(),
+            game.getCurrentPlayerNumber()));
+  }
+
+  private void setViewVisibilities() {
+    if (game.hasMultiplayerGameMode()) {
+      activity.getPlayer2ScoreView().setVisibility(View.VISIBLE);
+    }
+    if (game.hasLivesGameMode()) {
+      activity.getPlayer1LivesView().setVisibility(View.VISIBLE);
+      if (game.hasMultiplayerGameMode()) {
+        activity.getPlayer2LivesView().setVisibility(View.VISIBLE);
+      }
+    }
+    if (game.hasTimedGameMode()) {
+      activity.getTimeView().setVisibility(View.VISIBLE);
+    }
   }
 
   private void renderBallObjects() {
@@ -89,53 +142,47 @@ public class BallGamePresenter {
   private void gameLoop() {
     final int FPS = 60;
     final long TIMER_REFRESH = 1000 / FPS;
-    if (game.getUsesTimeLimit()) {
-      startLimitedTimer(game.getTimeLimit(), TIMER_REFRESH);
-    } else {
-      startUnlimitedTimer(TIMER_REFRESH);
+    int timerDuration = game.getTimeLimit();
+    // If game has no time limit, set a duration of 60secs for timer (timer will loop on completion)
+    if (!game.hasTimedGameMode()) {
+      timerDuration = 60;
     }
-  }
-
-  private void startLimitedTimer(int timeLimit, long refresh) {
     CountDownTimer gameTimer =
-        new CountDownTimer(game.getTimeLimit() * 1000, refresh) {
+        new CountDownTimer(timerDuration * 1000, TIMER_REFRESH) {
           @Override
-          public void onTick(long l) {
+          public void onTick(long millisRemaining) {
             performGameOperations();
-            if (game.getUsesLives()) {
-              if (game.getLives() == 0) {
-                cancel();
+            if (game.hasLivesGameMode() && game.isOutOfLives()) {
+              cancel(); // Cancels this timer and closes its threads
+              if (game.hasMultiplayerGameMode() && game.getCurrentPlayerNumber() == 1) {
+                // Restart timer and trigger next turn
+                triggerNextTurn();
+                // Restart countdown timer
+                gameLoop();
+              } else {
                 game.endGame();
               }
             }
-            if ((int) (Math.ceil(l / 1000)) < game.getTimeRemaining()) {
-              game.setTimeRemaining(game.getTimeRemaining() - 1);
-              renderTime();
+            // Update time remaining
+            if (game.hasTimedGameMode()) {
+              game.setTimeRemaining((int)(millisRemaining/1000));
             }
           }
 
           @Override
           public void onFinish() {
-            game.endGame();
-          }
-        }.start();
-  }
-
-  private void startUnlimitedTimer(long refresh) {
-    Timer gameTimer = new Timer();
-    gameTimer.scheduleAtFixedRate(
-        new TimerTask() {
-          @Override
-          public void run() {
-            performGameOperations();
-            if (game.getLives() == 0) {
-              cancel(); // Cancels this timer and closes its threads
+            // Restart timer if game has no time limit
+            if (!game.hasTimedGameMode()) {
+              start();
+              // If the game has completed player 1's turn and can advance to player 2's turn
+            } else if (game.hasMultiplayerGameMode() && game.getCurrentPlayerNumber() == 1) {
+              triggerNextTurn();
+              start();
+            } else {
               game.endGame();
             }
           }
-        },
-        0,
-        refresh);
+        }.start();
   }
 
   private void performGameOperations() {
@@ -144,9 +191,25 @@ public class BallGamePresenter {
     renderBallObjects();
     destroyInactiveBalls();
     renderScore();
+    renderLives();
+    renderTime();
+  }
+
+  private void triggerNextTurn() {
+    game.nextPlayerTurn();
+    // Reset angle and power seekbars to player's last values
+    activity
+        .getPowerControlView()
+        .setProgress(game.getPlayer(game.getCurrentPlayerNumber()).getShotPower());
+    activity
+        .getAngleControlView()
+        .setProgress(game.getPlayer(game.getCurrentPlayerNumber()).getShotPower());
+    // Display new player's name
+    renderCurrentPlayerName();
   }
 
   public void startGame() {
+    initializeOutputViews();
     game.startGame();
     gameLoop();
   }

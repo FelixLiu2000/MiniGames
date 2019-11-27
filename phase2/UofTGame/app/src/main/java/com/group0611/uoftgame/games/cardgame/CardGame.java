@@ -8,11 +8,13 @@ import android.widget.ImageView;
 import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.activities.CardGameActivity;
 import com.group0611.uoftgame.games.Game;
+import com.group0611.uoftgame.games.MultiplayerGame;
+import com.group0611.uoftgame.games.TimedGame;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CardGame extends Game {
+public class CardGame extends Game implements TimedGame, MultiplayerGame {
 
   private int cardsLeft = 12;
   private ArrayList<Integer> cardArray1 = new ArrayList<>();
@@ -20,12 +22,63 @@ public class CardGame extends Game {
   int clickedFirst, clickedSecond;
   int cardNum = 1;
   private int currentScore = 0;
+  private int player1Score, player2Score;
+  private boolean hasLivesGameMode, hasMultiplayerGameMode, hasTimedGameMode;
+  private int lives, timeLimit;
 
   public CardGame(GameBuilder builder) {
     super(builder);
     Collections.shuffle(cardArray1);
     setCardsArray();
+    this.hasTimedGameMode = builder.getHasTimed();
+    this.hasMultiplayerGameMode = builder.getHasMultiplayer();
+    setTimeLimit(builder.getTimeLimit());
     startGame();
+  }
+
+  @Override
+  public boolean hasTimedGameMode() {
+    return hasTimedGameMode;
+  }
+
+  @Override
+  public int getTimeLimit() {
+    return timeLimit;
+  }
+
+  @Override
+  public void setTimeLimit(int timeLimit) {
+    this.timeLimit = timeLimit;
+  }
+
+  @Override
+  public boolean hasMultiplayerGameMode() {
+    return hasMultiplayerGameMode;
+  }
+
+  @Override
+  public int getPlayer1Score() {
+    return player1Score;
+  }
+
+  @Override
+  public void setPlayer1Score(int score) {
+    this.player1Score = score;
+  }
+
+  @Override
+  public int getPlayer2Score() {
+    return player2Score;
+  }
+
+  @Override
+  public void setPlayer2Score(int score) {
+    this.player2Score = score;
+  }
+
+  @Override
+  public void nextPlayerTurn() {
+    // TODO: Implement next player turn behaviour
   }
 
   public void startGame() {
@@ -43,7 +96,7 @@ public class CardGame extends Game {
     }.start();
   }
 
-  public boolean check(int card1, int card2) {
+  private boolean check(int card1, int card2) {
     // check if two cards are matches and increase total
     if (card1 >= 200) {
       card1 -= 100;
@@ -51,7 +104,7 @@ public class CardGame extends Game {
       card2 -= 100;
     }
     if (card1 == card2) {
-      setScore(getScore() + 1);
+      setPlayer1Score(getPlayer1Score() + 1);
       cardsLeft -= 2;
       return true;
     }

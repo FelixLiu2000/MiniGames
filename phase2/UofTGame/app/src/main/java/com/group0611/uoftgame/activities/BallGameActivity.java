@@ -25,14 +25,29 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
   // private BallGame ballGame;
   // private ImageView playerView, targetView;
   private LinearLayout ballLayout;
-  private TextView scoreView;
+  private TextView player1ScoreView, player2ScoreView;
+  private TextView player1LivesView, player2LivesView;
   private TextView timeView;
   private TextView angleView;
   private TextView powerView;
+  private TextView playerNameView;
+  private SeekBar angleControlView, powerControlView;
   private ArrayList<ImageView> ballViews = new ArrayList<>();
 
-  public TextView getScoreView() {
-    return scoreView;
+  public TextView getPlayer1ScoreView() {
+    return player1ScoreView;
+  }
+
+  public TextView getPlayer2ScoreView() {
+    return player2ScoreView;
+  }
+
+  public TextView getPlayer1LivesView() {
+    return player1LivesView;
+  }
+
+  public TextView getPlayer2LivesView() {
+    return player2LivesView;
   }
 
   public TextView getTimeView() {
@@ -47,12 +62,20 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     return powerView;
   }
 
+  public TextView getPlayerNameView() { return playerNameView; }
+
   public ArrayList<ImageView> getBallViews() {
     return ballViews;
   }
 
   public LinearLayout getBallLayout() {
     return ballLayout;
+  }
+
+  public SeekBar getAngleControlView() { return angleControlView; }
+
+  public SeekBar getPowerControlView() {
+    return powerControlView;
   }
 
   @Override
@@ -87,8 +110,11 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
         new BallGamePresenter(
             (BallGame)
                 new Game.GameBuilder(BallGame.class, appManager, this)
-                    .setUsesTime(true)
+                    .addTimedGameMode(true)
                     .setTimeLimit(timeLimit)
+                    .addLivesGameMode(true)
+                    .setLives(10)
+                    .addMultiplayerGameMode(true)
                     .build());
     ballGamePresenter.bindActivity(this);
     // Set landscape orientation
@@ -111,7 +137,6 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     if (hasFocus) {
       initializeGameViews();
       initializeGameSeekBars();
-      ballGamePresenter.initializeOutputViews();
       ballGamePresenter.startGame();
     }
   }
@@ -132,10 +157,14 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     // ballGame.initializeOutputViews(TextView) findViewById(R.id.txtScore), (TextView)
     // findViewById(R.id.txtTime), (TextView) findViewById(R.id.txtPower), (TextView)
     // findViewById(R.id.txtAngle));
-    scoreView = findViewById(R.id.txtScore);
+    player1ScoreView = findViewById(R.id.txtPlayer1Score);
+    player2ScoreView = findViewById(R.id.txtPlayer2Score);
+    player1LivesView = findViewById(R.id.txtPlayer1Lives);
+    player2LivesView = findViewById(R.id.txtPlayer2Lives);
     timeView = findViewById(R.id.txtTime);
     angleView = findViewById(R.id.txtAngle);
     powerView = findViewById(R.id.txtPower);
+    playerNameView = findViewById(R.id.txtCurrentPlayer);
   }
 
   private void initializeGameButtons() {
@@ -157,10 +186,10 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
   }
 
   private void initializeGameSeekBars() {
-    SeekBar angleSeekBar = findViewById(R.id.seekAngle);
-    angleSeekBar.setProgress(GameConstants.SHOT_STARTING_ANGLE, true);
-    angleSeekBar.setMax(GameConstants.SHOT_MAX_ANGLE);
-    angleSeekBar.setOnSeekBarChangeListener(
+    angleControlView = findViewById(R.id.seekAngle);
+    angleControlView.setMax(GameConstants.SHOT_MAX_ANGLE);
+    angleControlView.setProgress(GameConstants.SHOT_STARTING_ANGLE, true);
+    angleControlView.setOnSeekBarChangeListener(
         new SeekBar.OnSeekBarChangeListener() {
           @Override
           public void onProgressChanged(SeekBar seekBar, int angle, boolean b) {
@@ -173,10 +202,10 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
           @Override
           public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-    SeekBar powerSeekBar = findViewById(R.id.seekPower);
-    powerSeekBar.setProgress(GameConstants.SHOT_STARTING_POWER, true);
-    powerSeekBar.setMax(GameConstants.SHOT_MAX_POWER);
-    powerSeekBar.setOnSeekBarChangeListener(
+    powerControlView = findViewById(R.id.seekPower);
+    powerControlView.setMax(GameConstants.SHOT_MAX_POWER);
+    powerControlView.setProgress(GameConstants.SHOT_STARTING_POWER, true);
+    powerControlView.setOnSeekBarChangeListener(
         new SeekBar.OnSeekBarChangeListener() {
           @Override
           public void onProgressChanged(SeekBar seekBar, int power, boolean b) {
@@ -193,7 +222,7 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
 
   public void updateViewLocation(View view, float x, float y) {
     if (view == null) {
-      throw new IllegalArgumentException("Illegal argument: view not found.");
+      throw new IllegalArgumentException("Illegal argument: view is null.");
     } else {
       view.setX(x);
       view.setY(y);
@@ -202,7 +231,7 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
 
   public void updateTextView(TextView view, String str) {
     if (view == null) {
-      throw new IllegalArgumentException("Illegal argument: view not found.");
+      throw new IllegalArgumentException("Illegal argument: view is null.");
     } else {
       view.setText(str);
     }
@@ -210,8 +239,7 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
 
   public void removeViewFromLayout(View view, ViewGroup layout) {
     if (layout == null || view == null) {
-      throw new IllegalArgumentException(
-          "Illegal argument: layout or corresponding view not found.");
+      throw new IllegalArgumentException("Illegal argument: layout or corresponding view is null.");
     } else {
       layout.removeView(view);
     }

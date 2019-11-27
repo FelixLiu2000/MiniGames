@@ -65,7 +65,7 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     subwayGame =
         (SubwayGame)
             new Game.GameBuilder(SubwayGame.class, appManager, this)
-                .setUsesTime(true)
+                .addTimedGameMode(true)
                 .setTimeLimit(timeLimit)
                 .build();
     //        System.out.println("Initial X and Y are: " + runnerX + runnerY);

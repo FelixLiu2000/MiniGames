@@ -12,6 +12,10 @@
     <string name="total_score_label">Total Score:</string>
     <string name="highscore_label">High Score:</string>
     <string name="score">Score: 0</string>
+    <string name="player1_score">P1 Score: 0</string>
+    <string name="player2_score">P2 Score: 0</string>
+    <string name="player1_lives">P1 Lives: 0</string>
+    <string name="player2_lives">P2 Lives: 0</string>
     <string name="shoot">FIRE</string>
     <string name="create_user_button_text">Create User</string>
     <string name="skip_to_dashboard">Skip To Dashboard</string>
@@ -37,6 +41,7 @@
     <string name="results_next_game_label">Next Game</string>
     <string name="create_error_message">Username already exists!</string>
     <string name="login_error_message">Invalid login credentials!</string>
+    <string name="currentPlayer">Current Player:</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>

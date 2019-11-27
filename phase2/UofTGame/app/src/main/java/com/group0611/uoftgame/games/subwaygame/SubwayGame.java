@@ -10,14 +10,66 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.Game;
+import com.group0611.uoftgame.games.MultiplayerGame;
+import com.group0611.uoftgame.games.TimedGame;
 
-public class SubwayGame extends Game {
-  private int score;
+public class SubwayGame extends Game implements TimedGame, MultiplayerGame {
+  private int player1Score, player2Score;
+  private boolean hasMultiplayerGameMode, hasTimedGameMode;
+  private int timeLimit;
 
   public SubwayGame(GameBuilder builder) {
     super(builder);
-    this.score = 10;
+    this.player1Score = 10;
+    this.hasTimedGameMode = builder.getHasTimed();
+    this.hasMultiplayerGameMode = builder.getHasMultiplayer();
+    setTimeLimit(builder.getTimeLimit());
     startGame();
+  }
+
+  @Override
+  public boolean hasTimedGameMode() {
+    return hasTimedGameMode;
+  }
+
+  @Override
+  public int getTimeLimit() {
+    return timeLimit;
+  }
+
+  @Override
+  public void setTimeLimit(int timeLimit) {
+    this.timeLimit = timeLimit;
+  }
+
+  @Override
+  public boolean hasMultiplayerGameMode() {
+    return hasMultiplayerGameMode;
+  }
+
+  @Override
+  public int getPlayer1Score() {
+    return player1Score;
+  }
+
+  @Override
+  public void setPlayer1Score(int score) {
+    this.player1Score = score;
+  }
+
+  @Override
+  public int getPlayer2Score() {
+    return player2Score;
+  }
+
+  @Override
+  public void setPlayer2Score(int score) {
+    this.player2Score = score;
+  }
+
+  @Override
+  public void nextPlayerTurn() {
+    // TODO: Implement next player turn behaviour
   }
 
   @Override
@@ -51,7 +103,7 @@ public class SubwayGame extends Game {
     }.start();
   }
 
-  public void updateTime(long timeLeft) {
+  private void updateTime(long timeLeft) {
     ((TextView) getActivity().findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft / 1000);
   }
 
@@ -92,7 +144,7 @@ public class SubwayGame extends Game {
     return (int) (Math.random() * 4);
   }
 
-  /** check if runner and obstacle are in the same position and decrease score by 1 if they are */
+  /** check if runner and obstacle are in the same position and decrease player1Score by 1 if they are */
   private void checkCollision() {
     // loop through obstacles
     for (int i = 0; i < getActivity().obstacles.size(); i++) {
@@ -107,9 +159,9 @@ public class SubwayGame extends Game {
       boolean sameY = checkCoordY(obstacleY);
       //      System.out.println("sameY is " + sameY);
       if (sameLane && sameY)
-        // decrease score
+        // decrease player1Score
         decreaseScore();
-      getActivity().updateScore(score);
+      getActivity().updateScore(player1Score);
     }
   }
 
@@ -127,19 +179,19 @@ public class SubwayGame extends Game {
     } else return false;
   }
 
-  /** decrease the score by 1 */
+  /** decrease the player1Score by 1 */
   private void decreaseScore() {
-    if (this.score > 0) {
-      this.score -= 1;
-      System.out.println("Current score is: " + this.score);
+    if (this.player1Score > 0) {
+      this.player1Score -= 1;
+      System.out.println("Current player1Score is: " + this.player1Score);
     }
   }
 
   @Override
   protected void endGame() {
     System.out.println("Game Over!");
-    System.out.println("Final score is: " + score);
-    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
+    System.out.println("Final player1Score is: " + player1Score);
+    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.player1Score);
     this.getActivity().leaveGame(this.getAppManager());
   }
 

@@ -1,7 +1,6 @@
 package com.group0611.uoftgame.games.ballgame;
 
 import android.graphics.RectF;
-import android.view.View;
 
 class Ball extends BallGameObject implements Collidable<Target> {
   private double speedX, speedY = 0;

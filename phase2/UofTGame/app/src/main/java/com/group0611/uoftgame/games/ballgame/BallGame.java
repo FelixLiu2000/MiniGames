@@ -3,20 +3,96 @@ package com.group0611.uoftgame.games.ballgame;
 import android.graphics.Rect;
 
 import com.group0611.uoftgame.games.Game;
+import com.group0611.uoftgame.games.LivesGame;
+import com.group0611.uoftgame.games.MultiplayerGame;
+import com.group0611.uoftgame.games.TimedGame;
+
 import java.util.ArrayList;
 
-public class BallGame extends Game {
+public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerGame {
 
   private ArrayList<Ball> activeBallObjects = new ArrayList<>();
   private ArrayList<Integer> inactiveBallIndices = new ArrayList<>();
-  private Player player;
+  private Player[] players;
+  private int currentPlayerNumber = 1;
   private Target target;
   private Rect activeArea;
   private int timeRemaining;
   private CollisionManager collisionManager = new CollisionManager();
+  private boolean hasLivesGameMode, hasMultiplayerGameMode, hasTimedGameMode;
+  private int lives, timeLimit;
 
   public BallGame(GameBuilder builder) {
     super(builder);
+    this.hasLivesGameMode = builder.getHasLives();
+    this.hasMultiplayerGameMode = builder.getHasMultiplayer();
+    this.hasTimedGameMode = builder.getHasTimed();
+    setStartingLives(builder.getLives());
+    setTimeLimit(builder.getTimeLimit());
+  }
+
+  @Override
+  public boolean hasLivesGameMode() {
+    return hasLivesGameMode;
+  }
+
+  @Override
+  public boolean hasMultiplayerGameMode() {
+    return hasMultiplayerGameMode;
+  }
+
+  @Override
+  public boolean hasTimedGameMode() {
+    return hasTimedGameMode;
+  }
+
+  @Override
+  public int getStartingLives() {
+    return lives;
+  }
+
+  @Override
+  public void setStartingLives(int lives) {
+    if (lives >= 0) {
+      this.lives = lives;
+    }
+  }
+
+  @Override
+  public boolean isOutOfLives() {
+    return getPlayer(currentPlayerNumber).getLives() == 0;
+  }
+
+  @Override
+  public int getTimeLimit() {
+    return timeLimit;
+  }
+
+  @Override
+  public void setTimeLimit(int timeLimit) {
+    if (timeLimit >= 0) {
+      this.timeLimit = timeLimit;
+    }
+  }
+
+  @Override
+  public int getPlayer1Score() {
+    return this.getPlayer(1).getScore();
+  }
+
+  @Override
+  public void setPlayer1Score(int score) {
+    this.getPlayer(1).setScore(score);
+  }
+
+  @Override
+  public int getPlayer2Score() {
+    return this.getPlayer(2).getScore();
+  }
+
+  @Override
+  public void setPlayer2Score(int score) {
+    this.getPlayer(2).setScore(score);
   }
 
   ArrayList<Ball> getActiveBallObjects() {
@@ -40,15 +116,27 @@ public class BallGame extends Game {
     setTimeRemaining(getTimeLimit());
   }
 
-  Player getPlayer() {
-    return player;
+  Player getPlayer(int playerNumber) {
+    if (playerNumber == 1 || (hasMultiplayerGameMode && playerNumber == 2)) {
+      return players[playerNumber - 1];
+    } else {
+      throw new IllegalArgumentException("Illegal argument: player number must be 1 or 2.");
+    }
   }
 
-  void setPlayer(Player player) {
-    this.player = player;
+  void setPlayers(Player[] players) {
+    for (Player player : players) {
+      player.setLives(getStartingLives());
+      player.setUsername(getAppManager().getCurrentPlayerDisplayName());
+    }
+    this.players = players;
   }
 
-  public void setTarget(Target target) {
+  int getCurrentPlayerNumber() {
+    return currentPlayerNumber;
+  }
+
+  void setTarget(Target target) {
     /*
     target =
         new Target(
@@ -65,15 +153,16 @@ public class BallGame extends Game {
     this.activeArea = new Rect(x, y, right, bottom);
   }
 
-  /* @Deprecated
-   * Main game loop. Loop from https://dewitters.com/dewitters-gameloop/ private void gameLoop() {
-   * final double FRAME_TIME = 1000 / 60; final int MAX_FRAMES_SKIPPED = 5; Timer gameTimer = new
-   * Timer(getTimeLimit() * 1000); double nextTick = SystemClock.uptimeMillis(); while
-   * (!gameTimer.isStopped()) { int frames = 0; while (SystemClock.uptimeMillis() > nextTick &&
-   * frames < MAX_FRAMES_SKIPPED) { updateMovements(); nextTick += FRAME_TIME; frames++; }
-   *
-   * <p>renderGame((float)((SystemClock.uptimeMillis() + FRAME_TIME - nextTick) / FRAME_TIME)); } }
-   */
+  @Override
+  public void nextPlayerTurn() {
+    // Switch from one player number to the next
+    if (currentPlayerNumber == 1) {
+      currentPlayerNumber = 2;
+    } else {
+      currentPlayerNumber = 1;
+    }
+    setTimeRemaining(getTimeLimit());
+  }
 
   Ball shootBall(int width, int height) {
     /*
@@ -83,18 +172,18 @@ public class BallGame extends Game {
     newBall.setObjectView(view);
     activeBallObjects.add(newBall);
     */
-    Ball newBall = player.shootBall(width, height);
+    Ball newBall = getPlayer(currentPlayerNumber).shootBall(width, height);
     activeBallObjects.add(newBall);
     return newBall;
   }
 
   void setShotAngle(int angle) {
-    this.player.setShotAngle(angle);
+    getPlayer(currentPlayerNumber).setShotAngle(angle);
     // updateShotAngleText(angle);
   }
 
   void setShotPower(int power) {
-    this.player.setShotPower(power);
+    getPlayer(currentPlayerNumber).setShotPower(power);
     // updateShotPowerText(power);
   }
 
@@ -131,7 +220,7 @@ public class BallGame extends Game {
             activeArea.bottom);
     if (!invalidTargetBallCollisions.isEmpty()) {
       for (Ball ball : invalidTargetBallCollisions) {
-        destroyBall(ball);
+        targetMissed(ball);
       }
     }
     ArrayList<Ball> validTargetBallCollisions =
@@ -139,7 +228,6 @@ public class BallGame extends Game {
     if (!validTargetBallCollisions.isEmpty()) {
       for (Ball ball : validTargetBallCollisions) {
         targetHit(ball);
-        destroyBall(ball);
       }
     }
   }
@@ -148,7 +236,20 @@ public class BallGame extends Game {
     ball.onCollide(target);
     // Update player score and score TextView
     final int SCORE_PER_HIT = 5;
-    setScore(getScore() + SCORE_PER_HIT);
+    final int BONUS_POINTS_PER_LIFE = 5;
+    // Award player bonus points for hit and every life remaining and set lives to 0
+    Player currentPlayer = getPlayer(currentPlayerNumber);
+    currentPlayer.setScore(
+        currentPlayer.getScore() + SCORE_PER_HIT + currentPlayer.getLives() * BONUS_POINTS_PER_LIFE);
+    currentPlayer.setLives(0);
+    destroyBall(ball);
+  }
+
+  private void targetMissed(Ball ball) {
+    if (hasLivesGameMode) {
+      getPlayer(currentPlayerNumber).setLives(getPlayer(currentPlayerNumber).getLives() - 1);
+    }
+    destroyBall(ball);
   }
 
   private void destroyBall(Ball ball) {
@@ -160,7 +261,12 @@ public class BallGame extends Game {
   @Override
   protected void endGame() {
     System.out.println("Game ended");
-    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.player.getScore());
+    // TODO: Below is temporary, should add score functionality for multiple players
+    int topScore = getPlayer1Score();
+    if (hasMultiplayerGameMode && topScore < getPlayer2Score()) {
+      topScore = getPlayer2Score();
+    }
+    this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);
     getActivity().leaveGame(this.getAppManager());
   }
 }
