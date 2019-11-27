@@ -105,17 +105,17 @@ public class SubwayGame extends Game {
   public void createMovingObject() {
     MovingObject obstacle = factory.createObstacle();
     obstacle.setImage();
-    createObject(obstacle);
+    displayObject(obstacle);
 
     MovingObject coin = factory.createCoin() ;
     coin.setImage();
-    createObject(coin);
+    displayObject(coin);
 
   }
 
 
   /** create a new obstacle and add it to obstacles ArrayList in SubwayGameActivity */
-  private void createObject(MovingObject obj) {
+  private void displayObject(MovingObject obj) {
     //    System.out.println("obstacle created");
     //    ImageView newObstacle = new ImageView(activity);
     //    newObstacle.setImageResource(R.drawable.circle_card);
