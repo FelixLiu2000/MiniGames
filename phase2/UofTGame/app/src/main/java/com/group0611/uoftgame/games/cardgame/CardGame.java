@@ -23,37 +23,27 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   int cardNum = 1;
   private int currentScore = 0;
   private int player1Score, player2Score;
-  private boolean hasLivesGameMode, hasMultiplayerGameMode, hasTimedGameMode;
-  private int lives, timeLimit;
 
   public CardGame(GameBuilder builder) {
     super(builder);
     Collections.shuffle(cardArray1);
     setCardsArray();
-    this.hasTimedGameMode = builder.getHasTimed();
-    this.hasMultiplayerGameMode = builder.getHasMultiplayer();
-    setTimeLimit(builder.getTimeLimit());
     startGame();
   }
 
   @Override
-  public boolean hasTimedGameMode() {
-    return hasTimedGameMode;
+  public boolean getHasTimedGameMode() {
+    return super.getHasTimedGameMode();
+  }
+
+  @Override
+  public boolean getHasMultiplayerGameMode() {
+    return super.getHasMultiplayerGameMode();
   }
 
   @Override
   public int getTimeLimit() {
-    return timeLimit;
-  }
-
-  @Override
-  public void setTimeLimit(int timeLimit) {
-    this.timeLimit = timeLimit;
-  }
-
-  @Override
-  public boolean hasMultiplayerGameMode() {
-    return hasMultiplayerGameMode;
+    return super.getTimeLimit();
   }
 
   @Override

@@ -19,43 +19,29 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   private Rect activeArea;
   private int timeRemaining;
   private CollisionManager collisionManager = new CollisionManager();
-  private boolean hasLivesGameMode, hasMultiplayerGameMode, hasTimedGameMode;
-  private int lives, timeLimit;
 
   public BallGame(GameBuilder builder) {
     super(builder);
-    this.hasLivesGameMode = builder.getHasLives();
-    this.hasMultiplayerGameMode = builder.getHasMultiplayer();
-    this.hasTimedGameMode = builder.getHasTimed();
-    setStartingLives(builder.getLives());
-    setTimeLimit(builder.getTimeLimit());
   }
 
   @Override
-  public boolean hasLivesGameMode() {
-    return hasLivesGameMode;
+  public boolean getHasLivesGameMode() {
+    return super.getHasLivesGameMode();
   }
 
   @Override
-  public boolean hasMultiplayerGameMode() {
-    return hasMultiplayerGameMode;
+  public boolean getHasTimedGameMode() {
+    return super.getHasTimedGameMode();
   }
 
   @Override
-  public boolean hasTimedGameMode() {
-    return hasTimedGameMode;
+  public boolean getHasMultiplayerGameMode() {
+    return super.getHasMultiplayerGameMode();
   }
 
   @Override
-  public int getStartingLives() {
-    return lives;
-  }
-
-  @Override
-  public void setStartingLives(int lives) {
-    if (lives >= 0) {
-      this.lives = lives;
-    }
+  public int getLives() {
+    return super.getLives();
   }
 
   @Override
@@ -65,14 +51,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
 
   @Override
   public int getTimeLimit() {
-    return timeLimit;
-  }
-
-  @Override
-  public void setTimeLimit(int timeLimit) {
-    if (timeLimit >= 0) {
-      this.timeLimit = timeLimit;
-    }
+    return super.getTimeLimit();
   }
 
   @Override
@@ -117,7 +96,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   }
 
   Player getPlayer(int playerNumber) {
-    if (playerNumber == 1 || (hasMultiplayerGameMode && playerNumber == 2)) {
+    if (playerNumber == 1 || (getHasMultiplayerGameMode() && playerNumber == 2)) {
       return players[playerNumber - 1];
     } else {
       throw new IllegalArgumentException("Illegal argument: player number must be 1 or 2.");
@@ -126,7 +105,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
 
   void setPlayers(Player[] players) {
     for (Player player : players) {
-      player.setLives(getStartingLives());
+      player.setLives(this.getLives());
       player.setUsername(getAppManager().getCurrentPlayerDisplayName());
     }
     this.players = players;
@@ -246,7 +225,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   }
 
   private void targetMissed(Ball ball) {
-    if (hasLivesGameMode) {
+    if (getHasLivesGameMode()) {
       getPlayer(currentPlayerNumber).setLives(getPlayer(currentPlayerNumber).getLives() - 1);
     }
     destroyBall(ball);
@@ -263,7 +242,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     System.out.println("Game ended");
     // TODO: Below is temporary, should add score functionality for multiple players
     int topScore = getPlayer1Score();
-    if (hasMultiplayerGameMode && topScore < getPlayer2Score()) {
+    if (getHasMultiplayerGameMode() && topScore < getPlayer2Score()) {
       topScore = getPlayer2Score();
     }
     this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);

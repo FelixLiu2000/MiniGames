@@ -5,9 +5,6 @@ import android.view.View;
 
 import com.group0611.uoftgame.activities.BallGameActivity;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class BallGamePresenter {
   private BallGame game;
   private BallGameActivity activity;
@@ -27,7 +24,7 @@ public class BallGamePresenter {
   public void initializePlayer(View view) {
     Player[] players = new Player[2];
     players[0] = new Player(view.getX(), view.getY());
-    if (game.hasMultiplayerGameMode()) {
+    if (game.getHasMultiplayerGameMode()) {
       players[1] = new Player(view.getX(), view.getY());
     }
     game.setPlayers(players);
@@ -72,7 +69,7 @@ public class BallGamePresenter {
   private void renderScore() {
     activity.updateTextView(
         activity.getPlayer1ScoreView(), "P1 Score: " + game.getPlayer(1).getScore());
-    if (game.hasMultiplayerGameMode()) {
+    if (game.getHasMultiplayerGameMode()) {
       activity.updateTextView(
           activity.getPlayer2ScoreView(), "P2 Score: " + game.getPlayer(2).getScore());
     }
@@ -91,16 +88,16 @@ public class BallGamePresenter {
   }
 
   private void renderTime() {
-    if (game.hasTimedGameMode()) {
+    if (game.getHasTimedGameMode()) {
       activity.updateTextView(activity.getTimeView(), "Time: " + game.getTimeRemaining());
     }
   }
 
   private void renderLives() {
-    if (game.hasLivesGameMode()) {
+    if (game.getHasTimedGameMode()) {
       activity.updateTextView(
           activity.getPlayer1LivesView(), "P1 Lives: " + game.getPlayer(1).getLives());
-      if (game.hasMultiplayerGameMode()) {
+      if (game.getHasMultiplayerGameMode()) {
         activity.updateTextView(
             activity.getPlayer2LivesView(), "P2 Lives: " + game.getPlayer(2).getLives());
       }
@@ -117,16 +114,16 @@ public class BallGamePresenter {
   }
 
   private void setViewVisibilities() {
-    if (game.hasMultiplayerGameMode()) {
+    if (game.getHasMultiplayerGameMode()) {
       activity.getPlayer2ScoreView().setVisibility(View.VISIBLE);
     }
-    if (game.hasLivesGameMode()) {
+    if (game.getHasTimedGameMode()) {
       activity.getPlayer1LivesView().setVisibility(View.VISIBLE);
-      if (game.hasMultiplayerGameMode()) {
+      if (game.getHasMultiplayerGameMode()) {
         activity.getPlayer2LivesView().setVisibility(View.VISIBLE);
       }
     }
-    if (game.hasTimedGameMode()) {
+    if (game.getHasTimedGameMode()) {
       activity.getTimeView().setVisibility(View.VISIBLE);
     }
   }
@@ -144,7 +141,7 @@ public class BallGamePresenter {
     final long TIMER_REFRESH = 1000 / FPS;
     int timerDuration = game.getTimeLimit();
     // If game has no time limit, set a duration of 60secs for timer (timer will loop on completion)
-    if (!game.hasTimedGameMode()) {
+    if (!game.getHasTimedGameMode()) {
       timerDuration = 60;
     }
     CountDownTimer gameTimer =
@@ -152,9 +149,9 @@ public class BallGamePresenter {
           @Override
           public void onTick(long millisRemaining) {
             performGameOperations();
-            if (game.hasLivesGameMode() && game.isOutOfLives()) {
+            if (game.getHasTimedGameMode() && game.isOutOfLives()) {
               cancel(); // Cancels this timer and closes its threads
-              if (game.hasMultiplayerGameMode() && game.getCurrentPlayerNumber() == 1) {
+              if (game.getHasMultiplayerGameMode() && game.getCurrentPlayerNumber() == 1) {
                 // Restart timer and trigger next turn
                 triggerNextTurn();
                 // Restart countdown timer
@@ -164,7 +161,7 @@ public class BallGamePresenter {
               }
             }
             // Update time remaining
-            if (game.hasTimedGameMode()) {
+            if (game.getHasTimedGameMode()) {
               game.setTimeRemaining((int)(millisRemaining/1000));
             }
           }
@@ -172,10 +169,10 @@ public class BallGamePresenter {
           @Override
           public void onFinish() {
             // Restart timer if game has no time limit
-            if (!game.hasTimedGameMode()) {
+            if (!game.getHasTimedGameMode()) {
               start();
               // If the game has completed player 1's turn and can advance to player 2's turn
-            } else if (game.hasMultiplayerGameMode() && game.getCurrentPlayerNumber() == 1) {
+            } else if (game.getHasMultiplayerGameMode() && game.getCurrentPlayerNumber() == 1) {
               triggerNextTurn();
               start();
             } else {

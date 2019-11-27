@@ -1,11 +1,9 @@
 package com.group0611.uoftgame.games;
 
 public interface LivesGame {
-  boolean hasLivesGameMode();
+  boolean getHasLivesGameMode();
 
-  int getStartingLives();
-
-  void setStartingLives(int lives);
+  int getLives();
 
   boolean isOutOfLives();
 }

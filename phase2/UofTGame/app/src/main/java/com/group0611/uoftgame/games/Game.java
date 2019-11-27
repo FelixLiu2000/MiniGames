@@ -10,6 +10,8 @@ public abstract class Game {
 
   private AppManager appManager;
   private GameActivity activity;
+  private int lives, timeLimit; // At most one of (lives, timeLimit) is optional
+  private boolean hasLivesGameMode, hasTimedGameMode, hasMultiplayerGameMode;
 
   /**
    * Constructs a new timed game.
@@ -19,6 +21,31 @@ public abstract class Game {
   public Game(GameBuilder builder) {
     this.appManager = builder.manager;
     this.activity = builder.activity;
+    this.hasLivesGameMode = builder.hasLivesGameMode;
+    this.hasTimedGameMode = builder.hasTimedGameMode;
+    this.hasMultiplayerGameMode = builder.hasMultiplayerGameMode;
+    this.lives = builder.lives;
+    this.timeLimit = builder.timeLimit;
+  }
+
+  protected int getLives() {
+    return lives;
+  }
+
+  protected int getTimeLimit() {
+    return timeLimit;
+  }
+
+  protected boolean getHasLivesGameMode() {
+    return hasLivesGameMode;
+  }
+
+  protected boolean getHasTimedGameMode() {
+    return hasTimedGameMode;
+  }
+
+  protected boolean getHasMultiplayerGameMode() {
+    return hasMultiplayerGameMode;
   }
 
   protected AppManager getAppManager() {
@@ -82,26 +109,6 @@ public abstract class Game {
     public GameBuilder addMultiplayerGameMode(boolean state) {
       hasMultiplayerGameMode = state;
       return this;
-    }
-
-    public int getLives() {
-      return lives;
-    }
-
-    public boolean getHasLives() {
-      return hasLivesGameMode;
-    }
-
-    public int getTimeLimit() {
-      return timeLimit;
-    }
-
-    public boolean getHasTimed() {
-      return hasTimedGameMode;
-    }
-
-    public boolean getHasMultiplayer() {
-      return hasMultiplayerGameMode;
     }
 
     public Game build() {

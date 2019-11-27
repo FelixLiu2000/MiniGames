@@ -1,8 +1,7 @@
 package com.group0611.uoftgame.games;
 
 public interface MultiplayerGame {
-
-  boolean hasMultiplayerGameMode();
+  boolean getHasMultiplayerGameMode();
 
   int getPlayer1Score();
 

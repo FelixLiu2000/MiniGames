@@ -15,36 +15,26 @@ import com.group0611.uoftgame.games.TimedGame;
 
 public class SubwayGame extends Game implements TimedGame, MultiplayerGame {
   private int player1Score, player2Score;
-  private boolean hasMultiplayerGameMode, hasTimedGameMode;
-  private int timeLimit;
 
   public SubwayGame(GameBuilder builder) {
     super(builder);
     this.player1Score = 10;
-    this.hasTimedGameMode = builder.getHasTimed();
-    this.hasMultiplayerGameMode = builder.getHasMultiplayer();
-    setTimeLimit(builder.getTimeLimit());
     startGame();
   }
 
   @Override
-  public boolean hasTimedGameMode() {
-    return hasTimedGameMode;
+  public boolean getHasTimedGameMode() {
+    return super.getHasTimedGameMode();
+  }
+
+  @Override
+  public boolean getHasMultiplayerGameMode() {
+    return super.getHasMultiplayerGameMode();
   }
 
   @Override
   public int getTimeLimit() {
-    return timeLimit;
-  }
-
-  @Override
-  public void setTimeLimit(int timeLimit) {
-    this.timeLimit = timeLimit;
-  }
-
-  @Override
-  public boolean hasMultiplayerGameMode() {
-    return hasMultiplayerGameMode;
+    return super.getTimeLimit();
   }
 
   @Override
@@ -144,7 +134,10 @@ public class SubwayGame extends Game implements TimedGame, MultiplayerGame {
     return (int) (Math.random() * 4);
   }
 
-  /** check if runner and obstacle are in the same position and decrease player1Score by 1 if they are */
+  /**
+   * check if runner and obstacle are in the same position and decrease player1Score by 1 if they
+   * are
+   */
   private void checkCollision() {
     // loop through obstacles
     for (int i = 0; i < getActivity().obstacles.size(); i++) {
