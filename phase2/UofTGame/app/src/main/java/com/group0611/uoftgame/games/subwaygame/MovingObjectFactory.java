@@ -5,6 +5,10 @@ import com.group0611.uoftgame.activities.SubwayGameActivity;
 public class MovingObjectFactory {
     SubwayGameActivity activity;
 
+    public MovingObjectFactory(SubwayGameActivity act){
+        this.activity = act;
+    }
+
     public Coin createCoin(){
         return new Coin(activity);
     }

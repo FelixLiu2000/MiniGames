@@ -25,6 +25,7 @@ public class SubwayGame extends Game {
     super(timeLimit, appManager);
     this.score = 10;
     this.activity = activity;
+    this.factory = new MovingObjectFactory(activity);
     play();
   }
 
