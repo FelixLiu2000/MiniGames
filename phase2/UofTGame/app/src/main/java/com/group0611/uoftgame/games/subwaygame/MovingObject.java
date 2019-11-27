@@ -16,25 +16,25 @@ public abstract class MovingObject extends AppCompatImageView {
 
     abstract  void setImage();
 
-    void setSize(ImageView newMovingObject){
+    void setSize(){
 //      Obstacle obj = (Obstacle) newObstacle;
-        newMovingObject.getLayoutParams().height = 70;
-        newMovingObject.getLayoutParams().width = 70;
+        this.getLayoutParams().height = 70;
+        this.getLayoutParams().width = 70;
     }
 
     /** Set location of the new obstacle */
-    void setPosition(ImageView newMovingObject) {
+    void setPosition() {
         // set y variable to 0
-        newMovingObject.setY(0);
+        this.setY(0);
         // randomly pick a lane
         int obstacleLane = pickLane();
         // set obstacle's x position based on the lane
         if (obstacleLane == 1) {
-            newMovingObject.setX(160);
+            this.setX(160);
         } else if (obstacleLane == 2) {
-            newMovingObject.setX(500);
+            this.setX(500);
         } else {
-            newMovingObject.setX(860); // lane 3
+            this.setX(860); // lane 3
         }
     }
 

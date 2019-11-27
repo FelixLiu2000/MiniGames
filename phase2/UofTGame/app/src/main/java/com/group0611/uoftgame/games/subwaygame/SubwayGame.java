@@ -124,8 +124,8 @@ public class SubwayGame extends Game {
 //    if (obj instanceof Obstacle) {
       activity.movingObjects.add(obj);
       ((ConstraintLayout) activity.findViewById(R.id.Layout)).addView(obj);
-      obj.setSize(obj);
-      obj.setPosition(obj);
+      obj.setSize();
+      obj.setPosition();
 //      }
 
 //    else if (obj instanceof Coin) {
