@@ -17,7 +17,7 @@ public class Obstacle extends MovingObject {
     public Obstacle(Context context) {
         super(context);
 //        this.image = new ImageView(activity);
-
+        this.image =  new ImageView(context);
         score = 10;
     }
 

@@ -9,8 +9,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.group0611.uoftgame.activities.SubwayGameActivity;
 
 public abstract class MovingObject extends AppCompatImageView {
-    private SubwayGameActivity activity;
-
 
     public MovingObject(Context context) {
         super(context);

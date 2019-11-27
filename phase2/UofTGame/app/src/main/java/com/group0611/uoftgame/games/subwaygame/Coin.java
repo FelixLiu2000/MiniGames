@@ -15,6 +15,7 @@ public class Coin extends MovingObject {
 
     public Coin(Context context){
         super(context);
+        this.image =  new ImageView(context);
 //        this.image = new ImageView(activity);
     }
 
