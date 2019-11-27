@@ -9,19 +9,15 @@ import com.group0611.uoftgame.R;
 //import com.group0611.uoftgame.activities.SubwayGameActivity;
 
 public class Coin extends MovingObject {
-//    public SubwayGameActivity activity;
-    public ImageView image;
     private int score;
 
     public Coin(Context context){
         super(context);
-        this.image =  new ImageView(context);
-//        this.image = new ImageView(activity);
     }
 
     @Override
     public void setImage() {
-        this.image.setImageResource(R.drawable.orange_circle);
+        this.setImageResource(R.drawable.orange_circle);
 
     }
 

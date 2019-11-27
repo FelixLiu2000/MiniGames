@@ -4,25 +4,16 @@ import android.content.Context;
 import android.widget.ImageView;
 import com.group0611.uoftgame.R;
 
-//import androidx.appcompat.widget.AppCompatImageView;
-
-import com.group0611.uoftgame.R;
-//import com.group0611.uoftgame.activities.SubwayGameActivity;
-
 public class Obstacle extends MovingObject {
-//    public SubwayGameActivity activity;
-    public ImageView image;
     protected int score;
 
     public Obstacle(Context context) {
         super(context);
-//        this.image = new ImageView(activity);
-        this.image =  new ImageView(context);
         score = 10;
     }
 
     public void setImage() {
-        this.image.setImageResource(R.drawable.circle_card);
+        this.setImageResource(R.drawable.circle_card);
 
     }
 
@@ -35,3 +26,4 @@ public class Obstacle extends MovingObject {
         return this.score;
     }
 }
+    

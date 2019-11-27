@@ -98,6 +98,7 @@ public class SubwayGameActivity extends AppCompatActivity {
             obstacle.startAnimation(obstacleDown);
             obstacleY += 100;
             obstacle.setY(obstacleY);
+            System.out.println("Obstacle moved: " + obstacle.getY());
         }
     }
 
