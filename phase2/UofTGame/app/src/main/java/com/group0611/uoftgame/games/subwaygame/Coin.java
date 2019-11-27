@@ -17,7 +17,7 @@ public class Coin extends MovingObject {
 
     @Override
     public void setImage() {
-        this.setImageResource(R.drawable.orange_circle);
+        this.setImageResource(R.drawable.coin);
 
     }
 

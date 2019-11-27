@@ -13,7 +13,7 @@ public class Obstacle extends MovingObject {
     }
 
     public void setImage() {
-        this.setImageResource(R.drawable.circle_card);
+        this.setImageResource(R.drawable.bucket);
 
     }
 

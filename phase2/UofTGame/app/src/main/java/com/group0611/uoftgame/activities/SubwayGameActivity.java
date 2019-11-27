@@ -33,7 +33,7 @@ public class SubwayGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         intentSubwayGameActivity = getIntent();
-        this.appManager = (AppManager) intentSubwayGameActivity.getSerializableExtra("appManager");
+        this.appManager = (AppManager)intentSubwayGameActivity.getSerializableExtra("appManager");
         setContentView(R.layout.activity_subway_game);
         currentScore = findViewById(R.id.score);
         runner = findViewById(R.id.subwayRunner);
@@ -41,7 +41,6 @@ public class SubwayGameActivity extends AppCompatActivity {
         runnerY = runner.getY();
         runnerLane = 2;
         game = new SubwayGame(60, appManager, this);
-//        System.out.println("Initial X and Y are: " + runnerX + runnerY);
     }
 
     /** move runner right when right button is clicked */
