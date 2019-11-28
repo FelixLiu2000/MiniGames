@@ -18,12 +18,14 @@ import java.util.List;
 public class SubwayGame extends Game {
   private SubwayGameActivity activity;
   private int score;
-  public MovingObjectFactory factory;
+  private int coins;
+  private MovingObjectFactory factory;
 
 
   public SubwayGame(int timeLimit, AppManager appManager, SubwayGameActivity activity) {
     super(timeLimit, appManager);
     this.score = 10;
+    this.coins = 0;
     this.activity = activity;
     this.factory = new MovingObjectFactory(activity);
     play();
@@ -52,34 +54,52 @@ public class SubwayGame extends Game {
       }
     }.start();
   }
-  public void updateTime(long timeLeft){
+  private void updateTime(long timeLeft){
     ((TextView) activity.findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft/1000);
   }
 
   /** check if runner and obstacle are in the same position and decrease score by 1 if they are */
-  void checkCollision() {
+  private void checkCollision() {
     // loop through obstacles
     for (int i = 0; i < activity.movingObjects.size(); i++) {
       // get position of obstacle
       View movingObject = activity.movingObjects.get(i);
-      float obstacleX = movingObject.getX();
-      float obstacleY = movingObject.getY();
+      float objX = movingObject.getX();
+      float objY = movingObject.getY();
       // check if runner and obstacle are in the same lane
-      boolean sameLane = checkLane(obstacleX);
-//      System.out.println("sameLane is " + sameLane);
+      boolean sameLane = checkLane(objX);
       // check if runner and obstacle have the same y coordinate
-      boolean sameY = checkCoordY(obstacleY);
-//      System.out.println("sameY is " + sameY);
-      if (sameLane && sameY)
-        score += ((MovingObject)movingObject).changeScore();
-        System.out.println("Score: " + score);
-        // decrease score
-        activity.updateScore(score);
+      boolean sameY = checkCoordY(objY);
+      if (sameLane && sameY) {
+        // set scoreChange to -1 if an obstacle is hit or 1 if a coin is hit
+        int scoreChange = ((MovingObject)movingObject).changeScore();
+        updateScore(scoreChange);
+        updateCoins(scoreChange);
+        activity.displayNewScore(score);
+      }
+      }
+  }
+
+  /**Decrease the score if an obstacle is hit and as long as the score is above zero. Increase the
+   score if a coin is hit. */
+  private void updateScore(int change) {
+    // if an obstacle is hit and the score is above 0
+    if (change == -1 && score > 0) {
+      score += change;
+    } else if (change == 1) {
+      score += change;
+      System.out.println("Score: " + score);
     }
   }
+
+  private void updateCoins(int change) {
+    if (change == 1) {
+      this.coins += 1;
+    }
+  }
+
   // helper method to check for the y coordinate of an obstacle
   private boolean checkCoordY(float obstacleY) {
-//    return (1100 <= obstacleY && obstacleY <= 1300); // 1150<= <= 1250
     return (obstacleY == 1200);
   }
 
@@ -87,23 +107,17 @@ public class SubwayGame extends Game {
   private boolean checkLane(float obstacleX) {
     if (activity.runnerLane == 1 && obstacleX == 160) { // if both are in lane 1
       return true;
-    } else if (activity.runnerLane == 2 && obstacleX == 500) { // if both are in lane 2
+    } else // if both are in lane 3
+      if (activity.runnerLane == 2 && obstacleX == 500) { // if both are in lane 2
       return true;
-    } else if (activity.runnerLane == 3 && obstacleX == 860) { // if both are in lane 3
-      return true;
-    } else return false;
+    } else return activity.runnerLane == 3 && obstacleX == 860;
   }
 
-  public void createMovingObject() {
+  private void createMovingObject() {
     MovingObject obj = factory.createObj();
 
     obj.setImage();
     displayObject(obj);
-
-//    MovingObject coin = factory.createCoin() ;
-//    coin.setImage();
-//    displayObject(coin);
-
   }
 
 

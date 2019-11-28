@@ -1,12 +1,8 @@
 package com.group0611.uoftgame.games.subwaygame;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.AppCompatImageView;
-
-import com.group0611.uoftgame.activities.SubwayGameActivity;
 
 public abstract class MovingObject extends AppCompatImageView {
 
@@ -17,13 +13,9 @@ public abstract class MovingObject extends AppCompatImageView {
     abstract  void setImage();
 
     abstract void setSize();
-    //      Obstacle obj = (Obstacle) newObstacle;
-//        this.getLayoutParams().height = 70;
-//        this.getLayoutParams().width = 70;
 
     /** Set location of the new obstacle */
     void setPosition() {
-        // set y variable to 0
         this.setY(0);
         // randomly pick a lane
         int obstacleLane = pickLane();
@@ -41,7 +33,6 @@ public abstract class MovingObject extends AppCompatImageView {
     int pickLane() {
         return (int) (Math.random() * 4);
     }
-
 
     /** change the score by 1 */
     abstract int changeScore() ;

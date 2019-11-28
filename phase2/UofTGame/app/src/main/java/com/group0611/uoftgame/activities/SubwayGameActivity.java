@@ -102,7 +102,7 @@ public class SubwayGameActivity extends AppCompatActivity {
         }
     }
 
-    public void updateScore(int score) {
+    public void displayNewScore(int score) {
         currentScore.setText("Current Score: " + score);
     }
 
