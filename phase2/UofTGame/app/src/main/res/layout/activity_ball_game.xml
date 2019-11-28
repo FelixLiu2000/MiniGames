@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/txtAngle"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="18dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/txtPower"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="18dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="6dp"
@@ -32,24 +32,58 @@
         app:layout_constraintTop_toBottomOf="@+id/txtAngle" />
 
     <TextView
-        android:id="@+id/txtScore"
-        android:layout_width="63dp"
+        android:id="@+id/txtPlayer1Score"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/player1_score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+
+    <TextView
+        android:id="@+id/txtPlayer1Lives"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/player1_lives"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/txtPlayer1Score"
+        app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+
+    <TextView
+        android:id="@+id/txtPlayer2Lives"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/player2_lives"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/txtPlayer2Score"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlayer1Lives" />
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/score"
+        android:text="@string/time"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtTime"
-        android:layout_width="63dp"
+        android:id="@+id/txtPlayer2Score"
+        android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/time"
+        android:text="@string/player2_score"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtScore" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPlayer1Score" />
 
     <Button
         android:id="@+id/btnShoot"
@@ -93,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:max="90"
+        android:max="0"
         android:progress="0"
         app:layout_constraintStart_toEndOf="@+id/txtAngle"
         app:layout_constraintTop_toTopOf="parent" />
@@ -105,10 +139,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:max="50"
+        android:max="0"
         android:progress="10"
         app:layout_constraintStart_toEndOf="@+id/txtPower"
         app:layout_constraintTop_toBottomOf="@+id/seekAngle" />
+
+    <TextView
+        android:id="@+id/txtCurrentPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/currentPlayer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPower" />
 
     <LinearLayout
         android:id="@+id/ballLayout"

@@ -20,9 +20,9 @@ public class CreateUserActivity extends AppCompatActivity {
 
     AppManager appManager;
     Intent intentCreateUser;
-    private EditText editTextFirstName, editTextLastName, editTextUsername, editTextPassword;
+    private EditText editTextFirstName, editTextLastName, editTextUsername, editTextPassword, editTextConfirmPassword;
     private Button buttonSwitchToLogIn, buttonCreateUser;
-    private TextView textViewErrorMessage;
+    private TextView textViewErrorMessage, textViewConfirmPasswordErrorMessage;
 
 
     @Override
@@ -36,9 +36,11 @@ public class CreateUserActivity extends AppCompatActivity {
         editTextLastName = findViewById(R.id.createUserLastNameTextBox);
         editTextUsername = findViewById(R.id.createUserUsernameTextBox);
         editTextPassword = findViewById(R.id.createUserPassWordTextBox);
+        editTextConfirmPassword = findViewById(R.id.createUserConfrimPassWordTextBox);
         buttonSwitchToLogIn = findViewById(R.id.createUserSwitchToLogInButton);
         buttonCreateUser = findViewById(R.id.createUserSubmitButton);
         textViewErrorMessage = findViewById(R.id.createUserErrorUsernameExists);
+        textViewConfirmPasswordErrorMessage = findViewById(R.id.createUserErrorConfirmPassword);
 
         // some of the following code for disabling the button until the fields are filed in
         // was reused from the video https://www.youtube.com/watch?v=Vy_4sZ6JVHM
@@ -47,6 +49,7 @@ public class CreateUserActivity extends AppCompatActivity {
         editTextLastName.addTextChangedListener(createUserPageTextWatcher);
         editTextUsername.addTextChangedListener(createUserPageTextWatcher);
         editTextPassword.addTextChangedListener(createUserPageTextWatcher);
+        editTextConfirmPassword.addTextChangedListener(createUserPageTextWatcher);
 
         buttonSwitchToLogIn.setOnClickListener(
                 new View.OnClickListener() {
@@ -82,28 +85,39 @@ public class CreateUserActivity extends AppCompatActivity {
                 });
     }
 
-    private TextWatcher createUserPageTextWatcher = new TextWatcher() {
+  private TextWatcher createUserPageTextWatcher =
+      new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String firstNameInput = editTextFirstName.getText().toString().trim();
-            String lastNameInput = editTextLastName.getText().toString().trim();
-            String usernameInput = editTextUsername.getText().toString().trim();
-            String passwordInput = editTextPassword.getText().toString().trim();
+          String firstNameInput = editTextFirstName.getText().toString().trim();
+          String lastNameInput = editTextLastName.getText().toString().trim();
+          String usernameInput = editTextUsername.getText().toString().trim();
+          String passwordInput = editTextPassword.getText().toString().trim();
+          String confirmPasswordInput = editTextConfirmPassword.getText().toString().trim();
 
-            buttonCreateUser.setEnabled(!firstNameInput.isEmpty() &&
-                    !lastNameInput.isEmpty() &&
-                    !usernameInput.isEmpty() &&
-                    !passwordInput.isEmpty());
+          boolean checkPasswordMatch = !passwordInput.isEmpty() && !confirmPasswordInput.isEmpty();
+
+          boolean allFieldsFilled = !firstNameInput.isEmpty() &&
+                  !lastNameInput.isEmpty() &&
+                  !usernameInput.isEmpty() &&
+                  checkPasswordMatch;
+
+          boolean passwordsMatch = (!passwordInput.isEmpty() && !confirmPasswordInput.isEmpty()) &&
+                  (passwordInput.equals(confirmPasswordInput));
+
+          if (allFieldsFilled && passwordsMatch) {
+                  textViewConfirmPasswordErrorMessage.setVisibility(View.INVISIBLE);
+                  buttonCreateUser.setEnabled(true);
+          }
+
+          if (checkPasswordMatch && !passwordsMatch) {textViewConfirmPasswordErrorMessage.setVisibility(View.VISIBLE);}
+          if (!allFieldsFilled || !passwordsMatch) {buttonCreateUser.setEnabled(false);}
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
+        public void afterTextChanged(Editable s) {}
+      };
 }

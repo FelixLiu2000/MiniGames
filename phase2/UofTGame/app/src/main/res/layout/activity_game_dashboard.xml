@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".activities.GameDashboardActivity">
 
+    <ImageButton
+        android:id="@+id/subwayGameButton"
+        android:layout_width="76dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/subwayGameButtonDescription"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintStart_toEndOf="@+id/cardGameButton"
+        app:layout_constraintTop_toBottomOf="@+id/gameDashboardPlayButton"
+        app:srcCompat="@drawable/subway_game_icon" />
+
+    <ImageButton
+        android:id="@+id/ballGameButton"
+        android:layout_width="76dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/ballGameButtonDescrioption"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintStart_toEndOf="@+id/subwayGameButton"
+        app:layout_constraintTop_toBottomOf="@+id/gameDashboardPlayButton"
+        app:srcCompat="@drawable/ballgame_player" />
+
     <TextView
         android:id="@+id/totalRoundsLabel"
         android:layout_width="98dp"
@@ -197,6 +225,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_preferences" />
+        app:srcCompat="@android:drawable/ic_menu_preferences"
+        android:contentDescription="@string/settingButtonDescription" />
+
+    <ImageButton
+        android:id="@+id/cardGameButton"
+        android:layout_width="76dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDashboardPlayButton"
+        app:srcCompat="@drawable/card_game_icon"
+        android:contentDescription="@string/cardGameButtonDescription"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

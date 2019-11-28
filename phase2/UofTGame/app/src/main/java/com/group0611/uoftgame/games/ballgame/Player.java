@@ -1,15 +1,14 @@
 package com.group0611.uoftgame.games.ballgame;
 
 import android.graphics.PointF;
-import android.view.View;
-
-import java.util.ArrayList;
 
 class Player {
   private PointF location;
-  private int shotAngle = BallGame.SHOT_STARTING_ANGLE;
-  private int shotPower = BallGame.SHOT_STARTING_POWER;
+  private int shotAngle = GameConstants.SHOT_STARTING_ANGLE;
+  private int shotPower = GameConstants.SHOT_STARTING_POWER;
   private int score;
+  private int remainingLives;
+  private String username;
 
   Player(float x, float y) {
     this.location = new PointF(x, y);
@@ -23,11 +22,11 @@ class Player {
     return location.y;
   }
 
-  private int getShotAngle() {
+  int getShotAngle() {
     return shotAngle;
   }
 
-  private int getShotPower() {
+  int getShotPower() {
     return shotPower;
   }
 
@@ -39,6 +38,28 @@ class Player {
     this.shotPower = power;
   }
 
+  String getUsername() {
+    return username;
+  }
+
+  void setUsername(String username) {
+    this.username = username;
+  }
+
+  int getRemainingLives() {
+    return remainingLives;
+  }
+
+  void setRemainingLives(int remainingLives) {
+    this.remainingLives = remainingLives;
+  }
+
+  /**
+   * Shoots a ball from this player's location.
+   * @param width the width of the ball.
+   * @param height the height of the ball.
+   * @return the ball being fired.
+   */
   Ball shootBall(int width, int height) {
     return new Ball(
         this.location.x, this.location.y, width, height, getShotAngle(), getShotPower());
@@ -48,8 +69,7 @@ class Player {
     return this.score;
   }
 
-  int setScore(int newScore) {
+  void setScore(int newScore) {
     this.score = newScore;
-    return this.score;
   }
 }

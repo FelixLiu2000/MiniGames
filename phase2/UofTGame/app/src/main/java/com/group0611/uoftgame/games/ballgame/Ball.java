@@ -1,12 +1,10 @@
 package com.group0611.uoftgame.games.ballgame;
 
 import android.graphics.RectF;
-import android.view.View;
 
-class Ball extends BallGameObject implements Collidable<Target>, Renderable {
+class Ball extends BallGameObject implements Collidable<Target> {
   private double speedX, speedY = 0;
   private RectF boundingBox;
-  private View view;
   private Class collidableType;
   private boolean hasCollided = false;
 
@@ -23,10 +21,8 @@ class Ball extends BallGameObject implements Collidable<Target>, Renderable {
   }
 
   private void move() {
-    speedY += BallGame.GRAVITY;
+    speedY += GameConstants.GRAVITY;
     setLocation((float) (getX() + speedX), (float) (getY() + speedY));
-    view.setX(getX());
-    view.setY(getY());
   }
 
   @Override
@@ -49,16 +45,6 @@ class Ball extends BallGameObject implements Collidable<Target>, Renderable {
   @Override
   public boolean hasCollided() {
     return hasCollided;
-  }
-
-  @Override
-  public View getView() {
-    return view;
-  }
-
-  @Override
-  public void setObjectView(View view) {
-    this.view = view;
   }
 
   @Override

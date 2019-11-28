@@ -3,10 +3,9 @@ package com.group0611.uoftgame.games.ballgame;
 import android.graphics.RectF;
 import android.view.View;
 
-class Target extends BallGameObject implements Collidable<Ball>, Renderable {
+class Target extends BallGameObject implements Collidable<Ball> {
   private Class collidableType;
   private RectF boundingBox;
-  private View view;
   private boolean hasCollided;
 
   Target(float x, float y, float width, float height) {
@@ -27,16 +26,6 @@ class Target extends BallGameObject implements Collidable<Ball>, Renderable {
   @Override
   public boolean hasCollided() {
     return hasCollided;
-  }
-
-  @Override
-  public View getView() {
-    return view;
-  }
-
-  @Override
-  public void setObjectView(View view) {
-    this.view = view;
   }
 
   @Override

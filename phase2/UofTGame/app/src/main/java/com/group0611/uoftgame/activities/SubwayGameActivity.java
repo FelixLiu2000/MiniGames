@@ -10,12 +10,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.group0611.uoftgame.R;
+import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.subwaygame.SubwayGame;
 import com.group0611.uoftgame.utilities.AppManager;
 
 import java.util.ArrayList;
 
-public class SubwayGameActivity extends AppCompatActivity {
+public class SubwayGameActivity extends AppCompatActivity implements GameActivity {
     AppManager appManager;
     Intent intentSubwayGameActivity;
     Intent intentSubwayGameToResultsPage;
@@ -28,21 +29,54 @@ public class SubwayGameActivity extends AppCompatActivity {
     // runner'x lane
     public int runnerLane;
     private TextView currentScore;
+  private Intent currentIntent, toResultsPageIntent, toDashboardIntent;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        intentSubwayGameActivity = getIntent();
-        this.appManager = (AppManager)intentSubwayGameActivity.getSerializableExtra("appManager");
-        setContentView(R.layout.activity_subway_game);
-        currentScore = findViewById(R.id.score);
-        runner = findViewById(R.id.subwayRunner);
-        runnerX = runner.getX();
-        runnerY = runner.getY();
-        System.out.println("Runner X " + runnerX + "Runner Y " + runnerY);
-        runnerLane = 2;
-        game = new SubwayGame(60, appManager, this);
-    }
+  @Override
+  public Intent getCurrentIntent() {
+    return currentIntent;
+  }
+
+  private void setCurrentIntent(Intent currentIntent) {
+    this.currentIntent = currentIntent;
+  }
+
+  @Override
+  public Intent getToResultsPageIntent() {
+    return toResultsPageIntent;
+  }
+
+  private void setToResultsPageIntent(Intent toResultsPageIntent) {
+    this.toResultsPageIntent = toResultsPageIntent;
+  }
+
+  @Override
+  public Intent getToDashboardIntent() {
+    return toDashboardIntent;
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setCurrentIntent(getIntent());
+    AppManager appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
+    setContentView(R.layout.activity_subway_game);
+    currentScore = findViewById(R.id.score);
+    runner = findViewById(R.id.subwayRunner);
+    runnerX = runner.getX();
+    runnerY = runner.getY();
+    runnerLane = 2;
+
+    // subwayGame = new SubwayGame(60, appManager, this);
+    int timeLimit = appManager.getCurrentPlayer().getTimeChoice()[0];
+    game =
+        (SubwayGame)
+            new Game.GameBuilder(SubwayGame.class, appManager, this)
+                .addTimedGameMode(true)
+                .setTimeLimit(timeLimit)
+                .build()
+                .getGame();
+    //        System.out.println("Initial X and Y are: " + runnerX + runnerY);
+  }
 
     /** move runner right when right button is clicked */
     public void moveRight(View view) {
@@ -107,8 +141,8 @@ public class SubwayGameActivity extends AppCompatActivity {
     }
 
     public void leaveGame(AppManager appManager) {
-        intentSubwayGameToResultsPage = new Intent(SubwayGameActivity.this, ResultsPageActivity.class);
-        intentSubwayGameToResultsPage.putExtra("appManager", appManager);
-        startActivity(intentSubwayGameToResultsPage);
+        setToResultsPageIntent(new Intent(SubwayGameActivity.this, ResultsPageActivity.class));
+        getToResultsPageIntent().putExtra("appManager", appManager);
+        startActivity(getToResultsPageIntent());
     }
 }
