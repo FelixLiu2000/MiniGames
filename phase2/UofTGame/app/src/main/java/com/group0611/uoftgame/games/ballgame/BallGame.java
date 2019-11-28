@@ -14,8 +14,8 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   private ArrayList<Ball> activeBallObjects = new ArrayList<>();
   // Stores index of ball objects to be removed from activeBallObjects
   private ArrayList<Integer> inactiveBallIndices = new ArrayList<>();
-  private Player[] players;
-  // Current player (1 or 2)
+  private ArrayList<Player> players = new ArrayList<>();
+  // Number of the current player (indexed at 1).
   private int currentPlayerNumber = 1;
   private Target target;
   // Active playing area that ball movement is restricted to
@@ -96,13 +96,14 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   /**
    * Gets the player with a given player number.
    *
-   * @param playerNumber the number of the player (1 or 2).
+   * @param playerNumber the number of the player (indexed at 1).
    */
   Player getPlayer(int playerNumber) {
-    if (playerNumber == 1 || (getUsesMultiplayerGameMode() && playerNumber == 2)) {
-      return players[playerNumber - 1];
+    if (playerNumber == 1 || (getUsesMultiplayerGameMode() && playerNumber <= players.size())) {
+      return players.get(playerNumber - 1);
     } else {
-      throw new IllegalArgumentException("Illegal argument: player number must be 1 or 2.");
+      throw new IllegalArgumentException(
+          "Illegal argument: player with number " + playerNumber + " not found.");
     }
   }
 
@@ -115,14 +116,14 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     for (Player player : players) {
       player.setRemainingLives(this.getStartingLives());
       player.setUsername(getAppManager().getCurrentPlayerDisplayName());
+      this.players.add(player);
     }
-    this.players = players;
   }
 
   /**
    * Returns the player number of the player active during the current turn.
    *
-   * @return the number of the current player (1 or 2).
+   * @return the number of the current player (indexed at 1).
    */
   @Override
   public int getCurrentPlayerNumber() {

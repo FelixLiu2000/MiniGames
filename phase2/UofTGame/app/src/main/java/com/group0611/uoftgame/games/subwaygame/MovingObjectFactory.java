@@ -9,21 +9,37 @@ class MovingObjectFactory {
         this.activity = act;
     }
 
+    /**
+     * Randomly creates either a Coin or an Obstacle.
+     * @return MovingObject (Coin or Obstacle)
+     */
     MovingObject createObj() {
-        int movingObj = pickObj();
-        if (movingObj == 1) {
+        int rand = pickObj();
+        if (rand == 1) {
             return createCoin();
         } else return createObstacle();
     }
 
+    /**
+     * Randomly generates either 1 or 2.
+     * @return int
+     */
     private int pickObj() {
         return (int) (Math.random() * 3);
     }
 
+    /**
+     * Creates a new Coin object.
+     * @return Coin
+     */
     private Coin createCoin(){
         return new Coin(activity);
     }
 
+    /**
+     * Creates a new Obstacle object
+     * @return Obstacle
+     */
     private Obstacle createObstacle(){
         return new Obstacle(activity);
     }

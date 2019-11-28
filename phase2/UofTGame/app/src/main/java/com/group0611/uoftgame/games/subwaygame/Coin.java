@@ -20,7 +20,10 @@ public class Coin extends MovingObject {;
         this.getLayoutParams().width = 100;
     }
 
-    /** increase the score by 1 */
+    /**
+     * Increase the score by 1
+     * @return 1
+     */
     int changeScore() {
         return 1;
     }

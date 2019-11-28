@@ -7,19 +7,18 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.group0611.uoftgame.R;
-import com.group0611.uoftgame.activities.GameActivity;
 import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.Game;
-import com.group0611.uoftgame.utilities.AppManager;
 
 public class SubwayGame extends Game {
   private int score;
+  // keeps track of the number of coins collected
   private int coins;
+  // creates obstacles and coins
   private MovingObjectFactory factory;
   private CountDownTimer subwayGameTimer;
 
   public SubwayGame(GameBuilder gameBuilder) {
-    //    super(timeLimit, appManager);
     super(gameBuilder);
     this.score = 10;
     this.coins = 0;
@@ -32,6 +31,11 @@ public class SubwayGame extends Game {
     return (SubwayGameActivity) super.getActivity();
   }
 
+  /**
+   * Creates a timer and
+   * (1) checks for collisions and moves every moving object down every second, and
+   * (2) creates a moving object every 4 seconds.
+  */
   protected void startGame() {
     // create 60 second timer
     subwayGameTimer = new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
@@ -39,7 +43,7 @@ public class SubwayGame extends Game {
       public void onTick(long millisUntilFinished) {
         // check for collisions every second
         checkCollision();
-        // move all obstacles down every second
+        // move all moving objects down every second
         getActivity().moveDown();
         // create new obstacle every 4 seconds
         double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
@@ -60,7 +64,10 @@ public class SubwayGame extends Game {
     ((TextView) getActivity().findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft / 1000);
   }
 
-  /** check if runner and obstacle are in the same position and decrease score by 1 if they are */
+  /**
+   * Check if runner and a moving object are in the same position.
+   * Increase score if coin is hit and decrease score if obstacle is hit.
+   */
   private void checkCollision() {
     // loop through obstacles
     for (int i = 0; i < getActivity().movingObjects.size(); i++) {
@@ -85,6 +92,9 @@ public class SubwayGame extends Game {
   /**
    * Decrease the score if an obstacle is hit and as long as the score is above zero. Increase the
    * score if a coin is hit.
+   *
+   * @param change the amount the score needs to change by; 1 if a coin is hit and -1 if an obstacle
+   *               is hit.
    */
   private void updateScore(int change) {
     // if an obstacle is hit and the score is above 0
@@ -96,27 +106,43 @@ public class SubwayGame extends Game {
     }
   }
 
+  /**
+   * Increase the number of coins collected by 1.
+   *
+   * @param change the amount the score needs to change by; 1 if a coin is hit and -1 if an
+   * obstacle * is hit.
+   */
   private void updateCoins(int change) {
     if (change == 1) {
       this.coins += 1;
     }
   }
 
-  // helper method to check for the y coordinate of an obstacle
-  private boolean checkCoordY(float obstacleY) {
-    return (obstacleY == 1200);
+  /**
+   * Checks the y coordinate of a moving object.
+   * @param objY the y coordinate of the moving object.
+   * @return boolean true if the y coordinate is 1200, i.e. the object is in the same position as
+   * the runner.
+   */
+  private boolean checkCoordY(float objY) {
+    return (objY == 1200);
   }
 
-  // helper method to check for the lane of the obstacle
-  private boolean checkLane(float obstacleX) {
-    if (getActivity().runnerLane == 1 && obstacleX == 160) { // if both are in lane 1
+  /**
+   * Compares the lane the moving object is in to the lane the runner is in.
+   * @param objX the x coordinate of the moving object.
+   * @return boolean true if the moving object and runner are in the same lane.
+   */
+  private boolean checkLane(float objX) {
+    if (getActivity().runnerLane == 1 && objX == 160) { // if both are in lane 1
       return true;
-    } else // if both are in lane 3
-    if (getActivity().runnerLane == 2 && obstacleX == 500) { // if both are in lane 2
+    } else
+    if (getActivity().runnerLane == 2 && objX == 500) { // if both are in lane 2
       return true;
-    } else return getActivity().runnerLane == 3 && obstacleX == 860;
+    } else return getActivity().runnerLane == 3 && objX == 860; // if both are in lane 3
   }
 
+  /**Creates a moving object by using the moving object factory.*/
   private void createMovingObject() {
     MovingObject obj = factory.createObj();
 
@@ -124,7 +150,10 @@ public class SubwayGame extends Game {
     displayObject(obj);
   }
 
-  /** create a new obstacle and add it to obstacles ArrayList in SubwayGameActivity */
+  /**
+   * Adds the new moving object to the moving object ArrayList in SubwayGameActivity.
+   * Displays the object to the screen by setting its size and position.
+   * */
   private void displayObject(MovingObject obj) {
     getActivity().movingObjects.add(obj);
     ((ConstraintLayout) getActivity().findViewById(R.id.Layout)).addView(obj);
