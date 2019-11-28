@@ -252,8 +252,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
     currentPlayer++;
     playerScores.add(score);
     score = 0;
-    // TODO: Fix this line
-    //((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
+    ((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
     startGame();
   }
 
