@@ -25,7 +25,7 @@ public class Player implements Serializable {
     this.currentRoundScore = 0;
     this.gameDashboardBackgroundColor = Color.WHITE;
     this.currentGameScore = 0;
-    this.easyTimes = new int[]{30000, 120000, 150000};
+    this.easyTimes = new int[]{120000, 120000, 150000};
     this.mediumTimes = new int[]{60000, 60000, 120000};
     this.hardTimes = new int[]{80000, 30000, 80000};
     this.timeChoice = easyTimes;

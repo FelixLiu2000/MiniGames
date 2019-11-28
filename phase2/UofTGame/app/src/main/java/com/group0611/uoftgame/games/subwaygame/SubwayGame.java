@@ -42,9 +42,7 @@ public class SubwayGame extends Game {
         double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
         if (nearestThousand % 4000 == 0) {
           createMovingObject();
-//          createObstacle();
         }
-
         updateTime(millisUntilFinished);
       }
 
@@ -63,9 +61,9 @@ public class SubwayGame extends Game {
     // loop through obstacles
     for (int i = 0; i < activity.movingObjects.size(); i++) {
       // get position of obstacle
-      View obstacle = activity.movingObjects.get(i);
-      float obstacleX = obstacle.getX();
-      float obstacleY = obstacle.getY();
+      View movingObject = activity.movingObjects.get(i);
+      float obstacleX = movingObject.getX();
+      float obstacleY = movingObject.getY();
       // check if runner and obstacle are in the same lane
       boolean sameLane = checkLane(obstacleX);
 //      System.out.println("sameLane is " + sameLane);
@@ -73,12 +71,15 @@ public class SubwayGame extends Game {
       boolean sameY = checkCoordY(obstacleY);
 //      System.out.println("sameY is " + sameY);
       if (sameLane && sameY)
+        score += ((MovingObject)movingObject).changeScore();
+        System.out.println("Score: " + score);
         // decrease score
-        activity.updateScore(((MovingObject)obstacle).changeScore());
+        activity.updateScore(score);
     }
   }
   // helper method to check for the y coordinate of an obstacle
   private boolean checkCoordY(float obstacleY) {
+//    return (1100 <= obstacleY && obstacleY <= 1300); // 1150<= <= 1250
     return (obstacleY == 1200);
   }
 
@@ -94,13 +95,14 @@ public class SubwayGame extends Game {
   }
 
   public void createMovingObject() {
-    MovingObject obstacle = factory.createObstacle();
-    obstacle.setImage();
-    displayObject(obstacle);
+    MovingObject obj = factory.createObj();
 
-    MovingObject coin = factory.createCoin() ;
-    coin.setImage();
-    displayObject(coin);
+    obj.setImage();
+    displayObject(obj);
+
+//    MovingObject coin = factory.createCoin() ;
+//    coin.setImage();
+//    displayObject(coin);
 
   }
 

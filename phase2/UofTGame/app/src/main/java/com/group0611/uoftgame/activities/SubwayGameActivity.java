@@ -39,6 +39,7 @@ public class SubwayGameActivity extends AppCompatActivity {
         runner = findViewById(R.id.subwayRunner);
         runnerX = runner.getX();
         runnerY = runner.getY();
+        System.out.println("Runner X " + runnerX + "Runner Y " + runnerY);
         runnerLane = 2;
         game = new SubwayGame(60, appManager, this);
     }

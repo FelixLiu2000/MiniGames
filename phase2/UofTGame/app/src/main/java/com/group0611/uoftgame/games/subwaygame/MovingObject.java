@@ -16,11 +16,10 @@ public abstract class MovingObject extends AppCompatImageView {
 
     abstract  void setImage();
 
-    void setSize(){
-//      Obstacle obj = (Obstacle) newObstacle;
-        this.getLayoutParams().height = 70;
-        this.getLayoutParams().width = 70;
-    }
+    abstract void setSize();
+    //      Obstacle obj = (Obstacle) newObstacle;
+//        this.getLayoutParams().height = 70;
+//        this.getLayoutParams().width = 70;
 
     /** Set location of the new obstacle */
     void setPosition() {
@@ -42,9 +41,6 @@ public abstract class MovingObject extends AppCompatImageView {
     int pickLane() {
         return (int) (Math.random() * 4);
     }
-
-
-
 
 
     /** change the score by 1 */

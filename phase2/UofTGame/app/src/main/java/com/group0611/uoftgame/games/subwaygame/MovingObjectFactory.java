@@ -9,6 +9,18 @@ public class MovingObjectFactory {
         this.activity = act;
     }
 
+    public MovingObject createObj() {
+        int movingObj = pickObj();
+        if (movingObj == 1) {
+            return createCoin();
+        } else return createObstacle();
+    }
+
+    int pickObj() {
+        return (int) (Math.random() * 3);
+    }
+
+
     public Coin createCoin(){
         return new Coin(activity);
     }
