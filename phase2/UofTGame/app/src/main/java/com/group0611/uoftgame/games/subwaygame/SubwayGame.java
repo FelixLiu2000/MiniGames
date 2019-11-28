@@ -2,7 +2,6 @@ package com.group0611.uoftgame.games.subwaygame;
 
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,9 +11,6 @@ import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.utilities.AppManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SubwayGame extends Game {
   private SubwayGameActivity activity;
   private int score;
@@ -22,16 +18,17 @@ public class SubwayGame extends Game {
   private MovingObjectFactory factory;
 
 
-  public SubwayGame(int timeLimit, AppManager appManager, SubwayGameActivity activity) {
-    super(timeLimit, appManager);
+  public SubwayGame(GameBuilder gameBuilder) {
+//    super(timeLimit, appManager);
+    super(gameBuilder);
     this.score = 10;
     this.coins = 0;
     this.activity = activity;
     this.factory = new MovingObjectFactory(activity);
-    play();
+    startGame();
   }
 
-  protected void play() {
+  protected void startGame() {
     // create 60 second timer
     new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
       @Override
@@ -129,6 +126,9 @@ public class SubwayGame extends Game {
       obj.setPosition();
   }
 
+  protected int getCurrentPlayerScore() {
+    return this.score;
+  }
 
   @Override
   protected void endGame() {
@@ -140,6 +140,6 @@ public class SubwayGame extends Game {
 
   /** A wrapper method to implement abstract method from Game */
   public void updateGame() {
-    play();
+    startGame();
   }
 }

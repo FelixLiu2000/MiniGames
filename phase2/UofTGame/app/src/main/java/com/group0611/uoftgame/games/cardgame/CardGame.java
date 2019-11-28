@@ -29,7 +29,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
 
   /**
    * Constructor for the CardGame. Initializes the activity, shuffle the cards, set the card array
-   * and call the play method.
+   * and call the startGame method.
    *
    * @param builder GameBuilder that contains the game's parameters.
    */

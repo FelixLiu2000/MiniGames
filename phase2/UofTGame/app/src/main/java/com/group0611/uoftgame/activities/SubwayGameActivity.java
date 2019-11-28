@@ -20,7 +20,7 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     AppManager appManager;
     Intent intentSubwayGameActivity;
     Intent intentSubwayGameToResultsPage;
-    public ArrayList<ImageView> movingObjects = new ArrayList<>();
+    public ArrayList<ImageView> movingObjects = new ArrayList<ImageView>();
     private ImageView runner;
     private SubwayGame game;
     // runner's x and y coordinates
@@ -66,7 +66,6 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     runnerY = runner.getY();
     runnerLane = 2;
 
-    // subwayGame = new SubwayGame(60, appManager, this);
     int timeLimit = appManager.getCurrentPlayer().getTimeChoice()[0];
     game =
         (SubwayGame)
@@ -75,7 +74,6 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
                 .setTimeLimit(timeLimit)
                 .build()
                 .getGame();
-    //        System.out.println("Initial X and Y are: " + runnerX + runnerY);
   }
 
     /** move runner right when right button is clicked */
