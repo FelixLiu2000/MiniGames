@@ -13,13 +13,21 @@ import com.group0611.uoftgame.games.LivesGame;
 import com.group0611.uoftgame.games.MultiplayerGame;
 import com.group0611.uoftgame.games.TimedGame;
 
-public class SubwayGame extends Game implements MultiplayerGame, LivesGame, TimedGame {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SubwayGame extends Game implements LivesGame, TimedGame, MultiplayerGame {
   private int score;
   // keeps track of the number of coins collected
   private int coins;
   // creates obstacles and coins
   private MovingObjectFactory factory;
   private CountDownTimer subwayGameTimer;
+
+  private int currentPlayer = 1;
+  private List<Integer> playerScores = new ArrayList<>();
+
+  private int time = getAppManager().getCurrentPlayer().getTimeChoice()[0];
 
   public SubwayGame(GameBuilder gameBuilder) {
     super(gameBuilder);
@@ -38,10 +46,10 @@ public class SubwayGame extends Game implements MultiplayerGame, LivesGame, Time
    * Creates a timer and
    * (1) checks for collisions and moves every moving object down every second, and
    * (2) creates a moving object every 4 seconds.
-  */
+   */
   protected void startGame() {
-    // create 120 second timer
-    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
+    // create 60 second timer
+    subwayGameTimer = new CountDownTimer(time, 1000) {
       @Override
       public void onTick(long millisUntilFinished) {
         // check for collisions every second
@@ -54,17 +62,29 @@ public class SubwayGame extends Game implements MultiplayerGame, LivesGame, Time
           createMovingObject();
         }
         updateTime(millisUntilFinished);
+        if(score == 0 && getUsesLivesGameMode()){
+          endGame();
+        }
       }
 
       @Override
       public void onFinish() {
-        endGame();
+        if(!getUsesLivesGameMode()){
+          endGame();
+        }else{
+          this.start();
+        }
       }
     }.start();
   }
 
   private void updateTime(long timeLeft) {
-    ((TextView) getActivity().findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft / 1000);
+    if(!getUsesLivesGameMode()){
+      ((TextView) getActivity().findViewById(R.id.timeleft)).setText("Time Left: " + timeLeft / 1000);
+    } else {
+      ((TextView) getActivity().findViewById(R.id.timeleft)).setText("Lives Left: " + timeLeft / 1000);
+    }
+
   }
 
   /**
@@ -176,7 +196,7 @@ public class SubwayGame extends Game implements MultiplayerGame, LivesGame, Time
    */
   public boolean getUsesTimedGameMode(){
     return super.getUsesTimedGameMode();
-    }
+  }
 
 
   /**
@@ -185,7 +205,7 @@ public class SubwayGame extends Game implements MultiplayerGame, LivesGame, Time
    */
   public int getTimeLimit(){
     return 120;
-    }
+  }
 
 
 
@@ -203,22 +223,44 @@ public class SubwayGame extends Game implements MultiplayerGame, LivesGame, Time
   }
 
   @Override
+  public boolean getUsesLivesGameMode() {
+    return super.getUsesLivesGameMode();
+  }
+
+  @Override
+  public int getStartingLives() {
+    return score;
+  }
+
+  @Override
+  public boolean isOutOfLives() {
+    return score <= 0;
+  }
+
+  @Override
   public boolean getUsesMultiplayerGameMode() {
-    return false;
+    return super.getUsesMultiplayerGameMode();
   }
 
   @Override
   public int getPlayerScore(int playerNumber) {
-    return 0;
+    return playerScores.get(playerNumber-1);
   }
 
   @Override
   public void nextPlayerTurn() {
-
+    currentPlayer++;
+    playerScores.add(score);
+    score = 0;
+    // TODO: Fix this line
+    //((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
+    startGame();
   }
 
   @Override
   public int getCurrentPlayerNumber() {
-    return 0;
+    return currentPlayer;
   }
+
+
 }
