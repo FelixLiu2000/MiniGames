@@ -6,6 +6,7 @@ import android.graphics.Color;
 import com.group0611.uoftgame.activities.BallGameActivity;
 import com.group0611.uoftgame.activities.CardGameActivity;
 import com.group0611.uoftgame.activities.SubwayGameActivity;
+import com.group0611.uoftgame.games.subwaygame.SubwayGame;
 
 import java.io.Serializable;
 
