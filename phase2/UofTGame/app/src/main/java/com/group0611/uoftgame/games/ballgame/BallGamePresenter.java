@@ -8,6 +8,7 @@ import com.group0611.uoftgame.activities.BallGameActivity;
 public class BallGamePresenter {
   private BallGame game;
   private BallGameActivity activity;
+  private CountDownTimer gameTimer;
 
   public BallGamePresenter(BallGame game) {
     this.game = game;
@@ -20,6 +21,8 @@ public class BallGamePresenter {
   public void unbindActivity() {
     this.activity = null;
   }
+
+  public CountDownTimer getGameTimer() { return this.gameTimer; }
 
   public void initializePlayer(View view) {
     Player[] players = new Player[2];
@@ -144,7 +147,7 @@ public class BallGamePresenter {
     if (!game.getUsesTimedGameMode()) {
       timerDuration = 60;
     }
-    CountDownTimer gameTimer =
+    gameTimer =
         new CountDownTimer(timerDuration * 1000, TIMER_REFRESH) {
           @Override
           public void onTick(long millisRemaining) {

@@ -16,6 +16,7 @@ public class SubwayGame extends Game {
   private int score;
   private int coins;
   private MovingObjectFactory factory;
+  private CountDownTimer subwayGameTimer;
 
   public SubwayGame(GameBuilder gameBuilder) {
     //    super(timeLimit, appManager);
@@ -33,7 +34,7 @@ public class SubwayGame extends Game {
 
   protected void startGame() {
     // create 60 second timer
-    new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
+    subwayGameTimer = new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
       @Override
       public void onTick(long millisUntilFinished) {
         // check for collisions every second
@@ -134,6 +135,7 @@ public class SubwayGame extends Game {
   protected int getCurrentPlayerScore() {
     return this.score;
   }
+  public CountDownTimer getSubwayGameTimer() { return this.subwayGameTimer; }
 
   @Override
   protected void endGame() {

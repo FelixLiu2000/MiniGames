@@ -140,4 +140,10 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
         getToResultsPageIntent().putExtra("appManager", appManager);
         startActivity(getToResultsPageIntent());
     }
+
+    @Override
+    public void onBackPressed() {
+        game.getSubwayGameTimer().cancel();
+        finish();
+    }
 }
