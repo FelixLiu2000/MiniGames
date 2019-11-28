@@ -131,6 +131,10 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
         }
     }
 
+    /**
+     * Updates the displayed score.
+     * @param score the current score of the game
+     */
     public void displayNewScore(int score) {
         currentScore.setText("Current Score: " + score);
     }

@@ -9,8 +9,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.Game;
+import com.group0611.uoftgame.games.LivesGame;
+import com.group0611.uoftgame.games.MultiplayerGame;
+import com.group0611.uoftgame.games.TimedGame;
 
-public class SubwayGame extends Game {
+public class SubwayGame extends Game implements MultiplayerGame, LivesGame, TimedGame {
   private int score;
   // keeps track of the number of coins collected
   private int coins;
@@ -36,7 +39,7 @@ public class SubwayGame extends Game {
    * (2) creates a moving object every 4 seconds.
   */
   protected void startGame() {
-    // create 60 second timer
+    // create 120 second timer
     new CountDownTimer(getAppManager().getCurrentPlayer().getTimeChoice()[0], 1000) {
       @Override
       public void onTick(long millisUntilFinished) {
@@ -164,6 +167,26 @@ public class SubwayGame extends Game {
     return this.score;
   }
 
+  //Timed Game
+  /**
+   * Whether the game currently uses a time limit.
+   * @return true if the game has a time limit, false otherwise.
+   */
+  public boolean getUsesTimedGameMode(){
+    return super.getUsesTimedGameMode();
+    }
+
+
+  /**
+   * The amount of time the game runs for.
+   * @return the game's time limit.
+   */
+  public int getTimeLimit(){
+    return 120;
+    }
+
+
+
   @Override
   protected void endGame() {
     System.out.println("Game Over!");
@@ -175,5 +198,25 @@ public class SubwayGame extends Game {
   /** A wrapper method to implement abstract method from Game */
   public void updateGame() {
     startGame();
+  }
+
+  @Override
+  public boolean getUsesMultiplayerGameMode() {
+    return false;
+  }
+
+  @Override
+  public int getPlayerScore(int playerNumber) {
+    return 0;
+  }
+
+  @Override
+  public void nextPlayerTurn() {
+
+  }
+
+  @Override
+  public int getCurrentPlayerNumber() {
+    return 0;
   }
 }
