@@ -17,7 +17,7 @@ import com.group0611.uoftgame.utilities.AppManager;
 import java.util.ArrayList;
 
 public class SubwayGameActivity extends AppCompatActivity implements GameActivity {
-    public ArrayList<ImageView> movingObjects = new ArrayList<ImageView>();
+    public ArrayList<ImageView> movingObjects = new ArrayList<>();
     private ImageView runner;
     private SubwayGame game;
     // runner's x and y coordinates

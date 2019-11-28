@@ -7,10 +7,8 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.group0611.uoftgame.R;
-import com.group0611.uoftgame.activities.GameActivity;
 import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.Game;
-import com.group0611.uoftgame.utilities.AppManager;
 
 public class SubwayGame extends Game {
   private int score;
@@ -18,7 +16,6 @@ public class SubwayGame extends Game {
   private MovingObjectFactory factory;
 
   public SubwayGame(GameBuilder gameBuilder) {
-    //    super(timeLimit, appManager);
     super(gameBuilder);
     this.score = 10;
     this.coins = 0;
@@ -102,18 +99,18 @@ public class SubwayGame extends Game {
   }
 
   // helper method to check for the y coordinate of an obstacle
-  private boolean checkCoordY(float obstacleY) {
-    return (obstacleY == 1200);
+  private boolean checkCoordY(float objY) {
+    return (objY == 1200);
   }
 
   // helper method to check for the lane of the obstacle
-  private boolean checkLane(float obstacleX) {
-    if (getActivity().runnerLane == 1 && obstacleX == 160) { // if both are in lane 1
+  private boolean checkLane(float objX) {
+    if (getActivity().runnerLane == 1 && objX == 160) { // if both are in lane 1
       return true;
     } else // if both are in lane 3
-    if (getActivity().runnerLane == 2 && obstacleX == 500) { // if both are in lane 2
+    if (getActivity().runnerLane == 2 && objX == 500) { // if both are in lane 2
       return true;
-    } else return getActivity().runnerLane == 3 && obstacleX == 860;
+    } else return getActivity().runnerLane == 3 && objX == 860;
   }
 
   private void createMovingObject() {
