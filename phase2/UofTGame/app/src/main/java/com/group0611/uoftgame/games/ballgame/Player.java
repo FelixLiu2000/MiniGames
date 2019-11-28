@@ -7,7 +7,7 @@ class Player {
   private int shotAngle = GameConstants.SHOT_STARTING_ANGLE;
   private int shotPower = GameConstants.SHOT_STARTING_POWER;
   private int score;
-  private int lives;
+  private int remainingLives;
   private String username;
 
   Player(float x, float y) {
@@ -46,14 +46,20 @@ class Player {
     this.username = username;
   }
 
-  int getLives() {
-    return lives;
+  int getRemainingLives() {
+    return remainingLives;
   }
 
-  void setLives(int lives) {
-    this.lives = lives;
+  void setRemainingLives(int remainingLives) {
+    this.remainingLives = remainingLives;
   }
 
+  /**
+   * Shoots a ball from this player's location.
+   * @param width the width of the ball.
+   * @param height the height of the ball.
+   * @return the ball being fired.
+   */
   Ball shootBall(int width, int height) {
     return new Ball(
         this.location.x, this.location.y, width, height, getShotAngle(), getShotPower());

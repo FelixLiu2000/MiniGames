@@ -10,8 +10,8 @@ public abstract class Game {
 
   private AppManager appManager;
   private GameActivity activity;
-  private int lives, timeLimit; // At most one of (lives, timeLimit) is optional
-  private boolean hasLivesGameMode, hasTimedGameMode, hasMultiplayerGameMode;
+  private int startingLives, timeLimit; // At most one of (startingLives, timeLimit) is optional
+  private boolean usesLivesGameMode, usesTimedGameMode, usesMultiplayerGameMode;
 
   /**
    * Constructs a new timed game.
@@ -21,31 +21,31 @@ public abstract class Game {
   public Game(GameBuilder builder) {
     this.appManager = builder.manager;
     this.activity = builder.activity;
-    this.hasLivesGameMode = builder.hasLivesGameMode;
-    this.hasTimedGameMode = builder.hasTimedGameMode;
-    this.hasMultiplayerGameMode = builder.hasMultiplayerGameMode;
-    this.lives = builder.lives;
+    this.usesLivesGameMode = builder.usesLivesGameMode;
+    this.usesTimedGameMode = builder.usesTimedGameMode;
+    this.usesMultiplayerGameMode = builder.usesMultiplayerGameMode;
+    this.startingLives = builder.startingLives;
     this.timeLimit = builder.timeLimit;
   }
 
-  protected int getLives() {
-    return lives;
+  protected int getStartingLives() {
+    return startingLives;
   }
 
   protected int getTimeLimit() {
     return timeLimit;
   }
 
-  protected boolean getHasLivesGameMode() {
-    return hasLivesGameMode;
+  protected boolean getUsesLivesGameMode() {
+    return usesLivesGameMode;
   }
 
-  protected boolean getHasTimedGameMode() {
-    return hasTimedGameMode;
+  protected boolean getUsesTimedGameMode() {
+    return usesTimedGameMode;
   }
 
-  protected boolean getHasMultiplayerGameMode() {
-    return hasMultiplayerGameMode;
+  protected boolean getUsesMultiplayerGameMode() {
+    return usesMultiplayerGameMode;
   }
 
   protected AppManager getAppManager() {
@@ -60,28 +60,38 @@ public abstract class Game {
 
   protected abstract void endGame();
 
-  /**
-   * Builder class for constructing games of different game modes.. Usage: game = (ExampleGame) new
-   * Game.GameBuilder(ExampleGame.class, manager, exampleGameActivity).setTimedGame. ... .build();
-   */
+  protected abstract int getCurrentPlayerScore();
+
+  // Usage: game = (ExampleGame) new Game.GameBuilder(ExampleGame.class, manager,
+  // exampleGameActivity).setTimedGame. ... .build();
+  /** Builder class for constructing games that implement different game modes. */
   public static class GameBuilder {
     private Class gameType;
     private AppManager manager;
     private GameActivity activity;
-    private boolean hasTimedGameMode;
-    private boolean hasLivesGameMode;
-    private boolean hasMultiplayerGameMode;
+    private boolean usesTimedGameMode;
+    private boolean usesLivesGameMode;
+    private boolean usesMultiplayerGameMode;
     private int timeLimit;
-    private int lives;
+    private int startingLives;
+    private Game game;
 
+    /**
+     * Constructs a new GameBuilder used for building a given game type.
+     *
+     * @param gameType the game being built.
+     * @param manager the appManager managing the game.
+     * @param activity the game's corresponding activity.
+     */
     public GameBuilder(Class gameType, AppManager manager, GameActivity activity) {
       this.gameType = gameType;
       this.manager = manager;
       this.activity = activity;
     }
 
+    /** Sets whether to add time limit functionality to the game being built. */
     public GameBuilder addTimedGameMode(boolean state) {
-      hasTimedGameMode = state;
+      usesTimedGameMode = state;
       return this;
     }
 
@@ -93,44 +103,53 @@ public abstract class Game {
       return this;
     }
 
+    /** Sets whether to add lives functionality to the game being built. */
     public GameBuilder addLivesGameMode(boolean state) {
-      hasLivesGameMode = state;
+      usesLivesGameMode = state;
       return this;
     }
 
-    public GameBuilder setLives(int lives) {
-      if (lives <= 0) {
-        throw new IllegalArgumentException("Illegal argument: lives is negative.");
+    public GameBuilder setStartingLives(int startingLives) {
+      if (startingLives <= 0) {
+        throw new IllegalArgumentException("Illegal argument: startingLives is negative.");
       }
-      this.lives = lives;
+      this.startingLives = startingLives;
       return this;
     }
 
+    /** Sets whether to add multiplayer functionality to the game being built. */
     public GameBuilder addMultiplayerGameMode(boolean state) {
-      hasMultiplayerGameMode = state;
+      usesMultiplayerGameMode = state;
       return this;
     }
 
-    public Game build() {
-      if (!hasTimedGameMode && !hasLivesGameMode) {
+    /** Builds an instance of the game. */
+    public GameBuilder build() {
+      if (!usesTimedGameMode && !usesLivesGameMode) {
         throw new IllegalStateException(
-            "Missing game parameter: game must implement time and/or lives game mode(s)");
-      } else if (hasTimedGameMode && timeLimit <= 0) {
+            "Missing game parameter: game must implement time and/or startingLives game mode(s)");
+      } else if (usesTimedGameMode && timeLimit <= 0) {
         throw new IllegalStateException(
             "Missing game parameter: timed game mode requires time limit to be set.");
-      } else if (hasLivesGameMode && lives <= 0) {
+      } else if (usesLivesGameMode && startingLives <= 0) {
         throw new IllegalStateException(
-            "Missing game parameter: lives game mode requires number of lives to be set.");
+            "Missing game parameter: startingLives game mode requires number of startingLives to be set.");
       } else if (gameType == BallGame.class) {
-        return new BallGame(this);
+        game = new BallGame(this);
       } else if (gameType == CardGame.class) {
-        return new CardGame(this);
+        game = new CardGame(this);
       } else if (gameType == SubwayGame.class) {
-        return new SubwayGame(this);
+        game = new SubwayGame(this);
       } else {
         throw new IllegalArgumentException(
             "Illegal argument: gameType " + gameType.getSimpleName() + "is not a valid game.");
       }
+      return this;
+    }
+
+    /** Returns the built game. */
+    public Game getGame() {
+      return game;
     }
   }
 }

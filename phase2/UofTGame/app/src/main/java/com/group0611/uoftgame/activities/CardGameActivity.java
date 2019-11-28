@@ -63,7 +63,8 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
             new Game.GameBuilder(CardGame.class, appManager, this)
                 .addTimedGameMode(true)
                 .setTimeLimit(timeLimit)
-                .build();
+                .build()
+                .getGame();
     addButtonOnClick();
   }
 

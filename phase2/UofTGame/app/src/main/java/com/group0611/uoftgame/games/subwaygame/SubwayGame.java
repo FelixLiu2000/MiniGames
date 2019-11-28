@@ -13,23 +13,26 @@ import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.MultiplayerGame;
 import com.group0611.uoftgame.games.TimedGame;
 
+import java.util.ArrayList;
+
 public class SubwayGame extends Game implements TimedGame, MultiplayerGame {
-  private int player1Score, player2Score;
+  private ArrayList<Integer> playerScores = new ArrayList<>();
+  private int currentPlayerNumber = 1;
 
   public SubwayGame(GameBuilder builder) {
     super(builder);
-    this.player1Score = 10;
+    setPlayerScore(1, 10);
     startGame();
   }
 
   @Override
-  public boolean getHasTimedGameMode() {
-    return super.getHasTimedGameMode();
+  public boolean getUsesTimedGameMode() {
+    return super.getUsesTimedGameMode();
   }
 
   @Override
-  public boolean getHasMultiplayerGameMode() {
-    return super.getHasMultiplayerGameMode();
+  public boolean getUsesMultiplayerGameMode() {
+    return super.getUsesMultiplayerGameMode();
   }
 
   @Override
@@ -38,23 +41,26 @@ public class SubwayGame extends Game implements TimedGame, MultiplayerGame {
   }
 
   @Override
-  public int getPlayer1Score() {
-    return player1Score;
+  public int getPlayerScore(int playerNumber) {
+    return playerScores.get(playerNumber - 1);
   }
 
   @Override
-  public void setPlayer1Score(int score) {
-    this.player1Score = score;
+  protected int getCurrentPlayerScore() {
+    return getPlayerScore(getCurrentPlayerNumber());
   }
 
   @Override
-  public int getPlayer2Score() {
-    return player2Score;
+  public int getCurrentPlayerNumber() {
+    return currentPlayerNumber;
   }
 
-  @Override
-  public void setPlayer2Score(int score) {
-    this.player2Score = score;
+  private void setPlayerScore(int playerNumber, int newScore) {
+    if (playerNumber - 1 >= playerScores.size()) {
+      playerScores.add(playerNumber - 1, newScore);
+    } else {
+      playerScores.set(playerNumber - 1, newScore);
+    }
   }
 
   @Override
@@ -154,7 +160,7 @@ public class SubwayGame extends Game implements TimedGame, MultiplayerGame {
       if (sameLane && sameY)
         // decrease player1Score
         decreaseScore();
-      getActivity().updateScore(player1Score);
+      getActivity().updateScore(getCurrentPlayerScore());
     }
   }
 
@@ -172,19 +178,19 @@ public class SubwayGame extends Game implements TimedGame, MultiplayerGame {
     } else return false;
   }
 
-  /** decrease the player1Score by 1 */
+  /** decrease the current player score by 1 */
   private void decreaseScore() {
-    if (this.player1Score > 0) {
-      this.player1Score -= 1;
-      System.out.println("Current player1Score is: " + this.player1Score);
+    if (this.getCurrentPlayerScore() > 0) {
+      setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() - 1);
+      System.out.println("Current player score is: " + this.getCurrentPlayerScore());
     }
   }
 
   @Override
   protected void endGame() {
     System.out.println("Game Over!");
-    System.out.println("Final player1Score is: " + player1Score);
-    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.player1Score);
+    System.out.println("Final player score is: " + getCurrentPlayerScore());
+    this.getAppManager().getCurrentPlayer().setCurrentGameScore(getCurrentPlayerScore());
     this.getActivity().leaveGame(this.getAppManager());
   }
 

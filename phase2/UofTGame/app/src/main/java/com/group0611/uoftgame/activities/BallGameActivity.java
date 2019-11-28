@@ -62,7 +62,9 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     return powerView;
   }
 
-  public TextView getPlayerNameView() { return playerNameView; }
+  public TextView getPlayerNameView() {
+    return playerNameView;
+  }
 
   public ArrayList<ImageView> getBallViews() {
     return ballViews;
@@ -72,7 +74,9 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     return ballLayout;
   }
 
-  public SeekBar getAngleControlView() { return angleControlView; }
+  public SeekBar getAngleControlView() {
+    return angleControlView;
+  }
 
   public SeekBar getPowerControlView() {
     return powerControlView;
@@ -106,16 +110,17 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     // ballGame = new BallGame(appManager.getCurrentPlayer().getTimeChoice()[2] / 1000, appManager,
     // this);
     int timeLimit = appManager.getCurrentPlayer().getTimeChoice()[2] / 1000;
-    ballGamePresenter =
-        new BallGamePresenter(
-            (BallGame)
-                new Game.GameBuilder(BallGame.class, appManager, this)
-                    .addTimedGameMode(true)
-                    .setTimeLimit(timeLimit)
-                    .addLivesGameMode(true)
-                    .setLives(10)
-                    .addMultiplayerGameMode(true)
-                    .build());
+    BallGame ballgame =
+        (BallGame)
+            new Game.GameBuilder(BallGame.class, appManager, this)
+                .addTimedGameMode(true)
+                .setTimeLimit(timeLimit)
+                .addLivesGameMode(true)
+                .setStartingLives(10)
+                .addMultiplayerGameMode(true)
+                .build()
+                .getGame();
+    ballGamePresenter = new BallGamePresenter(ballgame);
     ballGamePresenter.bindActivity(this);
     // Set landscape orientation
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);

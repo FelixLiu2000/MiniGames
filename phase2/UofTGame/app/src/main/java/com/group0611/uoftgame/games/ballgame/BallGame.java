@@ -12,12 +12,16 @@ import java.util.ArrayList;
 public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerGame {
 
   private ArrayList<Ball> activeBallObjects = new ArrayList<>();
+  // Stores index of ball objects to be removed from activeBallObjects
   private ArrayList<Integer> inactiveBallIndices = new ArrayList<>();
   private Player[] players;
+  // Current player (1 or 2)
   private int currentPlayerNumber = 1;
   private Target target;
+  // Active playing area that ball movement is restricted to
   private Rect activeArea;
   private int timeRemaining;
+  // Manages ball collisions
   private CollisionManager collisionManager = new CollisionManager();
 
   public BallGame(GameBuilder builder) {
@@ -25,28 +29,28 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   }
 
   @Override
-  public boolean getHasLivesGameMode() {
-    return super.getHasLivesGameMode();
+  public boolean getUsesLivesGameMode() {
+    return super.getUsesLivesGameMode();
   }
 
   @Override
-  public boolean getHasTimedGameMode() {
-    return super.getHasTimedGameMode();
+  public boolean getUsesTimedGameMode() {
+    return super.getUsesTimedGameMode();
   }
 
   @Override
-  public boolean getHasMultiplayerGameMode() {
-    return super.getHasMultiplayerGameMode();
+  public boolean getUsesMultiplayerGameMode() {
+    return super.getUsesMultiplayerGameMode();
   }
 
   @Override
-  public int getLives() {
-    return super.getLives();
+  public int getStartingLives() {
+    return super.getStartingLives();
   }
 
   @Override
   public boolean isOutOfLives() {
-    return getPlayer(currentPlayerNumber).getLives() == 0;
+    return getPlayer(currentPlayerNumber).getRemainingLives() == 0;
   }
 
   @Override
@@ -55,23 +59,17 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   }
 
   @Override
-  public int getPlayer1Score() {
-    return this.getPlayer(1).getScore();
+  public int getPlayerScore(int playerNumber) {
+    return getPlayer(playerNumber).getScore();
+  }
+
+  private void setPlayerScore(int playerNumber, int newScore) {
+    getPlayer(playerNumber).setScore(newScore);
   }
 
   @Override
-  public void setPlayer1Score(int score) {
-    this.getPlayer(1).setScore(score);
-  }
-
-  @Override
-  public int getPlayer2Score() {
-    return this.getPlayer(2).getScore();
-  }
-
-  @Override
-  public void setPlayer2Score(int score) {
-    this.getPlayer(2).setScore(score);
+  protected int getCurrentPlayerScore() {
+    return getPlayerScore(getCurrentPlayerNumber());
   }
 
   ArrayList<Ball> getActiveBallObjects() {
@@ -95,43 +93,64 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     setTimeRemaining(getTimeLimit());
   }
 
+  /**
+   * Gets the player with a given player number.
+   *
+   * @param playerNumber the number of the player (1 or 2).
+   */
   Player getPlayer(int playerNumber) {
-    if (playerNumber == 1 || (getHasMultiplayerGameMode() && playerNumber == 2)) {
+    if (playerNumber == 1 || (getUsesMultiplayerGameMode() && playerNumber == 2)) {
       return players[playerNumber - 1];
     } else {
       throw new IllegalArgumentException("Illegal argument: player number must be 1 or 2.");
     }
   }
 
+  /**
+   * Sets the game's player(s) and initializes their starting lives and usernames.
+   *
+   * @param players the players to be assigned.
+   */
   void setPlayers(Player[] players) {
     for (Player player : players) {
-      player.setLives(this.getLives());
+      player.setRemainingLives(this.getStartingLives());
       player.setUsername(getAppManager().getCurrentPlayerDisplayName());
     }
     this.players = players;
   }
 
-  int getCurrentPlayerNumber() {
+  /**
+   * Returns the player number of the player active during the current turn.
+   *
+   * @return the number of the current player (1 or 2).
+   */
+  @Override
+  public int getCurrentPlayerNumber() {
     return currentPlayerNumber;
   }
 
+  /**
+   * Sets the game's target.
+   *
+   * @param target target to be assigned.
+   */
   void setTarget(Target target) {
-    /*
-    target =
-        new Target(
-            view.getLeft(),
-            view.getTop(),
-            view.getLayoutParams().width,
-            view.getLayoutParams().height);
-    target.setObjectView(view);
-     */
     this.target = target;
   }
 
-  void setActiveArea(int x, int y, int right, int bottom) {
-    this.activeArea = new Rect(x, y, right, bottom);
+  /**
+   * Defines the active rectangular area that ball game object movement is restricted to.
+   *
+   * @param left x-coordinate of the left-side of the rectangle.
+   * @param top y-coordinate of the top-side of the rectangle.
+   * @param right x-coordinate of the right-side of the rectangle.
+   * @param bottom y-coordinate of the bottom-side of the rectangle.
+   */
+  void setActiveArea(int left, int top, int right, int bottom) {
+    this.activeArea = new Rect(left, top, right, bottom);
   }
 
+  /** Starts the next player's turn and resets the game's time limit. */
   @Override
   public void nextPlayerTurn() {
     // Switch from one player number to the next
@@ -143,6 +162,13 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     setTimeRemaining(getTimeLimit());
   }
 
+  /**
+   * Causes the current player to shoot a ball with a given size.
+   *
+   * @param width the width of the ball.
+   * @param height the height of the ball.
+   * @return the ball being shot.
+   */
   Ball shootBall(int width, int height) {
     /*
     view.setX(player.getX());
@@ -156,31 +182,25 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     return newBall;
   }
 
+  /**
+   * Sets the shot angle used by the current player.
+   *
+   * @param angle elevation of the shot's initial velocity vector.
+   */
   void setShotAngle(int angle) {
     getPlayer(currentPlayerNumber).setShotAngle(angle);
-    // updateShotAngleText(angle);
   }
 
+  /**
+   * Sets the power used by the current player.
+   *
+   * @param power magnitude of the shot's initial velocity vector.
+   */
   void setShotPower(int power) {
     getPlayer(currentPlayerNumber).setShotPower(power);
-    // updateShotPowerText(power);
   }
 
-  /*  private void updateShotAngleText(int angle) {
-    String newAngle = "Angle: " + angle;
-    this.angleView.setText(newAngle);
-  }
-
-  private void updateShotPowerText(int power) {
-    String newPower = "Power: " + power;
-    this.powerView.setText(newPower);
-  }
-
-  private void updateTimeText(int time) {
-    String newTime = "Time: " + time;
-    this.timeView.setText(newTime);
-  }*/
-
+  /** Updates the position of this game's ball objects. */
   void updateMovements() {
     for (Ball object : activeBallObjects) {
       object.update();
@@ -188,7 +208,9 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     }
   }
 
+  /** Updates the collisions between this game's Collidable objects. */
   void updateCollisions() {
+    // Gets the balls that have collided with the active area boundaries or the side of the target.
     ArrayList<Ball> invalidTargetBallCollisions =
         collisionManager.checkOffTargetBallCollisions(
             activeBallObjects,
@@ -202,6 +224,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
         targetMissed(ball);
       }
     }
+    // Gets the balls that have successfully hit the target.
     ArrayList<Ball> validTargetBallCollisions =
         collisionManager.checkOnTargetBallCollisions(activeBallObjects, target);
     if (!validTargetBallCollisions.isEmpty()) {
@@ -217,16 +240,18 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     final int SCORE_PER_HIT = 5;
     final int BONUS_POINTS_PER_LIFE = 5;
     // Award player bonus points for hit and every life remaining and set lives to 0
-    Player currentPlayer = getPlayer(currentPlayerNumber);
-    currentPlayer.setScore(
-        currentPlayer.getScore() + SCORE_PER_HIT + currentPlayer.getLives() * BONUS_POINTS_PER_LIFE);
-    currentPlayer.setLives(0);
+    setPlayerScore(getCurrentPlayerNumber(),
+        getCurrentPlayerScore()
+            + SCORE_PER_HIT
+            + getPlayer(currentPlayerNumber).getRemainingLives() * BONUS_POINTS_PER_LIFE);
+    getPlayer(currentPlayerNumber).setRemainingLives(0);
     destroyBall(ball);
   }
 
   private void targetMissed(Ball ball) {
-    if (getHasLivesGameMode()) {
-      getPlayer(currentPlayerNumber).setLives(getPlayer(currentPlayerNumber).getLives() - 1);
+    if (getUsesLivesGameMode()) {
+      getPlayer(currentPlayerNumber)
+          .setRemainingLives(getPlayer(currentPlayerNumber).getRemainingLives() - 1);
     }
     destroyBall(ball);
   }
@@ -241,9 +266,10 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   protected void endGame() {
     System.out.println("Game ended");
     // TODO: Below is temporary, should add score functionality for multiple players
-    int topScore = getPlayer1Score();
-    if (getHasMultiplayerGameMode() && topScore < getPlayer2Score()) {
-      topScore = getPlayer2Score();
+    // Sets score to highest score between the first and second player
+    int topScore = getPlayerScore(1);
+    if (getUsesMultiplayerGameMode() && topScore < getPlayerScore(2)) {
+      topScore = getPlayerScore(2);
     }
     this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);
     getActivity().leaveGame(this.getAppManager());

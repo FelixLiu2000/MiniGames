@@ -21,24 +21,25 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   private ArrayList<Integer> cardArray2 = new ArrayList<>();
   int clickedFirst, clickedSecond;
   int cardNum = 1;
-  private int currentScore = 0;
-  private int player1Score, player2Score;
+  private ArrayList<Integer> playerScores = new ArrayList<>();
+  private int currentPlayerNumber = 1;
 
   public CardGame(GameBuilder builder) {
     super(builder);
     Collections.shuffle(cardArray1);
     setCardsArray();
+    setPlayerScore(1, 0);
     startGame();
   }
 
   @Override
-  public boolean getHasTimedGameMode() {
-    return super.getHasTimedGameMode();
+  public boolean getUsesTimedGameMode() {
+    return super.getUsesTimedGameMode();
   }
 
   @Override
-  public boolean getHasMultiplayerGameMode() {
-    return super.getHasMultiplayerGameMode();
+  public boolean getUsesMultiplayerGameMode() {
+    return super.getUsesMultiplayerGameMode();
   }
 
   @Override
@@ -47,23 +48,26 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   }
 
   @Override
-  public int getPlayer1Score() {
-    return player1Score;
+  public int getCurrentPlayerNumber() {
+    return currentPlayerNumber;
   }
 
   @Override
-  public void setPlayer1Score(int score) {
-    this.player1Score = score;
+  public int getPlayerScore(int playerNumber) {
+    return playerScores.get(playerNumber - 1);
   }
 
   @Override
-  public int getPlayer2Score() {
-    return player2Score;
+  protected int getCurrentPlayerScore() {
+    return getPlayerScore(getCurrentPlayerNumber());
   }
 
-  @Override
-  public void setPlayer2Score(int score) {
-    this.player2Score = score;
+  private void setPlayerScore(int playerNumber, int newScore) {
+    if (playerNumber - 1 >= playerScores.size()) {
+      playerScores.add(playerNumber - 1, newScore);
+    } else {
+      playerScores.set(playerNumber - 1, newScore);
+    }
   }
 
   @Override
@@ -94,7 +98,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
       card2 -= 100;
     }
     if (card1 == card2) {
-      setPlayer1Score(getPlayer1Score() + 1);
+      setPlayerScore(1, getPlayerScore(1) + 1);
       cardsLeft -= 2;
       return true;
     }
@@ -210,8 +214,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
           getActivity().buttons.get(i).setVisibility(View.INVISIBLE);
         }
       }
-      currentScore += 1;
-      String updatedScore = "Score: " + currentScore;
+      String updatedScore = "Score: " + getCurrentPlayerScore();
       getActivity().score.setText(updatedScore);
       if (boardEmpty()) {
         // if round has been completed, create another
@@ -248,7 +251,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
     String timeText = "Time Is Up!";
     setTime(timeText);
     disableCards();
-    this.getAppManager().getCurrentPlayer().setCurrentGameScore(this.currentScore);
+    this.getAppManager().getCurrentPlayer().setCurrentGameScore(getCurrentPlayerScore());
     this.getActivity().leaveGame(this.getAppManager());
   }
 }
