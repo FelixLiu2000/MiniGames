@@ -17,9 +17,6 @@ import com.group0611.uoftgame.utilities.AppManager;
 import java.util.ArrayList;
 
 public class SubwayGameActivity extends AppCompatActivity implements GameActivity {
-    AppManager appManager;
-    Intent intentSubwayGameActivity;
-    Intent intentSubwayGameToResultsPage;
     public ArrayList<ImageView> movingObjects = new ArrayList<ImageView>();
     private ImageView runner;
     private SubwayGame game;
