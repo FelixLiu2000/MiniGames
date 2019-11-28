@@ -258,4 +258,10 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     getToResultsPageIntent().putExtra("appManager", appManager);
     startActivity(getToResultsPageIntent());
   }
+
+  @Override
+  public void onBackPressed() {
+    ballGamePresenter.getGameTimer().cancel();
+    finish();
+  }
 }

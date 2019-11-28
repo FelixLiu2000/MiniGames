@@ -160,18 +160,10 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
     correct.start();
   }
 
-  public void quitGame(AppManager appManager) {
-    toDashBoardIntent = new Intent(CardGameActivity.this, GameDashboardActivity.class);
-    toDashBoardIntent.putExtra("appManager", appManager);
-    startActivity(toDashBoardIntent);
-  }
-
   // TODO: Diego implement this in all other games
   @Override
   public void onBackPressed() {
-    System.out.println("pressed back>:/");
     cardGame.getCardGameTimer().cancel();
-    this.quitGame(appManager);
     finish();
   }
 }

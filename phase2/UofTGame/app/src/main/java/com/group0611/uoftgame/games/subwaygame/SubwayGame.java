@@ -19,6 +19,7 @@ public class SubwayGame extends Game implements MultiplayerGame, LivesGame, Time
   private int coins;
   // creates obstacles and coins
   private MovingObjectFactory factory;
+  private CountDownTimer subwayGameTimer;
 
   public SubwayGame(GameBuilder gameBuilder) {
     super(gameBuilder);
@@ -166,6 +167,7 @@ public class SubwayGame extends Game implements MultiplayerGame, LivesGame, Time
   protected int getCurrentPlayerScore() {
     return this.score;
   }
+  public CountDownTimer getSubwayGameTimer() { return this.subwayGameTimer; }
 
   //Timed Game
   /**
