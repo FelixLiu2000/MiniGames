@@ -21,11 +21,16 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   private ArrayList<Integer> cardArray2 = new ArrayList<>();
   private int clickedFirst, clickedSecond;
   private int cardNum = 1;
+  // round score
   private int currentScore = 0;
   private int boardSize = 0;
   private CountDownTimer cardGameTimer;
   private ArrayList<Integer> playerScores = new ArrayList<>();
   private int currentPlayerNumber = 1;
+  private int totalTries = 0;
+  // total score accumulated over rounds (this is = setPlayerScore currently)
+  private int totalScore = 0;
+  private int level = 1;
 
   /**
    * Constructor for the CardGame. Initializes the activity, shuffle the cards, set the card array
@@ -35,8 +40,8 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
    */
   public CardGame(GameBuilder builder) {
     super(builder);
-    Collections.shuffle(cardArray1);
     setCardsArray();
+    Collections.shuffle(cardArray1);
     setPlayerScore(1, 0);
     startGame();
   }
@@ -81,7 +86,22 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
 
   @Override
   public void nextPlayerTurn() {
-    // TODO: Implement next player turn behaviour
+    if (playerScores.size()== 1){
+      endGame();
+    }
+    else if (getCurrentPlayerNumber() == 1){
+      currentPlayerNumber = 2;
+      setCardsArray();
+      Collections.shuffle(cardArray1);
+      setPlayerScore(2, playerScores.get(1));
+      startGame();
+    } else {
+      currentPlayerNumber = 1;
+      setCardsArray();
+      Collections.shuffle(cardArray1);
+      setPlayerScore(1, playerScores.get(0));
+      startGame();
+    }
   }
 
   public CountDownTimer getCardGameTimer() {
@@ -101,7 +121,11 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
           }
           // when the timer is finished, switch the text to say Time is Up
           public void onFinish() {
-            endGame();
+            if (getActivity().infiniteGame) {
+              endLevel();
+            } else {
+              nextPlayerTurn();
+            }
           }
         }.start();
   }
@@ -135,6 +159,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   private void match() {
     setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() + 1);
     cardsLeft -= 2;
+    totalTries += 1;
     getActivity().correctSound();
   }
 
@@ -263,8 +288,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
           getActivity().buttons.get(i).setVisibility(View.INVISIBLE);
         }
       }
-      String updatedScore = "Score: " + getCurrentPlayerScore();
-      getActivity().score.setText(updatedScore);
+      updateScore(true);
       if (boardEmpty()) {
         // if round has been completed, create another
         for (int i = 0; i < boardSize; i++) {
@@ -281,9 +305,28 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
       for (int i = 0; i < boardSize; i++) {
         getActivity().buttons.get(i).setImageResource(R.drawable.course);
       }
+      updateScore(false);
     }
     for (int i = 0; i < boardSize; i++) {
       getActivity().buttons.get(i).setEnabled(true);
+    }
+  }
+
+  private void updateScore(boolean correct){
+    if (correct){
+      currentScore += 1;
+      String updatedScore = "Score: " + currentScore;
+      getActivity().score.setText(updatedScore);
+    } else if (level > 1){
+      currentScore -= 1;
+      String updatedScore = "Score: " + currentScore;
+      getActivity().score.setText(updatedScore);
+    } else{
+      String updatedScore = "Score: " + currentScore;
+      getActivity().score.setText(updatedScore);
+    }
+    if (currentScore == 0 && level > 1){
+      endGame();
     }
   }
 
@@ -293,6 +336,21 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
     for (int i = 0; i < boardSize; i++) {
       getActivity().buttons.get(i).setEnabled(false);
     }
+  }
+
+  // TODO: SHOW SCREEN BETWEEN LEVELS
+  private void endLevel(){
+    boardSize = this.getActivity().cardHeight * this.getActivity().cardWidth;
+    totalScore += currentScore;
+    level += 1;
+    for (int i = 0; i < boardSize; i++) {
+      getActivity().buttons.get(i).setImageResource(R.drawable.course);
+      getActivity().buttons.get(i).setVisibility(View.VISIBLE);
+      getActivity().buttons.get(i).setEnabled(true);
+      Collections.shuffle(cardArray1);
+      resetGame();
+    }
+    System.out.println(totalTries);
   }
 
   @Override

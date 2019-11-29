@@ -29,6 +29,7 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
   CardGame cardGame;
   public int cardWidth = 4;
   public int cardHeight = 3;
+  public boolean infiniteGame = false;
 
   @Override
   public Intent getCurrentIntent() {
