@@ -17,7 +17,6 @@ import com.group0611.uoftgame.utilities.AppManager;
 import java.util.ArrayList;
 
 public class CardGameActivity extends AppCompatActivity implements GameActivity {
-  AppManager appManager;
   private Intent currentIntent;
   private Intent toResultsPageIntent;
   private Intent toDashBoardIntent;
@@ -70,7 +69,7 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
     time.setText(String.valueOf(0));
     addButtons();
     // cardGame = new CardGame(60, appManager, this);
-    int timeLimit = appManager.getCurrentPlayer().getTimeChoice()[1];
+    int timeLimit = appManager.getMainPlayer().getTimeChoice()[1];
     cardGame =
         (CardGame)
             new Game.GameBuilder(CardGame.class, appManager, this)

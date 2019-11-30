@@ -63,7 +63,7 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     runnerY = runner.getY();
     runnerLane = 2;
 
-    int timeLimit = appManager.getCurrentPlayer().getTimeChoice()[0];
+    int timeLimit = appManager.getMainPlayer().getTimeChoice()[0];
     game =
         (SubwayGame)
             new Game.GameBuilder(SubwayGame.class, appManager, this)

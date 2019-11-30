@@ -3,6 +3,7 @@ package com.group0611.uoftgame.utilities;
 import android.graphics.Color;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Player implements Serializable {
 

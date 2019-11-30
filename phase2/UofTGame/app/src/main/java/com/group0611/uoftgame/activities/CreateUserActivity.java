@@ -73,7 +73,7 @@ public class CreateUserActivity extends AppCompatActivity {
                                     editTextLastName.getText().toString().trim(),
                                     editTextUsername.getText().toString().trim(),
                                     editTextPassword.getText().toString().trim());
-                            SaveManager.save(appManager.getCurrentPlayer());
+                            SaveManager.save(appManager.getMainPlayer());
                             Intent intentCreateUserToGameDashboard = new Intent (CreateUserActivity.this, GameDashboardActivity.class);
                             intentCreateUserToGameDashboard.putExtra("appManager", appManager);
                             startActivity(intentCreateUserToGameDashboard);

@@ -10,67 +10,31 @@
         android:id="@+id/subwayGameButton"
         android:layout_width="76dp"
         android:layout_height="77dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginBottom="272dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/subwayGameButtonDescription"
         android:scaleType="centerInside"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.272"
-        app:layout_constraintStart_toEndOf="@+id/cardGameButton"
-        app:layout_constraintTop_toBottomOf="@+id/gameDashboardPlayButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardGameButton"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/subway_game_icon" />
 
     <ImageButton
         android:id="@+id/ballGameButton"
         android:layout_width="76dp"
         android:layout_height="77dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="272dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/ballGameButtonDescrioption"
         android:scaleType="centerInside"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.597"
-        app:layout_constraintStart_toEndOf="@+id/subwayGameButton"
-        app:layout_constraintTop_toBottomOf="@+id/gameDashboardPlayButton"
-        app:srcCompat="@drawable/ballgame_player" />
-
-    <TextView
-        android:id="@+id/totalRoundsLabel"
-        android:layout_width="98dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/total_rounds_label"
-        app:layout_constraintBottom_toTopOf="@+id/highScoreStat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/totalScoreLabel"
-        android:layout_width="111dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/total_score_label"
-        app:layout_constraintBottom_toTopOf="@+id/highScoreStat"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/highScoreStat"
-        android:layout_width="98dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/high_score"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/totalRoundsPlayedStat"
-        app:layout_constraintStart_toEndOf="@+id/totalScoreStat"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.125" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/cardGameButton"
+        app:srcCompat="@drawable/ballgame_player" />
 
     <!-- PROGRESS SHOULD BE DYNAMIC
             Since we are going to set up the app as a continuous story
@@ -81,24 +45,44 @@
             Keep at 3 until player starts new round. -->
 
     <TextView
+        android:id="@+id/totalRoundsLabel"
+        android:layout_width="98dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/total_rounds_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/totalScoreLabel"
+        android:layout_width="111dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="76dp"
+        android:text="@string/total_score_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/totalRoundsPlayedStat"
         android:layout_width="98dp"
         android:layout_height="19dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
         android:text="@string/total_rounds"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.126" />
+        app:layout_constraintVertical_bias="0.127" />
 
     <TextView
         android:id="@+id/totalScoreStat"
         android:layout_width="111dp"
         android:layout_height="20dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/total_score"
@@ -106,62 +90,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.125" />
-
-    <TextView
-        android:id="@+id/currentRound"
-        android:layout_width="168dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/current_round_progress"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalScoreStat" />
-
-    <ProgressBar
-        android:id="@+id/roundProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="86dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:max="3"
-        android:progress="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/currentRound"
-        app:layout_constraintTop_toBottomOf="@+id/highScoreStat" />
-
-    <ImageButton
-        android:id="@+id/gameDashboardPlayButton"
-        android:layout_width="136dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="280dp"
-        android:background="#34F1DF"
-        android:contentDescription="@string/play_button_description"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_media_play" />
-
-    <TextView
-        android:id="@+id/playTitle"
-        android:layout_width="247dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/play_button_title"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/gameDashboardPlayButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.126" />
 
     <TextView
         android:id="@+id/developersFooter"
@@ -179,42 +108,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/highScoreLabel"
-        android:layout_width="97dp"
-        android:layout_height="25dp"
-        android:text="@string/highscore_label"
-        app:layout_constraintBottom_toTopOf="@+id/highScoreStat"
-        app:layout_constraintEnd_toStartOf="@+id/totalRoundsLabel"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toEndOf="@+id/totalScoreLabel"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/Welcome"
-        android:layout_width="130dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="28dp"
-        android:text="@string/welcome_text"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/totalScoreLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526" />
-
-    <TextView
         android:id="@+id/displayNameTextLabel"
         android:layout_width="209dp"
         android:layout_height="38dp"
-        android:layout_marginStart="28dp"
-        android:textAlignment="textStart"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/highScoreLabel"
-        app:layout_constraintStart_toEndOf="@+id/Welcome"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.578" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/gameDashboardSettingsButton"
@@ -232,14 +135,14 @@
         android:id="@+id/cardGameButton"
         android:layout_width="76dp"
         android:layout_height="77dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="400dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/cardGameButtonDescription"
         android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDashboardPlayButton"
-        app:srcCompat="@drawable/card_game_icon"
-        android:contentDescription="@string/cardGameButtonDescription"/>
+        app:srcCompat="@drawable/card_game_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

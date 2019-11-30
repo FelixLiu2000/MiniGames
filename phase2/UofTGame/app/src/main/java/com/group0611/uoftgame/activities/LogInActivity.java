@@ -63,7 +63,7 @@ public class LogInActivity extends AppCompatActivity {
                             //show error message
                             textViewErrorMessage.setVisibility(View.VISIBLE);
                         } else if (currentPlayer.getPassword().equals(editTextPassword.getText().toString().trim())) {
-                            appManager.setCurrentPlayer(currentPlayer);
+                            appManager.setMainPlayer(currentPlayer);
                             Intent intentLogInToDashboard = new Intent (LogInActivity.this, GameDashboardActivity.class);
                             intentLogInToDashboard.putExtra("appManager", appManager);
                             startActivity(intentLogInToDashboard);

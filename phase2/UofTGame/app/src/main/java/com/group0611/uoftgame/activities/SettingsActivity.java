@@ -37,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_settings);
 
         // sets preferred background color
-        getWindow().getDecorView().setBackgroundColor(appManager.getCurrentPlayer().getGameDashboardBackgroundColor());
+        getWindow().getDecorView().setBackgroundColor(appManager.getMainPlayer().getGameDashboardBackgroundColor());
 
         // calls helper method to create spinners
         createSpinner(1, spinnerColorChoice, arrayAdapterColorChoiceAdapter);
@@ -64,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         appManager.saveCustomizationChanges(chosenColor, chosenDisplayName, chosenDifficulty);
-                        SaveManager.save(appManager.getCurrentPlayer());
+                        SaveManager.save(appManager.getMainPlayer());
                         Intent settingsToGameDashboardSave = new Intent(SettingsActivity.this, GameDashboardActivity.class);
                         settingsToGameDashboardSave.putExtra("appManager", appManager);
                         startActivity(settingsToGameDashboardSave);
@@ -99,24 +99,24 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
             spinner = findViewById(R.id.colorChoiceSpinner);
             arrayAdapter = ArrayAdapter.createFromResource(this,
                     R.array.color_choices, android.R.layout.simple_spinner_item);
-            this.chosenColor = appManager.getCurrentPlayerCurrentDashboardColor();
-            loadedChoice = appManager.getCurrentPlayerCurrentDashboardColor();
+            this.chosenColor = appManager.getMainPlayerCurrentDashboardColor();
+            loadedChoice = appManager.getMainPlayerCurrentDashboardColor();
 
         } else if (spinnerInt == 2) {
 
             spinner = findViewById(R.id.displayNameChoiceSpinner);
             arrayAdapter = ArrayAdapter.createFromResource(this,
                     R.array.display_name_choices, android.R.layout.simple_spinner_item);
-            this.chosenDisplayName = appManager.getCurrentPlayerDisplayName();
-            loadedChoice = appManager.getCurrentPlayerDisplayName();
+            this.chosenDisplayName = appManager.getMainPlayerDisplayName();
+            loadedChoice = appManager.getMainPlayerDisplayName();
 
         } else if (spinnerInt == 3) {
 
             spinner = findViewById(R.id.difficultyLevelChoiceSpinner);
             arrayAdapter = ArrayAdapter.createFromResource(this,
                     R.array.difficulty_level_choices, android.R.layout.simple_spinner_item);
-            this.chosenDifficulty = appManager.getCurrentPlayerDifficulty();
-            loadedChoice = appManager.getCurrentPlayerDifficulty();
+            this.chosenDifficulty = appManager.getMainPlayerDifficulty();
+            loadedChoice = appManager.getMainPlayerDifficulty();
 
         }
         // reusable code is written here to be used by any spinner

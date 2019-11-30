@@ -359,7 +359,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
     String timeText = "Time Is Up!";
     setTime(timeText);
     disableCards();
-    this.getAppManager().getCurrentPlayer().setCurrentGameScore(getCurrentPlayerScore());
+    this.getAppManager().getMainPlayer().setCurrentGameScore(getCurrentPlayerScore());
     getActivity().leaveGame(this.getAppManager());
   }
 }

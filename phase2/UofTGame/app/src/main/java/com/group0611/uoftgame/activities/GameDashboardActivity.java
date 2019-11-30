@@ -17,10 +17,8 @@ public class GameDashboardActivity extends AppCompatActivity {
 
   AppManager appManager;
   Intent intentGameDashboard;
-  ImageButton imageButtonPlay, imageButtonSettings, imageButtonCardGame, imageButtonSubwayGame, imageButtonBallGame;
-  TextView textViewHighScore, textViewTotalRoundsPlayed, textViewTotalScore, textViewDisplayName, textViewCurrentRoundProgress;
-  String currentRoundProgress;
-  ProgressBar progressBarRoundProgress;
+  ImageButton imageButtonSettings, imageButtonCardGame, imageButtonSubwayGame, imageButtonBallGame;
+  TextView textViewTotalRoundsPlayed, textViewTotalScore, textViewDisplayName;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +27,15 @@ public class GameDashboardActivity extends AppCompatActivity {
     this.appManager = (AppManager) intentGameDashboard.getSerializableExtra("appManager");
     setContentView(R.layout.activity_game_dashboard);
 
-    getWindow().getDecorView().setBackgroundColor(appManager.getCurrentPlayer().getGameDashboardBackgroundColor());
+    getWindow().getDecorView().setBackgroundColor(appManager.getMainPlayer().getGameDashboardBackgroundColor());
 
-    imageButtonPlay = findViewById(R.id.gameDashboardPlayButton);
     imageButtonCardGame = findViewById(R.id.cardGameButton);
     imageButtonSubwayGame = findViewById(R.id.subwayGameButton);
     imageButtonBallGame = findViewById(R.id.ballGameButton);
 
-    textViewHighScore = findViewById(R.id.highScoreStat);
     textViewTotalRoundsPlayed = findViewById(R.id.totalRoundsPlayedStat);
     textViewTotalScore = findViewById(R.id.totalScoreStat);
     textViewDisplayName = findViewById(R.id.displayNameTextLabel);
-    textViewCurrentRoundProgress = findViewById(R.id.currentRound);
-    progressBarRoundProgress = findViewById(R.id.roundProgressBar);
     imageButtonSettings = findViewById(R.id.gameDashboardSettingsButton);
 
     // all buttons onClickListener declarations
@@ -72,16 +66,6 @@ public class GameDashboardActivity extends AppCompatActivity {
               }
             });
 
-    imageButtonPlay.setOnClickListener(
-            new View.OnClickListener() {
-              public void onClick(View v) {
-                appManager.pickGameToPlay();
-                Intent gameDashboardToCurrentGameIntent = new Intent(GameDashboardActivity.this, appManager.getGameToPlay());
-                gameDashboardToCurrentGameIntent.putExtra("appManager", appManager);
-                startActivity(gameDashboardToCurrentGameIntent);
-              }
-            });
-
     imageButtonSettings.setOnClickListener(
             new View.OnClickListener() {
               public void onClick(View v) {
@@ -92,21 +76,16 @@ public class GameDashboardActivity extends AppCompatActivity {
             });
 
     // sets visible text fields based on logged in player
-    textViewHighScore.setText(String.valueOf(appManager.getCurrentPlayer().getHighScore()));
     textViewTotalRoundsPlayed.setText(
-            String.valueOf(appManager.getCurrentPlayer().getTotalRoundsPlayed()));
-    textViewTotalScore.setText(String.valueOf(appManager.getCurrentPlayer().getTotalScore()));
+            String.valueOf(appManager.getMainPlayer().getTotalRoundsPlayed()));
+    textViewTotalScore.setText(String.valueOf(appManager.getMainPlayer().getTotalScore()));
 
-    if (appManager.getCurrentPlayerDisplayName().equals("USERNAME")){
-      textViewDisplayName.setText(String.valueOf(appManager.getCurrentPlayer().getUsername()));
-    } else if (appManager.getCurrentPlayerDisplayName().equals("FIRST NAME")){
-      textViewDisplayName.setText(String.valueOf(appManager.getCurrentPlayer().getFirstName()));
-    } else if (appManager.getCurrentPlayerDisplayName().equals("LAST NAME")){
-      textViewDisplayName.setText(String.valueOf(appManager.getCurrentPlayer().getLastName()));
+    if (appManager.getMainPlayerDisplayName().equals("USERNAME")){
+      textViewDisplayName.setText(String.valueOf(appManager.getMainPlayer().getUsername()));
+    } else if (appManager.getMainPlayerDisplayName().equals("FIRST NAME")){
+      textViewDisplayName.setText(String.valueOf(appManager.getMainPlayer().getFirstName()));
+    } else if (appManager.getMainPlayerDisplayName().equals("LAST NAME")){
+      textViewDisplayName.setText(String.valueOf(appManager.getMainPlayer().getLastName()));
     }
-    currentRoundProgress = "Round " + (appManager.getCurrentPlayer().getTotalRoundsPlayed() + 1) + " Progress:";
-    textViewCurrentRoundProgress.setText(currentRoundProgress);
-
-    progressBarRoundProgress.setProgress(appManager.getCurrentPlayer().getCurrentRoundProgress());
   }
 }

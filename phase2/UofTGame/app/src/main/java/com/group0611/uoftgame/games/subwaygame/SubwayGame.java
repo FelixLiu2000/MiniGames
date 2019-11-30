@@ -27,7 +27,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   private int currentPlayer = 1;
   private List<Integer> playerScores = new ArrayList<>();
 
-  private int time = getAppManager().getCurrentPlayer().getTimeChoice()[0];
+  private int time = getAppManager().getMainPlayer().getTimeChoice()[0];
 
   public SubwayGame(GameBuilder gameBuilder) {
     super(gameBuilder);
@@ -213,7 +213,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   protected void endGame() {
     System.out.println("Game Over!");
     System.out.println("Final score is: " + score);
-    getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
+    getAppManager().getMainPlayer().setCurrentGameScore(this.score);
     getActivity().leaveGame(this.getAppManager());
   }
 
