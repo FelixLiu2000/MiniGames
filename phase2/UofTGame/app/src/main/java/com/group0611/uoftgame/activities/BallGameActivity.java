@@ -111,7 +111,7 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     AppManager appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
     // ballGame = new BallGame(appManager.getCurrentPlayer().getTimeChoice()[2] / 1000, appManager,
     // this);
-    int timeLimit = 6000;
+    int timeLimit = 20;
     BallGame ballgame =
         (BallGame)
             new Game.GameBuilder(BallGame.class, appManager, this)
