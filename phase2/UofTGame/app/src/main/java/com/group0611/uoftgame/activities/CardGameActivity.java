@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.cardgame.CardGame;
+import com.group0611.uoftgame.games.cardgame.CardManager;
 import com.group0611.uoftgame.utilities.AppManager;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
   public int cardWidth = 4;
   public int cardHeight = 3;
   public boolean infiniteGame = false;
+  private CardManager cardManager;
 
   @Override
   public Intent getCurrentIntent() {
