@@ -48,6 +48,11 @@
     <string name="createUserConfirmPassword">Confirm password</string>
     <string name="userCreateErrorConfirmPassword">Passwords don\'t match.</string>
     <string name="currentPlayer">Current Player:</string>
+    <string name="multiplayer_button_description">switches multiplayer mode</string>
+    <string name="remove_player_title_label">Pick Player To Keep Playing:</string>
+    <string name="infinite_mode_button_label">INFINITE MODE</string>
+    <string name="timed_mode_button_label">TIMED MODE</string>
+    <string name="toggle_game_button_mode">CHOOSE GAME MODE</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>

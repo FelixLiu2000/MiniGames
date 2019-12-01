@@ -53,7 +53,8 @@ public class AppStartActivity extends AppCompatActivity implements Serializable 
     buttonSkipToDashboard.setOnClickListener(
             new View.OnClickListener() {
               public void onClick(View v) {
-                appManager.createPlayer("Test", "Dummy", "UNT", "PWT");
+                appManager.setCurrentPlayer(appManager.createPlayer("Test", "Dummy", "UNT", "PWT"));
+                appManager.setPlayerOne(appManager.getCurrentPlayer());
                 Intent intentAppStartToDashboard = new Intent(AppStartActivity.this, GameDashboardActivity.class);
                 intentAppStartToDashboard.putExtra("appManager", appManager);
                 startActivity(intentAppStartToDashboard);

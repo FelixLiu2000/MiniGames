@@ -69,11 +69,19 @@ public class CreateUserActivity extends AppCompatActivity {
                         String usernameInput = editTextUsername.getText().toString().trim();
                         Player playerSearch = SaveManager.loadPlayer(usernameInput);
                         if (playerSearch == null) {
-                            appManager.createPlayer(editTextFirstName.getText().toString().trim(),
+                            Player newPlayer = appManager.createPlayer(editTextFirstName.getText().toString().trim(),
                                     editTextLastName.getText().toString().trim(),
                                     editTextUsername.getText().toString().trim(),
                                     editTextPassword.getText().toString().trim());
-                            SaveManager.save(appManager.getCurrentPlayer());
+                            if (appManager.getComingFromAddPlayer()) {
+                                appManager.setPlayerTwo(newPlayer);
+                                appManager.setGameIsMultiPlayer(true);
+                                appManager.setComingFromAddPlayer(false);
+                            } else {
+                                appManager.setCurrentPlayer(newPlayer);
+                                appManager.setPlayerOne(newPlayer);
+                            }
+                            SaveManager.save(newPlayer);
                             Intent intentCreateUserToGameDashboard = new Intent (CreateUserActivity.this, GameDashboardActivity.class);
                             intentCreateUserToGameDashboard.putExtra("appManager", appManager);
                             startActivity(intentCreateUserToGameDashboard);

@@ -4,22 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.group0611.uoftgame.R;
 
 import com.group0611.uoftgame.utilities.AppManager;
 import com.group0611.uoftgame.utilities.DisplayNameChoices;
+import com.group0611.uoftgame.utilities.GameMode;
+import com.group0611.uoftgame.utilities.SaveManager;
 
 public class GameDashboardActivity extends AppCompatActivity {
 
   AppManager appManager;
   Intent intentGameDashboard;
-  ImageButton imageButtonSettings, imageButtonCardGame, imageButtonSubwayGame, imageButtonBallGame;
-  TextView textViewTotalRoundsPlayed, textViewTotalScore, textViewDisplayName;
+  ImageButton imageButtonSettings, imageButtonCardGame, imageButtonSubwayGame, imageButtonBallGame, imageButtonSwitchMultiPlayerMode;
+  TextView textViewDashboardHighScore, textViewTotalScore, textViewDisplayName, textViewDashboardHighScoreLabel, textViewTotalScoreLabel;
+  ToggleButton toggleButtonGameMode;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +38,32 @@ public class GameDashboardActivity extends AppCompatActivity {
     imageButtonCardGame = findViewById(R.id.cardGameButton);
     imageButtonSubwayGame = findViewById(R.id.subwayGameButton);
     imageButtonBallGame = findViewById(R.id.ballGameButton);
+    toggleButtonGameMode = (ToggleButton) findViewById(R.id.toggleGameModeButton);
+    if (appManager.getCurrentPlayer().getGameMode().equals(GameMode.TIMED)) {
+        toggleButtonGameMode.setChecked(false);
+    } else {
+        toggleButtonGameMode.setChecked(true);
+    }
 
-    textViewTotalRoundsPlayed = findViewById(R.id.totalRoundsPlayedStat);
+    textViewDashboardHighScore = findViewById(R.id.highScoreDashboardStat);
     textViewTotalScore = findViewById(R.id.totalScoreStat);
     textViewDisplayName = findViewById(R.id.displayNameTextLabel);
+    textViewDashboardHighScoreLabel = findViewById(R.id.highScoreLabel);
+    textViewTotalScoreLabel = findViewById(R.id.totalScoreLabel);
     imageButtonSettings = findViewById(R.id.gameDashboardSettingsButton);
+    imageButtonSwitchMultiPlayerMode = findViewById(R.id.switchMultiplayerDashboardButton);
+
+    if (appManager.getGameIsMultiPlayer()) {
+        textViewDashboardHighScore.setVisibility(View.INVISIBLE);
+        textViewTotalScore.setVisibility(View.INVISIBLE);
+        textViewTotalScoreLabel.setVisibility(View.INVISIBLE);
+        textViewDashboardHighScoreLabel.setVisibility(View.INVISIBLE);
+    } else {
+        textViewDashboardHighScore.setVisibility(View.VISIBLE);
+        textViewTotalScore.setVisibility(View.VISIBLE);
+        textViewTotalScoreLabel.setVisibility(View.VISIBLE);
+        textViewDashboardHighScoreLabel.setVisibility(View.VISIBLE);
+    }
 
     // all buttons onClickListener declarations
     imageButtonCardGame.setOnClickListener(
@@ -76,17 +102,49 @@ public class GameDashboardActivity extends AppCompatActivity {
               }
             });
 
-    // sets visible text fields based on logged in player
-    textViewTotalRoundsPlayed.setText(
-            String.valueOf(appManager.getCurrentPlayer().getTotalRoundsPlayed()));
-    textViewTotalScore.setText(String.valueOf(appManager.getCurrentPlayer().getTotalScore()));
+    imageButtonSwitchMultiPlayerMode.setOnClickListener(
+            new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (appManager.getGameIsMultiPlayer()) {
+                        Intent gameDashboardToRemovePlayer = new Intent(GameDashboardActivity.this, RemovePlayerActivity.class);
+                        gameDashboardToRemovePlayer.putExtra("appManager", appManager);
+                        startActivity(gameDashboardToRemovePlayer);
+                    } else {
+                        appManager.setComingFromAddPlayer(true);
+                        Intent gameDashboardToLogIn = new Intent(GameDashboardActivity.this, LogInActivity.class);
+                        gameDashboardToLogIn.putExtra("appManager", appManager);
+                        startActivity(gameDashboardToLogIn);
+                    }
+                }
+            });
 
-    if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.USERNAME)) {
-          textViewDisplayName.setText(appManager.getCurrentPlayer().getUsername());
-      } else if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.FIRSTNAME)) {
-          textViewDisplayName.setText(appManager.getCurrentPlayer().getFirstName());
-      } else if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.LASTNAME)) {
-          textViewDisplayName.setText(appManager.getCurrentPlayer().getLastName());
-      }
+    toggleButtonGameMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                appManager.getCurrentPlayer().setGameMode(GameMode.INFINITE);
+            } else {
+                appManager.getCurrentPlayer().setGameMode(GameMode.TIMED);
+            }
+            SaveManager.save(appManager.getCurrentPlayer());
+        }
+    });
+
+    // sets visible text fields based on logged in player
+    textViewTotalScore.setText(String.valueOf(appManager.getCurrentPlayer().getTotalScore()));
+    textViewDashboardHighScore.setText(String.valueOf(appManager.getCurrentPlayer().getHighScore()));
+
+    if (appManager.getGameIsMultiPlayer()) {
+        String displayNames = appManager.getPlayerOne().getUsername() + " VS " + appManager.getPlayerTwo().getUsername();
+        textViewDisplayName.setText(displayNames);
+    } else {
+        if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.USERNAME)) {
+            textViewDisplayName.setText(appManager.getCurrentPlayer().getUsername());
+        } else if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.FIRSTNAME)) {
+            textViewDisplayName.setText(appManager.getCurrentPlayer().getFirstName());
+        } else if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.LASTNAME)) {
+            textViewDisplayName.setText(appManager.getCurrentPlayer().getLastName());
+        }
+    }
+
   }
 }

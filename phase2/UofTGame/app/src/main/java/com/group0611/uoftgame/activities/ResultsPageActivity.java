@@ -28,14 +28,9 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewScoreLabel = findViewById(R.id.resultsScoreTextLabel);
         textViewSavedLabel = findViewById(R.id.resultsSavedLabel);
         textViewHighScoreBannerLabel = findViewById(R.id.resultsHighScoreBanner);
-        buttonNextGame = findViewById(R.id.resultsNextGameButton);
         buttonBackToDashboard = findViewById(R.id.resultsBackToDashboardButton);
-        String scoreText = "Your Score: " + appManager.getCurrentPlayer().getCurrentGameScore();
-        textViewScoreLabel.setText(scoreText);
-        if (appManager.getCurrentPlayer().getCurrentRoundProgress() != 2) {
-            buttonNextGame.setEnabled(true);
-            buttonNextGame.setVisibility(View.VISIBLE);
-        }
+        // String scoreText = "Your Score: " + appManager.getCurrentPlayer().getCurrentGameScore();
+        // textViewScoreLabel.setText(scoreText);
         updatePlayer();
 
         buttonBackToDashboard.setOnClickListener(
@@ -46,35 +41,19 @@ public class ResultsPageActivity extends AppCompatActivity {
                         startActivity(resultsToGameDashboard);
                     }
                 });
-
-        buttonNextGame.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        appManager.pickGameToPlay();
-                        Intent resultsToNextGame = new Intent(ResultsPageActivity.this, appManager.getGameToPlay());
-                        resultsToNextGame.putExtra("appManager", appManager);
-                        startActivity(resultsToNextGame);
-                    }
-                });
     }
 
     public void updatePlayer() {
-        appManager.updatePlayerTotalScore();
-        appManager.updatePlayerRoundScore();
-        appManager.updatePlayerRoundProgress();
-        if (appManager.getCurrentPlayer().getCurrentRoundProgress() == 3) {
-            appManager.updatePlayerTotalRounds();
-            boolean newHighScore = appManager.updatePlayerHighScore();
-            if (newHighScore) {
-                String highScoreBannerText = "NEW HIGH SCORE: " + appManager.getCurrentPlayer().getCurrentRoundScore();
-                textViewHighScoreBannerLabel.setText(highScoreBannerText);
-                textViewHighScoreBannerLabel.setVisibility(View.VISIBLE);
-            }
-            appManager.getCurrentPlayer().setCurrentRoundProgress(0);
-            appManager.getCurrentPlayer().setCurrentRoundScore(0);
-        }
-        appManager.getCurrentPlayer().setCurrentGameScore(0);
-        SaveManager.save(appManager.getCurrentPlayer());
-        textViewSavedLabel.setEnabled(true);
+        // appManager.updatePlayerTotalScore();
+         //   boolean newHighScore = appManager.updatePlayerHighScore();
+//            if (newHighScore) {
+//                String highScoreBannerText = "NEW HIGH SCORE: " + appManager.getCurrentPlayer().getCurrentRoundScore();
+//                textViewHighScoreBannerLabel.setText(highScoreBannerText);
+//                textViewHighScoreBannerLabel.setVisibility(View.VISIBLE);
+//            }
+
+        // appManager.getCurrentPlayer().setCurrentGameScore(0);
+        // SaveManager.save(appManager.getCurrentPlayer());
+        // textViewSavedLabel.setEnabled(true);
     }
 }

@@ -15,9 +15,12 @@ public class AppManager implements Serializable {
   Context logInContext;
   private Class gameToPlay;
   private Player currentPlayer, playerOne, playerTwo;
-
+  private boolean gameIsMultiPlayer, comingFromAddPlayer;
   public AppManager(Context context) {
     this.logInContext = context;
+    this.currentPlayer = null;
+    this.playerOne = null;
+    this.playerTwo = null;
   }
 
   public void setGameToPlay(Class gameToPlay) { this.gameToPlay = gameToPlay; }
@@ -30,21 +33,20 @@ public class AppManager implements Serializable {
     return this.currentPlayer;
   }
 
-  public void createPlayer(String firstName, String lastName, String userName, String password) {
-    this.currentPlayer = new Player(firstName, lastName, userName, password);
-  }
+  public void setPlayerOne (Player playerOne) { this.playerOne = playerOne;}
+  public Player getPlayerOne() { return playerOne;}
 
-  //TODO: RESET
-  public void pickGameToPlay() {
-    if (this.currentPlayer.getCurrentRoundProgress() == 0) {
-      setGameToPlay(SubwayGameActivity.class);
-    } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
-      setGameToPlay(CardGameActivity.class);
-    } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
-      setGameToPlay(BallGameActivity.class);
-    } else if (this.currentPlayer.getCurrentRoundProgress() == 3) {
-      // reset
-    }
+  public void setPlayerTwo (Player playerTwo) { this.playerTwo = playerTwo; }
+  public Player getPlayerTwo() { return playerTwo; }
+
+  public void setComingFromAddPlayer (boolean comingFromAddPlayer) { this.comingFromAddPlayer = comingFromAddPlayer; }
+  public boolean getComingFromAddPlayer () { return comingFromAddPlayer; }
+
+  public void setGameIsMultiPlayer (boolean gameIsMultiPlayer) { this.gameIsMultiPlayer = gameIsMultiPlayer; }
+  public boolean getGameIsMultiPlayer () { return gameIsMultiPlayer; }
+
+  public Player createPlayer(String firstName, String lastName, String userName, String password) {
+    return (new Player(firstName, lastName, userName, password));
   }
 
   public void saveCustomizationChanges(String gameDashboardBackgroundColor, DisplayNameChoices gameDashboardDisplayName, GameDifficulty chosenDifficulty) {
@@ -90,33 +92,17 @@ public class AppManager implements Serializable {
     return currentPlayer.getGameDifficulty();
   }
 
-  public void updatePlayerTotalScore() {
-    int updatedScore = this.currentPlayer.getTotalScore() + this.currentPlayer.getCurrentGameScore();
-    this.currentPlayer.setTotalScore(updatedScore);
-  }
+  public GameMode getCurrentPlayerGameMode() { return currentPlayer.getGameMode(); }
 
-  public void updatePlayerRoundProgress() {
-    int updatedRoundProgress = this.currentPlayer.getCurrentRoundProgress() + 1;
-    this.currentPlayer.setCurrentRoundProgress(updatedRoundProgress);
+  public void updatePlayerTotalScore() {
   }
 
   public void updatePlayerRoundScore() {
-    int updatedRoundScore = this.currentPlayer.getCurrentRoundScore() + this.currentPlayer.getCurrentGameScore();
-    this.currentPlayer.setCurrentRoundScore(updatedRoundScore);
   }
 
   public void updatePlayerTotalRounds() {
-    int updatedTotalRounds = this.currentPlayer.getTotalRoundsPlayed() + 1;
-    this.currentPlayer.setTotalRoundsPlayed(updatedTotalRounds);
   }
 
-  public boolean updatePlayerHighScore() {
-    int currentHighScore = this.currentPlayer.getHighScore();
-    int currentRoundFinalScore = this.currentPlayer.getCurrentRoundScore();
-    if (currentRoundFinalScore > currentHighScore) {
-      this.currentPlayer.setHighScore(currentRoundFinalScore);
-      return true;
-    }
-    return false;
+  public void updatePlayerHighScore() {
   }
 }

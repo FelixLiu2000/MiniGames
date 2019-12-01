@@ -273,7 +273,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     if (getUsesMultiplayerGameMode() && topScore < getPlayerScore(2)) {
       topScore = getPlayerScore(2);
     }
-    this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);
+    //this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);
     getActivity().leaveGame(this.getAppManager());
   }
 }

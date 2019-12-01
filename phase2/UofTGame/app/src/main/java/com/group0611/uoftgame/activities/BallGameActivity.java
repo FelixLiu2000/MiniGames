@@ -14,6 +14,8 @@ import com.group0611.uoftgame.games.ballgame.BallGame;
 import com.group0611.uoftgame.games.ballgame.BallGamePresenter;
 import com.group0611.uoftgame.games.ballgame.GameConstants;
 import com.group0611.uoftgame.utilities.AppManager;
+import com.group0611.uoftgame.utilities.GameDifficulty;
+import com.group0611.uoftgame.utilities.GameMode;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,12 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
   private TextView playerNameView;
   private SeekBar angleControlView, powerControlView;
   private ArrayList<ImageView> ballViews = new ArrayList<>();
+
+  // added by diego - add getters and setters if needed
+  private boolean gameIsMultiplayer; // true if two player, false if one player
+  private GameMode gameMode; // enum values of strings "TIMED" "INFINITE"
+  private GameDifficulty gameDifficulty; // enum values of strings "EASY" "MEDIUM" "HARD"
+
 
   public TextView getPlayer1ScoreView() {
     return player1ScoreView;
@@ -109,6 +117,12 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
     super.onCreate(savedInstanceState);
     setCurrentIntent(getIntent());
     AppManager appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
+
+    // added by diego
+    gameIsMultiplayer = appManager.getGameIsMultiPlayer();
+    gameMode = appManager.getCurrentPlayerGameMode();
+    gameDifficulty = appManager.getCurrentPlayerDifficulty();
+
     // ballGame = new BallGame(appManager.getCurrentPlayer().getTimeChoice()[2] / 1000, appManager,
     // this);
     int timeLimit = 20;

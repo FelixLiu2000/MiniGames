@@ -45,18 +45,6 @@
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/resultsNextGameButton"
-        android:layout_width="137dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="60dp"
-        android:text="@string/results_next_game_label"
-        android:enabled="false"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/resultsBackToDashboardButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/resultsHighScoreBanner"
         android:layout_width="326dp"

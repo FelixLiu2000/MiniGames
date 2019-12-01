@@ -4,14 +4,18 @@ import android.graphics.Color;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 
 public class Player implements Serializable {
 
   private String firstName, lastName, username, password;
-  private int totalScore, highScore, totalRoundsPlayed, currentRoundProgress,
-          currentRoundScore, gameDashboardBackgroundColor, currentGameScore;
+  private int totalScore, highScore, gameDashboardBackgroundColor;
   private GameDifficulty gameDifficulty;
   private DisplayNameChoices displayNameChoice;
+  private GameMode gameMode;
+  private HashMap<String, Integer> cardGameStats, ballGameStats, subwayGameStats, twoPlayerStats;
+
 
   Player(String firstName, String lastName, String username, String password) {
     this.firstName = firstName;
@@ -21,12 +25,30 @@ public class Player implements Serializable {
     this.displayNameChoice = DisplayNameChoices.USERNAME;
     this.totalScore = 0;
     this.highScore = 0;
-    this.totalRoundsPlayed = 0;
-    this.currentRoundProgress = 0;
-    this.currentRoundScore = 0;
     this.gameDashboardBackgroundColor = Color.WHITE;
-    this.currentGameScore = 0;
     this.gameDifficulty = GameDifficulty.EASY;
+    this.gameMode = GameMode.TIMED;
+    this.cardGameStats = new HashMap<String, Integer>();
+    this.subwayGameStats = new HashMap<String, Integer>();
+    this.ballGameStats = new HashMap<String, Integer>();
+    this.twoPlayerStats = new HashMap<String, Integer>();
+    this.cardGameStats.put("Total Score", 0);
+    this.cardGameStats.put("Total Match Attempts", 0);
+    this.cardGameStats.put("High Score", 0);
+    this.cardGameStats.put("Total Mismatches", 0);
+    this.cardGameStats.put("Total Matches", 0);
+    this.ballGameStats.put("Total Score", 0);
+    this.ballGameStats.put("High Score", 0);
+    this.ballGameStats.put("Total Hits", 0);
+    this.ballGameStats.put("Total Throws", 0);
+    this.ballGameStats.put("Total Misses", 0);
+    this.subwayGameStats.put("Total Score", 0);
+    this.subwayGameStats.put("Total Coins", 0);
+    this.subwayGameStats.put("High Score", 0);
+    this.subwayGameStats.put("Total Obstacle Hits", 0);
+    this.twoPlayerStats.put("Total Games", 0);
+    this.twoPlayerStats.put("Total Wins", 0);
+    this.twoPlayerStats.put("Total Losses", 0);
   }
 
   public String getFirstName() { return firstName; }
@@ -49,46 +71,41 @@ public class Player implements Serializable {
     this.password = password;
   }
 
-  DisplayNameChoices getDisplayNameChoice() { return this.displayNameChoice; }
-  void setDisplayNameChoice(DisplayNameChoices displayNameChoice) { this.displayNameChoice = displayNameChoice; }
+  public DisplayNameChoices getDisplayNameChoice() { return this.displayNameChoice; }
+  public void setDisplayNameChoice(DisplayNameChoices displayNameChoice) { this.displayNameChoice = displayNameChoice; }
 
   public int getTotalScore() {
     return totalScore;
   }
-  void setTotalScore(int totalScore) {
+  public void setTotalScore(int totalScore) {
     this.totalScore = totalScore;
   }
 
   public int getHighScore() {
     return highScore;
   }
-  void setHighScore(int highScore) {
+  public void setHighScore(int highScore) {
     this.highScore = highScore;
   }
-
-  public int getTotalRoundsPlayed() {
-    return totalRoundsPlayed;
-  }
-  void setTotalRoundsPlayed(int roundPlayed) {
-    this.totalRoundsPlayed = roundPlayed;
-  }
-
-  public int getCurrentRoundProgress() {
-    return currentRoundProgress;
-  }
-  public void setCurrentRoundProgress(int currentGameRounds) { this.currentRoundProgress = currentGameRounds; }
-
-  public int getCurrentRoundScore() {
-    return currentRoundScore;
-  }
-  public void setCurrentRoundScore(int currentRoundScore) { this.currentRoundScore = currentRoundScore; }
 
   public int getGameDashboardBackgroundColor() { return this.gameDashboardBackgroundColor; }
   public void setGameDashboardBackgroundColor(int newGameDashboardBackgroundColor) { this.gameDashboardBackgroundColor = newGameDashboardBackgroundColor; }
 
-  public int getCurrentGameScore() { return this.currentGameScore; }
-  public void setCurrentGameScore(int currentGameScore) { this.currentGameScore = currentGameScore; }
-
   public GameDifficulty getGameDifficulty() { return gameDifficulty; }
   public void setGameDifficulty(GameDifficulty gameDifficulty) {this.gameDifficulty = gameDifficulty; }
+
+  public GameMode getGameMode() { return gameMode; }
+  public void setGameMode (GameMode gameMode) { this.gameMode = gameMode; }
+
+  public HashMap getBallGameStats() { return ballGameStats; }
+  public void setBallGameStats(HashMap<String, Integer> ballGameStats) { this.ballGameStats = ballGameStats; }
+
+  public HashMap getCardGameStats() { return cardGameStats; }
+  public void setCardGameStats(HashMap<String, Integer> cardGameStats) { this.cardGameStats = cardGameStats; }
+
+  public HashMap getSubwayGameStats() { return subwayGameStats; }
+  public void setSubwayGameStats(HashMap<String, Integer> subwayGameStats) { this.subwayGameStats = subwayGameStats; }
+
+  public HashMap getTwoPlayerStats() { return twoPlayerStats; }
+  public void setTwoPlayerStats(HashMap<String, Integer> twoPlayerStats) { this.twoPlayerStats = twoPlayerStats; }
 }

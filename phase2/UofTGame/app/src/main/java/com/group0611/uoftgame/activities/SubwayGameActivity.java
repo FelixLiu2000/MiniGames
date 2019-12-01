@@ -13,6 +13,8 @@ import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.subwaygame.SubwayGame;
 import com.group0611.uoftgame.utilities.AppManager;
+import com.group0611.uoftgame.utilities.GameDifficulty;
+import com.group0611.uoftgame.utilities.GameMode;
 
 import java.util.ArrayList;
 
@@ -26,7 +28,13 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     // runner'x lane
     public int runnerLane;
     private TextView currentScore;
-  private Intent currentIntent, toResultsPageIntent, toDashboardIntent;
+    private Intent currentIntent, toResultsPageIntent, toDashboardIntent;
+
+    // added by diego - add getters and setters if needed
+    private boolean gameIsMultiplayer; // true if two player, false if one player
+    private GameMode gameMode; // enum values of strings "TIMED" "INFINITE"
+    private GameDifficulty gameDifficulty; // enum values of strings "EASY" "MEDIUM" "HARD"
+
 
   @Override
   public Intent getCurrentIntent() {
@@ -56,6 +64,12 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     super.onCreate(savedInstanceState);
     setCurrentIntent(getIntent());
     AppManager appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
+
+    // added by diego
+    gameIsMultiplayer = appManager.getGameIsMultiPlayer();
+    gameMode = appManager.getCurrentPlayerGameMode();
+    gameDifficulty = appManager.getCurrentPlayerDifficulty();
+
     setContentView(R.layout.activity_subway_game);
     currentScore = findViewById(R.id.score);
     runner = findViewById(R.id.subwayRunner);

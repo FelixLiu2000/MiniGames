@@ -14,6 +14,8 @@ import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.cardgame.CardGame;
 import com.group0611.uoftgame.games.cardgame.CardManager;
 import com.group0611.uoftgame.utilities.AppManager;
+import com.group0611.uoftgame.utilities.GameDifficulty;
+import com.group0611.uoftgame.utilities.GameMode;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,12 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
   public int cardHeight = 3;
   public boolean infiniteGame = false;
   private CardManager cardManager;
+
+  // added by diego - add getters and setters if needed
+  private boolean gameIsMultiplayer; // true if two player, false if one player
+  private GameMode gameMode; // enum values of strings "TIMED" "INFINITE"
+  private GameDifficulty gameDifficulty; // enum values of strings "EASY" "MEDIUM" "HARD"
+
 
   @Override
   public Intent getCurrentIntent() {
@@ -65,13 +73,19 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
     super.onCreate(savedInstanceState);
     setCurrentIntent(getIntent());
     AppManager appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
+
+    // added by diego
+    gameIsMultiplayer = appManager.getGameIsMultiPlayer();
+    gameMode = appManager.getCurrentPlayerGameMode();
+    gameDifficulty = appManager.getCurrentPlayerDifficulty();
+
     setContentView(R.layout.activity_card_game);
     score = findViewById(R.id.score);
     time = findViewById(R.id.time);
     time.setText(String.valueOf(0));
     addButtons();
     // cardGame = new CardGame(60, appManager, this);
-    int timeLimit = 20;
+    int timeLimit = 40000;
     cardGame =
         (CardGame)
             new Game.GameBuilder(CardGame.class, appManager, this)
@@ -162,7 +176,6 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
     correct.start();
   }
 
-  // TODO: Diego implement this in all other games
   @Override
   public void onBackPressed() {
     cardGame.getCardGameTimer().cancel();
