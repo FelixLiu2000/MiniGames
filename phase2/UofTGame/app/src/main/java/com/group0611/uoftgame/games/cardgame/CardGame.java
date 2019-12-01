@@ -338,6 +338,10 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
     setTime(timeText);
     cardManager.disableCards();
     //this.getAppManager().getCurrentPlayer().setCurrentGameScore(getCurrentPlayerScore());
+
+    //this.getAppManager().updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalMatchAttempts);
+    // if multiplayer game call above method again and pass in second player in the player parameter with their stats
+
     getActivity().leaveGame(this.getAppManager());
   }
 }

@@ -9,13 +9,14 @@ import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.subwaygame.SubwayGame;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class AppManager implements Serializable {
 
   Context logInContext;
   private Class gameToPlay;
   private Player currentPlayer, playerOne, playerTwo;
-  private boolean gameIsMultiPlayer, comingFromAddPlayer;
+  private boolean gameIsMultiPlayer, comingFromAddPlayer, currentPlayerIsPlayerTwo;
   public AppManager(Context context) {
     this.logInContext = context;
     this.currentPlayer = null;
@@ -44,6 +45,9 @@ public class AppManager implements Serializable {
 
   public void setGameIsMultiPlayer (boolean gameIsMultiPlayer) { this.gameIsMultiPlayer = gameIsMultiPlayer; }
   public boolean getGameIsMultiPlayer () { return gameIsMultiPlayer; }
+
+  public void setCurrentPlayerIsPlayerTwo (boolean currentPlayerIsPlayerTwo) { this.currentPlayerIsPlayerTwo = currentPlayerIsPlayerTwo; }
+  public boolean getCurrentPlayerIsPlayerTwo () { return currentPlayerIsPlayerTwo; }
 
   public Player createPlayer(String firstName, String lastName, String userName, String password) {
     return (new Player(firstName, lastName, userName, password));
@@ -94,15 +98,92 @@ public class AppManager implements Serializable {
 
   public GameMode getCurrentPlayerGameMode() { return currentPlayer.getGameMode(); }
 
-  public void updatePlayerTotalScore() {
+  public void switchCurrentPlayer() {
+    if (currentPlayerIsPlayerTwo) {
+      currentPlayer = playerOne;
+    } else {
+      currentPlayer = playerTwo;
+    }
+    currentPlayerIsPlayerTwo = !currentPlayerIsPlayerTwo;
   }
 
-  public void updatePlayerRoundScore() {
+
+  public void updatePlayerTotalScore(Player player, int score) {
+    player.setTotalScore(player.getTotalScore() + score);
   }
 
-  public void updatePlayerTotalRounds() {
+  public void updatePlayerTotalGamesPlayed(Player player) {
+    player.setTotalGamesPlayed(player.getTotalGamesPlayed() + 1 );
   }
 
-  public void updatePlayerHighScore() {
+  public void updatePlayerHighScore(Player player, int score) {
+    if (score > player.getHighScore()) {
+      player.setHighScore(score);
+    }
+  }
+
+  public void updatePlayerMainStats(Player player, int score) {
+    updatePlayerTotalScore(player, score);
+    updatePlayerTotalGamesPlayed(player);
+    updatePlayerHighScore(player, score);
+  }
+
+  public void updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalMatchAttempts) {
+    updatePlayerMainStats(player, totalScore);
+    HashMap<String, Integer> playerStats = player.getCardGameStats();
+    playerStats.put("Total Times Played", playerStats.get("Total Times Played") + 1 );
+    playerStats.put("Total Score", playerStats.get("Total Score") + totalScore);
+    playerStats.put("Total Match Attempts", playerStats.get("Total Match Attempts") + totalMatchAttempts);
+    playerStats.put("Total Mismatches", playerStats.get("Total Mismatches") + totalMisMatches);
+    playerStats.put("Total Matches", playerStats.get("Total Matches") + totalMatches);
+    if (totalScore > playerStats.get("High Score")) {
+      playerStats.put("High Score", totalScore);
+    }
+
+    player.setCardGameStats(playerStats);
+    SaveManager.save(player);
+  }
+
+  public void updatePlayerSubwayGameStats(Player player, int totalScore, int totalCoins,  int totalObstaclesHit){
+    updatePlayerMainStats(player, totalCoins);
+    HashMap<String, Integer> playerStats = player.getSubwayGameStats();
+    playerStats.put("Total Times Played", playerStats.get("Total Times Played") + 1 );
+    playerStats.put("Total Score", playerStats.get("Total Score") + totalScore);
+    playerStats.put("Total Coins", playerStats.get("Total Coins") + totalCoins);
+    playerStats.put("Total Obstacle Hits", playerStats.get("Total Obstacle Hits") + totalObstaclesHit);
+    if (totalScore > playerStats.get("High Score")) {
+      playerStats.put("High Score", totalScore);
+    }
+
+    player.setSubwayGameStats(playerStats);
+    SaveManager.save(player);
+  }
+
+  public void updatePlayerBallGameStats(Player player, int totalScore, int totalThrows, int totalHits, int totalMisses) {
+    updatePlayerMainStats(player, totalScore);
+    HashMap<String, Integer> playerStats = player.getBallGameStats();
+    playerStats.put("Total Times Played", playerStats.get("Total Times Played") + 1 );
+    playerStats.put("Total Score", playerStats.get("Total Score") + totalScore);
+    playerStats.put("Total Hits", playerStats.get("Total Hits") + totalHits);
+    playerStats.put("Total Misses", playerStats.get("Total Misses") + totalMisses);
+    playerStats.put("Total Throws", playerStats.get("Total Throws") + totalThrows);
+    if (totalScore > playerStats.get("High Score")) {
+      playerStats.put("High Score", totalScore);
+    }
+
+    player.setBallGameStats(playerStats);
+    SaveManager.save(player);
+  }
+
+  public void updateTwoPlayerStats(boolean playerOneWon) {
+    if (playerOneWon) {
+      playerOne.getTwoPlayerStats().put("Total Wins", playerOne.getTwoPlayerStats().get("Total wins") + 1);
+      playerTwo.getTwoPlayerStats().put("Total Losses", playerTwo.getTwoPlayerStats().get("Total Losses") + 1);
+    } else {
+      playerOne.getTwoPlayerStats().put("Total Losses", playerOne.getTwoPlayerStats().get("Total Losses") + 1);
+      playerTwo.getTwoPlayerStats().put("Total Wins", playerTwo.getTwoPlayerStats().get("Total Wins") + 1);
+    }
+    playerOne.getTwoPlayerStats().put("Total Two Player Games", playerOne.getTwoPlayerStats().get("Total Two Player Games") + 1);
+    playerTwo.getTwoPlayerStats().put("Total Two Player Games", playerTwo.getTwoPlayerStats().get("Total Two Player Games") + 1);
   }
 }

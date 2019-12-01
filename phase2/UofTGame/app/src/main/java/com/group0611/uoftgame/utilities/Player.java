@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Player implements Serializable {
 
   private String firstName, lastName, username, password;
-  private int totalScore, highScore, gameDashboardBackgroundColor;
+  private int totalScore, highScore, gameDashboardBackgroundColor, totalGamesPlayed;
   private GameDifficulty gameDifficulty;
   private DisplayNameChoices displayNameChoice;
   private GameMode gameMode;
@@ -25,6 +25,7 @@ public class Player implements Serializable {
     this.displayNameChoice = DisplayNameChoices.USERNAME;
     this.totalScore = 0;
     this.highScore = 0;
+    this.totalGamesPlayed = 0;
     this.gameDashboardBackgroundColor = Color.WHITE;
     this.gameDifficulty = GameDifficulty.EASY;
     this.gameMode = GameMode.TIMED;
@@ -37,16 +38,19 @@ public class Player implements Serializable {
     this.cardGameStats.put("High Score", 0);
     this.cardGameStats.put("Total Mismatches", 0);
     this.cardGameStats.put("Total Matches", 0);
+    this.cardGameStats.put("Total Times Played", 0);
     this.ballGameStats.put("Total Score", 0);
     this.ballGameStats.put("High Score", 0);
     this.ballGameStats.put("Total Hits", 0);
     this.ballGameStats.put("Total Throws", 0);
     this.ballGameStats.put("Total Misses", 0);
+    this.ballGameStats.put("Total Times Played", 0);
     this.subwayGameStats.put("Total Score", 0);
     this.subwayGameStats.put("Total Coins", 0);
     this.subwayGameStats.put("High Score", 0);
     this.subwayGameStats.put("Total Obstacle Hits", 0);
-    this.twoPlayerStats.put("Total Games", 0);
+    this.subwayGameStats.put("Total Times Played", 0);
+    this.twoPlayerStats.put("Total Two Player Games", 0);
     this.twoPlayerStats.put("Total Wins", 0);
     this.twoPlayerStats.put("Total Losses", 0);
   }
@@ -88,6 +92,9 @@ public class Player implements Serializable {
     this.highScore = highScore;
   }
 
+  public int getTotalGamesPlayed() { return totalGamesPlayed; }
+  public void setTotalGamesPlayed(int totalGamesPlayed) { this.totalGamesPlayed = totalGamesPlayed; }
+
   public int getGameDashboardBackgroundColor() { return this.gameDashboardBackgroundColor; }
   public void setGameDashboardBackgroundColor(int newGameDashboardBackgroundColor) { this.gameDashboardBackgroundColor = newGameDashboardBackgroundColor; }
 
@@ -97,15 +104,15 @@ public class Player implements Serializable {
   public GameMode getGameMode() { return gameMode; }
   public void setGameMode (GameMode gameMode) { this.gameMode = gameMode; }
 
-  public HashMap getBallGameStats() { return ballGameStats; }
+  public HashMap<String, Integer> getBallGameStats() { return ballGameStats; }
   public void setBallGameStats(HashMap<String, Integer> ballGameStats) { this.ballGameStats = ballGameStats; }
 
-  public HashMap getCardGameStats() { return cardGameStats; }
+  public HashMap<String, Integer> getCardGameStats() { return cardGameStats; }
   public void setCardGameStats(HashMap<String, Integer> cardGameStats) { this.cardGameStats = cardGameStats; }
 
-  public HashMap getSubwayGameStats() { return subwayGameStats; }
+  public HashMap<String, Integer> getSubwayGameStats() { return subwayGameStats; }
   public void setSubwayGameStats(HashMap<String, Integer> subwayGameStats) { this.subwayGameStats = subwayGameStats; }
 
-  public HashMap getTwoPlayerStats() { return twoPlayerStats; }
+  public HashMap<String, Integer> getTwoPlayerStats() { return twoPlayerStats; }
   public void setTwoPlayerStats(HashMap<String, Integer> twoPlayerStats) { this.twoPlayerStats = twoPlayerStats; }
 }

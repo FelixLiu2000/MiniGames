@@ -214,6 +214,11 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
     System.out.println("Game Over!");
     System.out.println("Final score is: " + score);
     // getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
+
+    // getAppManager().updatePlayerSubwayGameStats(Player player, int totalScore, int totalCoins,  int totalObstaclesHit)
+    // if multiplayer game call above method again and pass in second player in the player parameter with their stats
+
+
     getActivity().leaveGame(this.getAppManager());
   }
 

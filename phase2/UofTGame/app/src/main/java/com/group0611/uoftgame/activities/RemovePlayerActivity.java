@@ -35,6 +35,7 @@ public class RemovePlayerActivity extends AppCompatActivity {
                         appManager.setCurrentPlayer(appManager.getPlayerOne());
                         appManager.setPlayerTwo(null);
                         appManager.setGameIsMultiPlayer(false);
+                        appManager.setCurrentPlayerIsPlayerTwo(false);
                         Intent removePlayerToGameDashboard = new Intent(RemovePlayerActivity.this, GameDashboardActivity.class);
                         removePlayerToGameDashboard.putExtra("appManager", appManager);
                         startActivity(removePlayerToGameDashboard);
@@ -48,6 +49,7 @@ public class RemovePlayerActivity extends AppCompatActivity {
                         appManager.setPlayerOne(appManager.getPlayerTwo());
                         appManager.setPlayerTwo(null);
                         appManager.setGameIsMultiPlayer(false);
+                        appManager.setCurrentPlayerIsPlayerTwo(false);
                         Intent removePlayerToGameDashboard = new Intent(RemovePlayerActivity.this, GameDashboardActivity.class);
                         removePlayerToGameDashboard.putExtra("appManager", appManager);
                         startActivity(removePlayerToGameDashboard);
