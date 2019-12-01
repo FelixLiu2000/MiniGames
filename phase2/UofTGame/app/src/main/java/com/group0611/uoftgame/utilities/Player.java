@@ -2,6 +2,7 @@ package com.group0611.uoftgame.utilities;
 
 import android.graphics.Color;
 
+import java.io.InterruptedIOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -106,4 +107,7 @@ public class Player implements Serializable {
 
   public HashMap<String, Integer> getTwoPlayerStats() { return twoPlayerStats; }
   public void setTwoPlayerStats(HashMap<String, Integer> twoPlayerStats) { this.twoPlayerStats = twoPlayerStats; }
+
+  public HashMap<String, Integer> getPreviousGameStats() { return previousGameStats; }
+  public void setPreviousGameStats (HashMap<String, Integer> previousGameStats) { this.previousGameStats = previousGameStats; }
 }
