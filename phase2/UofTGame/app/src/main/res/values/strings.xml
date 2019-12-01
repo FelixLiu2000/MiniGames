@@ -36,7 +36,7 @@
     <string name="power">Power:</string>
     <string name="time">Time:</string>
     <string name="results_saved_label">Your progress was saved!</string>
-    <string name="settings_difficulty_label">Difficulty Level \n (changes times per game)</string>
+    <string name="settings_difficulty_label">Difficulty Level</string>
     <string name="results_back_to_dashboard">Back To Dashboard</string>
     <string name="results_next_game_label">Next Game</string>
     <string name="create_error_message">Username already exists!</string>

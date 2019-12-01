@@ -30,9 +30,9 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewHighScoreBannerLabel = findViewById(R.id.resultsHighScoreBanner);
         buttonNextGame = findViewById(R.id.resultsNextGameButton);
         buttonBackToDashboard = findViewById(R.id.resultsBackToDashboardButton);
-        String scoreText = "Your Score: " + appManager.getMainPlayer().getCurrentGameScore();
+        String scoreText = "Your Score: " + appManager.getCurrentPlayer().getCurrentGameScore();
         textViewScoreLabel.setText(scoreText);
-        if (appManager.getMainPlayer().getCurrentRoundProgress() != 2) {
+        if (appManager.getCurrentPlayer().getCurrentRoundProgress() != 2) {
             buttonNextGame.setEnabled(true);
             buttonNextGame.setVisibility(View.VISIBLE);
         }
@@ -62,19 +62,19 @@ public class ResultsPageActivity extends AppCompatActivity {
         appManager.updatePlayerTotalScore();
         appManager.updatePlayerRoundScore();
         appManager.updatePlayerRoundProgress();
-        if (appManager.getMainPlayer().getCurrentRoundProgress() == 3) {
+        if (appManager.getCurrentPlayer().getCurrentRoundProgress() == 3) {
             appManager.updatePlayerTotalRounds();
             boolean newHighScore = appManager.updatePlayerHighScore();
             if (newHighScore) {
-                String highScoreBannerText = "NEW HIGH SCORE: " + appManager.getMainPlayer().getCurrentRoundScore();
+                String highScoreBannerText = "NEW HIGH SCORE: " + appManager.getCurrentPlayer().getCurrentRoundScore();
                 textViewHighScoreBannerLabel.setText(highScoreBannerText);
                 textViewHighScoreBannerLabel.setVisibility(View.VISIBLE);
             }
-            appManager.getMainPlayer().setCurrentRoundProgress(0);
-            appManager.getMainPlayer().setCurrentRoundScore(0);
+            appManager.getCurrentPlayer().setCurrentRoundProgress(0);
+            appManager.getCurrentPlayer().setCurrentRoundScore(0);
         }
-        appManager.getMainPlayer().setCurrentGameScore(0);
-        SaveManager.save(appManager.getMainPlayer());
+        appManager.getCurrentPlayer().setCurrentGameScore(0);
+        SaveManager.save(appManager.getCurrentPlayer());
         textViewSavedLabel.setEnabled(true);
     }
 }

@@ -69,7 +69,7 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
     time.setText(String.valueOf(0));
     addButtons();
     // cardGame = new CardGame(60, appManager, this);
-    int timeLimit = appManager.getMainPlayer().getTimeChoice()[1];
+    int timeLimit = 6000;
     cardGame =
         (CardGame)
             new Game.GameBuilder(CardGame.class, appManager, this)

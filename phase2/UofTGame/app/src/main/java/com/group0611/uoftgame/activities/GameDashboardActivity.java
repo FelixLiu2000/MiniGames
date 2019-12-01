@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.group0611.uoftgame.R;
 
 import com.group0611.uoftgame.utilities.AppManager;
+import com.group0611.uoftgame.utilities.DisplayNameChoices;
 
 public class GameDashboardActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class GameDashboardActivity extends AppCompatActivity {
     this.appManager = (AppManager) intentGameDashboard.getSerializableExtra("appManager");
     setContentView(R.layout.activity_game_dashboard);
 
-    getWindow().getDecorView().setBackgroundColor(appManager.getMainPlayer().getGameDashboardBackgroundColor());
+    getWindow().getDecorView().setBackgroundColor(appManager.getCurrentPlayer().getGameDashboardBackgroundColor());
 
     imageButtonCardGame = findViewById(R.id.cardGameButton);
     imageButtonSubwayGame = findViewById(R.id.subwayGameButton);
@@ -77,15 +78,15 @@ public class GameDashboardActivity extends AppCompatActivity {
 
     // sets visible text fields based on logged in player
     textViewTotalRoundsPlayed.setText(
-            String.valueOf(appManager.getMainPlayer().getTotalRoundsPlayed()));
-    textViewTotalScore.setText(String.valueOf(appManager.getMainPlayer().getTotalScore()));
+            String.valueOf(appManager.getCurrentPlayer().getTotalRoundsPlayed()));
+    textViewTotalScore.setText(String.valueOf(appManager.getCurrentPlayer().getTotalScore()));
 
-    if (appManager.getMainPlayerDisplayName().equals("USERNAME")){
-      textViewDisplayName.setText(String.valueOf(appManager.getMainPlayer().getUsername()));
-    } else if (appManager.getMainPlayerDisplayName().equals("FIRST NAME")){
-      textViewDisplayName.setText(String.valueOf(appManager.getMainPlayer().getFirstName()));
-    } else if (appManager.getMainPlayerDisplayName().equals("LAST NAME")){
-      textViewDisplayName.setText(String.valueOf(appManager.getMainPlayer().getLastName()));
-    }
+    if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.USERNAME)) {
+          textViewDisplayName.setText(appManager.getCurrentPlayer().getUsername());
+      } else if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.FIRSTNAME)) {
+          textViewDisplayName.setText(appManager.getCurrentPlayer().getFirstName());
+      } else if (appManager.getCurrentPlayerDisplayName().equals(DisplayNameChoices.LASTNAME)) {
+          textViewDisplayName.setText(appManager.getCurrentPlayer().getLastName());
+      }
   }
 }

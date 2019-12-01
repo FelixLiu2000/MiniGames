@@ -14,7 +14,7 @@ public class AppManager implements Serializable {
 
   Context logInContext;
   private Class gameToPlay;
-  private Player mainPlayer, playerOne, playerTwo;
+  private Player currentPlayer, playerOne, playerTwo;
 
   public AppManager(Context context) {
     this.logInContext = context;
@@ -23,33 +23,32 @@ public class AppManager implements Serializable {
   public void setGameToPlay(Class gameToPlay) { this.gameToPlay = gameToPlay; }
   public Class getGameToPlay() { return this.gameToPlay; }
 
-  public void setMainPlayer(Player mainPlayer) {
-    this.mainPlayer = mainPlayer;
+  public void setCurrentPlayer(Player currentPlayer) {
+    this.currentPlayer = currentPlayer;
   }
-  public Player getMainPlayer() {
-    return this.mainPlayer;
+  public Player getCurrentPlayer() {
+    return this.currentPlayer;
   }
 
   public void createPlayer(String firstName, String lastName, String userName, String password) {
-    this.mainPlayer = new Player(firstName, lastName, userName, password);
+    this.currentPlayer = new Player(firstName, lastName, userName, password);
   }
 
   //TODO: RESET
   public void pickGameToPlay() {
-    if (this.mainPlayer.getCurrentRoundProgress() == 0) {
+    if (this.currentPlayer.getCurrentRoundProgress() == 0) {
       setGameToPlay(SubwayGameActivity.class);
-    } else if (this.mainPlayer.getCurrentRoundProgress() == 1) {
+    } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
       setGameToPlay(CardGameActivity.class);
-    } else if (this.mainPlayer.getCurrentRoundProgress() == 2) {
+    } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
       setGameToPlay(BallGameActivity.class);
-    } else if (this.mainPlayer.getCurrentRoundProgress() == 3) {
+    } else if (this.currentPlayer.getCurrentRoundProgress() == 3) {
       // reset
     }
   }
 
-  //TODO: TIMER CHOICE
-  public void saveCustomizationChanges(String gameDashboardBackgroundColor, String gameDashboardDisplayName, String chosenDifficulty) {
-    int chosenColorInt = this.mainPlayer.getGameDashboardBackgroundColor();
+  public void saveCustomizationChanges(String gameDashboardBackgroundColor, DisplayNameChoices gameDashboardDisplayName, GameDifficulty chosenDifficulty) {
+    int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
     if (gameDashboardBackgroundColor.equals("WHITE")){
       chosenColorInt = Color.WHITE;
     } else if (gameDashboardBackgroundColor.equals("RED")){
@@ -61,26 +60,14 @@ public class AppManager implements Serializable {
     } else if (gameDashboardBackgroundColor.equals("YELLOW")) {
       chosenColorInt = Color.YELLOW;
     }
-    this.mainPlayer.setGameDashboardBackgroundColor(chosenColorInt);
-    this.mainPlayer.setCurrentDisplayNameChoice(gameDashboardDisplayName);
-    this.mainPlayer.setDifficulty(chosenDifficulty);
-    this.mainPlayer.setTimeChoice(chooseTimeChoice());
+    this.currentPlayer.setGameDashboardBackgroundColor(chosenColorInt);
+    this.currentPlayer.setGameDifficulty(chosenDifficulty);
+    this.currentPlayer.setDisplayNameChoice(gameDashboardDisplayName);
 
   }
 
-  private int[] chooseTimeChoice() {
-    if (mainPlayer.getDifficulty().equals("EASY")) {
-      return mainPlayer.getEasyTimes();
-    } else if (mainPlayer.getDifficulty().equals("MEDIUM")) {
-      return mainPlayer.getMediumTimes();
-    } else if (mainPlayer.getDifficulty().equals("HARD")) {
-      return mainPlayer.getHardTimes();
-    }
-    return mainPlayer.getEasyTimes();
-  }
-
-  public String getMainPlayerCurrentDashboardColor() {
-    int currentColor = mainPlayer.getGameDashboardBackgroundColor();
+  public String getCurrentPlayerCurrentDashboardColor() {
+    int currentColor = currentPlayer.getGameDashboardBackgroundColor();
     if (currentColor == Color.WHITE) {
       return "WHITE";
     } else if (currentColor == Color.RED) {
@@ -95,39 +82,39 @@ public class AppManager implements Serializable {
     return "WHITE";
   }
 
-  public String getMainPlayerDisplayName() {
-    return mainPlayer.getCurrentDisplayNameChoice();
+  public DisplayNameChoices getCurrentPlayerDisplayName() {
+    return currentPlayer.getDisplayNameChoice();
   }
 
-  public String getMainPlayerDifficulty() {
-    return mainPlayer.getDifficulty();
+  public GameDifficulty getCurrentPlayerDifficulty() {
+    return currentPlayer.getGameDifficulty();
   }
 
   public void updatePlayerTotalScore() {
-    int updatedScore = this.mainPlayer.getTotalScore() + this.mainPlayer.getCurrentGameScore();
-    this.mainPlayer.setTotalScore(updatedScore);
+    int updatedScore = this.currentPlayer.getTotalScore() + this.currentPlayer.getCurrentGameScore();
+    this.currentPlayer.setTotalScore(updatedScore);
   }
 
   public void updatePlayerRoundProgress() {
-    int updatedRoundProgress = this.mainPlayer.getCurrentRoundProgress() + 1;
-    this.mainPlayer.setCurrentRoundProgress(updatedRoundProgress);
+    int updatedRoundProgress = this.currentPlayer.getCurrentRoundProgress() + 1;
+    this.currentPlayer.setCurrentRoundProgress(updatedRoundProgress);
   }
 
   public void updatePlayerRoundScore() {
-    int updatedRoundScore = this.mainPlayer.getCurrentRoundScore() + this.mainPlayer.getCurrentGameScore();
-    this.mainPlayer.setCurrentRoundScore(updatedRoundScore);
+    int updatedRoundScore = this.currentPlayer.getCurrentRoundScore() + this.currentPlayer.getCurrentGameScore();
+    this.currentPlayer.setCurrentRoundScore(updatedRoundScore);
   }
 
   public void updatePlayerTotalRounds() {
-    int updatedTotalRounds = this.mainPlayer.getTotalRoundsPlayed() + 1;
-    this.mainPlayer.setTotalRoundsPlayed(updatedTotalRounds);
+    int updatedTotalRounds = this.currentPlayer.getTotalRoundsPlayed() + 1;
+    this.currentPlayer.setTotalRoundsPlayed(updatedTotalRounds);
   }
 
   public boolean updatePlayerHighScore() {
-    int currentHighScore = this.mainPlayer.getHighScore();
-    int currentRoundFinalScore = this.mainPlayer.getCurrentRoundScore();
+    int currentHighScore = this.currentPlayer.getHighScore();
+    int currentRoundFinalScore = this.currentPlayer.getCurrentRoundScore();
     if (currentRoundFinalScore > currentHighScore) {
-      this.mainPlayer.setHighScore(currentRoundFinalScore);
+      this.currentPlayer.setHighScore(currentRoundFinalScore);
       return true;
     }
     return false;
