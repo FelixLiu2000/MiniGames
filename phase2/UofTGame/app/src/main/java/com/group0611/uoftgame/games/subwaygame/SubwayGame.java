@@ -26,7 +26,6 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
   private int currentPlayer = 1;
   private List<Integer> playerScores = new ArrayList<>();
-  private ArrayList<SubwayPlayer> players = new ArrayList<>();
 
 
   private int time = 6000;
@@ -43,38 +42,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   protected SubwayGameActivity getActivity() {
     return (SubwayGameActivity) super.getActivity();
   }
-//
-//  @Override
-//  public boolean getUsesLivesGameMode() { return super.getUsesLivesGameMode(); }
-//
-//  @Override
-//  public int getStartingLives() {
-//    return super.getStartingLives();
-////    return score;
-//  }
-//
-//  @Override
-//  public boolean isOutOfLives() { return score <= 0; }
-//
-//  @Override
-//  public boolean getUsesMultiplayerGameMode() { return super.getUsesMultiplayerGameMode(); }
-//
-//  @Override
-//  public int getPlayerScore(int playerNumber) { return playerScores.get(playerNumber-1); }
-//
-//  @Override
-//  public void nextPlayerTurn() {
-//    currentPlayer++;
-//    playerScores.add(score);
-//    score = 0;
-//    ((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
-//    startGame();
-//  }
-//
-//  @Override
-//  public int getCurrentPlayerNumber() {
-//    return currentPlayer;
-//  }
+
 
   /**
    * Creates a timer and
@@ -83,33 +51,37 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
    */
   protected void startGame() {
     // create 60 second timer
-    subwayGameTimer = new CountDownTimer(time, 1000) {
-      @Override
-      public void onTick(long millisUntilFinished) {
-        // check for collisions every second
-        checkCollision();
-        // move all moving objects down every second
-        getActivity().moveDown();
-        // create new obstacle every 4 seconds
-        double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
-        if (nearestThousand % 4000 == 0) {
-          createMovingObject();
-        }
-        updateTime(millisUntilFinished);
-        if(score == 0 && getUsesLivesGameMode()){
-          endGame();
-        }
-      }
+    subwayGameTimer =
+        new CountDownTimer(time, 1000) {
+          @Override
+          public void onTick(long millisUntilFinished) {
+            // check for collisions every second
+            checkCollision();
+            // move all moving objects down every second
+            getActivity().moveDown();
+            // create new obstacle every 4 seconds
+            double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
+            if (nearestThousand % 4000 == 0) {
+              createMovingObject();
+            }
+            updateTime(millisUntilFinished);
+            if (score == 0 && getUsesLivesGameMode() && !getUsesMultiplayerGameMode()) {
+              endGame();
+            }
+          }
 
-      @Override
-      public void onFinish() {
-        if(!getUsesLivesGameMode()){
-          endGame();
-        }else{
-          this.start();
-        }
-      }
-    }.start();
+          @Override
+          public void onFinish() {
+            if (getUsesTimedGameMode()) {
+              endGame();
+            } else if (getUsesMultiplayerGameMode()) {
+              nextPlayerTurn();
+              this.start();
+            } else {
+              this.start();
+            }
+          }
+        }.start();
   }
 
   private void updateTime(long timeLeft) {
@@ -121,32 +93,6 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
   }
 
-  /**
-   * Gets the player with a given player number.
-   *
-   * @param playerNumber the number of the player (indexed at 1).
-   */
-  SubwayPlayer getPlayer(int playerNumber) {
-    if (playerNumber == 1 || (getUsesMultiplayerGameMode() && playerNumber <= players.size())) {
-      return players.get(playerNumber - 1);
-    } else {
-      throw new IllegalArgumentException(
-              "Illegal argument: player with number " + playerNumber + " not found.");
-    }
-  }
-
-  /**
-   * Sets the game's player(s) and initializes their starting lives and usernames.
-   *
-   * @param players the players to be assigned.
-   */
-  void setPlayers(SubwayPlayer[] players) {
-    for (SubwayPlayer player : players) {
-      player.setRemainingLives(this.getStartingLives());
-      player.setUsername(getAppManager().getCurrentPlayerDisplayName());
-      this.players.add(player);
-    }
-  }
 
   /**
    * Check if runner and a moving object are in the same position.
@@ -310,11 +256,14 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
   @Override
   public void nextPlayerTurn() {
+    // remove the old obstacles
+    ((ConstraintLayout) getActivity().findViewById(R.id.Layout)).removeAllViews();
+    // reset the player labels/stats
     currentPlayer++;
     playerScores.add(score);
-    score = 0;
-    // TODO: Fix this line
-    //((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
+    score = 10;
+    getActivity().displayNewScore(score);
+    ((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
     startGame();
   }
 
