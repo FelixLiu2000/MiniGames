@@ -26,6 +26,8 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
   private int currentPlayer = 1;
   private List<Integer> playerScores = new ArrayList<>();
+  private ArrayList<SubwayPlayer> players = new ArrayList<>();
+
 
   private int time = getAppManager().getCurrentPlayer().getTimeChoice()[0];
 
@@ -41,6 +43,38 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   protected SubwayGameActivity getActivity() {
     return (SubwayGameActivity) super.getActivity();
   }
+//
+//  @Override
+//  public boolean getUsesLivesGameMode() { return super.getUsesLivesGameMode(); }
+//
+//  @Override
+//  public int getStartingLives() {
+//    return super.getStartingLives();
+////    return score;
+//  }
+//
+//  @Override
+//  public boolean isOutOfLives() { return score <= 0; }
+//
+//  @Override
+//  public boolean getUsesMultiplayerGameMode() { return super.getUsesMultiplayerGameMode(); }
+//
+//  @Override
+//  public int getPlayerScore(int playerNumber) { return playerScores.get(playerNumber-1); }
+//
+//  @Override
+//  public void nextPlayerTurn() {
+//    currentPlayer++;
+//    playerScores.add(score);
+//    score = 0;
+//    ((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
+//    startGame();
+//  }
+//
+//  @Override
+//  public int getCurrentPlayerNumber() {
+//    return currentPlayer;
+//  }
 
   /**
    * Creates a timer and
@@ -85,6 +119,33 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
       ((TextView) getActivity().findViewById(R.id.timeleft)).setText("Lives Left: " + timeLeft / 1000);
     }
 
+  }
+
+  /**
+   * Gets the player with a given player number.
+   *
+   * @param playerNumber the number of the player (indexed at 1).
+   */
+  SubwayPlayer getPlayer(int playerNumber) {
+    if (playerNumber == 1 || (getUsesMultiplayerGameMode() && playerNumber <= players.size())) {
+      return players.get(playerNumber - 1);
+    } else {
+      throw new IllegalArgumentException(
+              "Illegal argument: player with number " + playerNumber + " not found.");
+    }
+  }
+
+  /**
+   * Sets the game's player(s) and initializes their starting lives and usernames.
+   *
+   * @param players the players to be assigned.
+   */
+  void setPlayers(SubwayPlayer[] players) {
+    for (SubwayPlayer player : players) {
+      player.setRemainingLives(this.getStartingLives());
+      player.setUsername(getAppManager().getCurrentPlayerDisplayName());
+      this.players.add(player);
+    }
   }
 
   /**
@@ -223,29 +284,22 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   }
 
   @Override
-  public boolean getUsesLivesGameMode() {
-    return super.getUsesLivesGameMode();
-  }
+  public boolean getUsesLivesGameMode() { return super.getUsesLivesGameMode(); }
 
   @Override
   public int getStartingLives() {
-    return score;
-  }
+    return super.getStartingLives();
+//    return score;
+    }
 
   @Override
-  public boolean isOutOfLives() {
-    return score <= 0;
-  }
+  public boolean isOutOfLives() { return score <= 0; }
 
   @Override
-  public boolean getUsesMultiplayerGameMode() {
-    return super.getUsesMultiplayerGameMode();
-  }
+  public boolean getUsesMultiplayerGameMode() { return super.getUsesMultiplayerGameMode(); }
 
   @Override
-  public int getPlayerScore(int playerNumber) {
-    return playerScores.get(playerNumber-1);
-  }
+  public int getPlayerScore(int playerNumber) { return playerScores.get(playerNumber-1); }
 
   @Override
   public void nextPlayerTurn() {
