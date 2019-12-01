@@ -17,7 +17,7 @@ public class ResultsPageActivity extends AppCompatActivity {
     AppManager appManager;
     Intent intentResultsPageActivity;
     TextView textViewScoreLabel, textViewSavedLabel, textViewHighScoreBannerLabel;
-    Button buttonNextGame, buttonBackToDashboard;
+    Button buttonBackToDashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,6 @@ public class ResultsPageActivity extends AppCompatActivity {
         buttonBackToDashboard = findViewById(R.id.resultsBackToDashboardButton);
         // String scoreText = "Your Score: " + appManager.getCurrentPlayer().getCurrentGameScore();
         // textViewScoreLabel.setText(scoreText);
-        updatePlayer();
 
         buttonBackToDashboard.setOnClickListener(
                 new View.OnClickListener() {
@@ -41,19 +40,6 @@ public class ResultsPageActivity extends AppCompatActivity {
                         startActivity(resultsToGameDashboard);
                     }
                 });
-    }
 
-    public void updatePlayer() {
-        // appManager.updatePlayerTotalScore();
-         //   boolean newHighScore = appManager.updatePlayerHighScore();
-//            if (newHighScore) {
-//                String highScoreBannerText = "NEW HIGH SCORE: " + appManager.getCurrentPlayer().getCurrentRoundScore();
-//                textViewHighScoreBannerLabel.setText(highScoreBannerText);
-//                textViewHighScoreBannerLabel.setVisibility(View.VISIBLE);
-//            }
-
-        // appManager.getCurrentPlayer().setCurrentGameScore(0);
-        // SaveManager.save(appManager.getCurrentPlayer());
-        // textViewSavedLabel.setEnabled(true);
     }
 }

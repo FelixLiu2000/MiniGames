@@ -14,7 +14,7 @@ public class Player implements Serializable {
   private GameDifficulty gameDifficulty;
   private DisplayNameChoices displayNameChoice;
   private GameMode gameMode;
-  private HashMap<String, Integer> cardGameStats, ballGameStats, subwayGameStats, twoPlayerStats;
+  private HashMap<String, Integer> cardGameStats, ballGameStats, subwayGameStats, twoPlayerStats, previousGameStats;
 
 
   Player(String firstName, String lastName, String username, String password) {
@@ -33,26 +33,17 @@ public class Player implements Serializable {
     this.subwayGameStats = new HashMap<String, Integer>();
     this.ballGameStats = new HashMap<String, Integer>();
     this.twoPlayerStats = new HashMap<String, Integer>();
-    this.cardGameStats.put("Total Score", 0);
-    this.cardGameStats.put("Total Match Attempts", 0);
-    this.cardGameStats.put("High Score", 0);
-    this.cardGameStats.put("Total Mismatches", 0);
-    this.cardGameStats.put("Total Matches", 0);
-    this.cardGameStats.put("Total Times Played", 0);
-    this.ballGameStats.put("Total Score", 0);
-    this.ballGameStats.put("High Score", 0);
-    this.ballGameStats.put("Total Hits", 0);
-    this.ballGameStats.put("Total Throws", 0);
-    this.ballGameStats.put("Total Misses", 0);
-    this.ballGameStats.put("Total Times Played", 0);
-    this.subwayGameStats.put("Total Score", 0);
-    this.subwayGameStats.put("Total Coins", 0);
-    this.subwayGameStats.put("High Score", 0);
-    this.subwayGameStats.put("Total Obstacle Hits", 0);
-    this.subwayGameStats.put("Total Times Played", 0);
-    this.twoPlayerStats.put("Total Two Player Games", 0);
-    this.twoPlayerStats.put("Total Wins", 0);
-    this.twoPlayerStats.put("Total Losses", 0);
+    this.previousGameStats = new HashMap<String, Integer>();
+    HashMapHelper.multiKeyPut(this.cardGameStats, new String[]{"Total Score", "Total Match Attempts",
+            "High Score", "Total Mismatches", "Total Matches", "Total Times Played"}, 0);
+    HashMapHelper.multiKeyPut(this.ballGameStats, new String[]{"Total Score", "High Score", "Total Hits",
+            "Total Throws", "Total Misses", "Total Times Played"}, 0);
+    HashMapHelper.multiKeyPut(this.subwayGameStats, new String[]{"Total Score", "Total Coins", "High Score",
+            "Total Obstacle Hits", "Total Times Played"}, 0);
+    HashMapHelper.multiKeyPut(this.twoPlayerStats, new String[]{"Total Two Player Games", "Total Wins",
+            "Total Losses"}, 0);
+    HashMapHelper.multiKeyPut(this.previousGameStats, new String[]{"Total Score", "High Score",
+            "Total Attempts", "Total Successes", "Total Failures", "Total Times Played", "Game ID"}, 0);
   }
 
   public String getFirstName() { return firstName; }
