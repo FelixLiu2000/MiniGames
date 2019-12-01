@@ -115,7 +115,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   void setPlayers(Player[] players) {
     for (Player player : players) {
       player.setRemainingLives(this.getStartingLives());
-      player.setUsername(getAppManager().getCurrentPlayerDisplayName());
+      player.setUsername(getAppManager().getCurrentPlayer().getUsername());
       this.players.add(player);
     }
   }
@@ -273,7 +273,13 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     if (getUsesMultiplayerGameMode() && topScore < getPlayerScore(2)) {
       topScore = getPlayerScore(2);
     }
-    this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);
+    //this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);
+
+    // this.getAppManager().updatePlayerBallGameStats(Player player, int totalScore, int totalThrows, int totalHits, int totalMisses);
+    // if multiplayer game call above method again and pass in second player in the player parameter with their stats
+    // if multiplayer call this.getAppManager().updateTwoPlayerStats(boolean)
+
+
     getActivity().leaveGame(this.getAppManager());
   }
 }

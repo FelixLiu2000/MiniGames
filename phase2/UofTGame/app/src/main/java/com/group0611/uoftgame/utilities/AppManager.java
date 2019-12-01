@@ -9,46 +9,119 @@ import com.group0611.uoftgame.activities.SubwayGameActivity;
 import com.group0611.uoftgame.games.subwaygame.SubwayGame;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
+@SuppressWarnings("ConstantConditions")
 public class AppManager implements Serializable {
 
   Context logInContext;
   private Class gameToPlay;
-  private Player currentPlayer;
-
+  private Player currentPlayer, playerOne, playerTwo;
+  private boolean gameIsMultiPlayer, comingFromAddPlayer, currentPlayerIsPlayerTwo;
   public AppManager(Context context) {
     this.logInContext = context;
+    this.currentPlayer = null;
+    this.playerOne = null;
+    this.playerTwo = null;
   }
 
-  public void setGameToPlay(Class gameToPlay) { this.gameToPlay = gameToPlay; }
-  public Class getGameToPlay() { return this.gameToPlay; }
-
+    /**
+     * Method sets the current player
+     * @param currentPlayer the player to which current player is set
+     */
   public void setCurrentPlayer(Player currentPlayer) {
     this.currentPlayer = currentPlayer;
   }
+
+    /**
+     *  returns the current player
+     * @return the current player
+     */
   public Player getCurrentPlayer() {
     return this.currentPlayer;
   }
 
-  public void createPlayer(String firstName, String lastName, String userName, String password) {
-    this.currentPlayer = new Player(firstName, lastName, userName, password);
+    /**
+     * sets player one
+     * @param playerOne the player to which player one is set too
+     */
+  public void setPlayerOne (Player playerOne) { this.playerOne = playerOne;}
+
+    /**
+     * returns player one
+     * @return player one
+     */
+  public Player getPlayerOne() { return playerOne;}
+
+    /**
+     * sets player two
+     * @param playerTwo the player to which player two is set
+     */
+  public void setPlayerTwo (Player playerTwo) { this.playerTwo = playerTwo; }
+
+    /**
+     * returns player two
+     * @return player two
+     */
+  public Player getPlayerTwo() { return playerTwo; }
+
+    /**
+     * boolean used in the create and log in pages to check if the use is at the start of the app or if
+     * it is coming from the dashboard to add a second player
+     * @param comingFromAddPlayer the boolean which dictates if the intent comes from dashboard for a
+     *                            second player
+     */
+  public void setComingFromAddPlayer (boolean comingFromAddPlayer) { this.comingFromAddPlayer = comingFromAddPlayer; }
+
+    /**
+     * gets the boolean used in Create and Log In activity to check if this is adding a second player
+     * @return the boolean checked
+     */
+  public boolean getComingFromAddPlayer () { return comingFromAddPlayer; }
+
+    /**
+     * set boolean to state if there are two players
+     * @param gameIsMultiPlayer the boolean that states whether there are two players
+     */
+  public void setGameIsMultiPlayer (boolean gameIsMultiPlayer) { this.gameIsMultiPlayer = gameIsMultiPlayer; }
+
+    /**
+     * returns boolean to see if there are two players
+     * @return the boolean returned to check
+     */
+  public boolean getGameIsMultiPlayer () { return gameIsMultiPlayer; }
+
+    /**
+     * boolean to see if the current player is player two
+     * @param currentPlayerIsPlayerTwo the boolean this value is set too
+     */
+  public void setCurrentPlayerIsPlayerTwo (boolean currentPlayerIsPlayerTwo) { this.currentPlayerIsPlayerTwo = currentPlayerIsPlayerTwo; }
+
+    /**
+     * returns boolean to check if current player is player two
+     * @return the boolean returned and checked
+     */
+  public boolean getCurrentPlayerIsPlayerTwo () { return currentPlayerIsPlayerTwo; }
+
+    /**
+    * This method creates and returns a new player with the given parameters.
+     * @param firstName is the first name of the player
+     * @param lastName is the last name of the player
+     * @param userName is the username of the player
+     * @param password is the password of the player
+    */
+  public Player createPlayer(String firstName, String lastName, String userName, String password) {
+    return (new Player(firstName, lastName, userName, password));
   }
 
-  //TODO: RESET
-  public void pickGameToPlay() {
-    if (this.currentPlayer.getCurrentRoundProgress() == 0) {
-      setGameToPlay(SubwayGameActivity.class);
-    } else if (this.currentPlayer.getCurrentRoundProgress() == 1) {
-      setGameToPlay(CardGameActivity.class);
-    } else if (this.currentPlayer.getCurrentRoundProgress() == 2) {
-      setGameToPlay(BallGameActivity.class);
-    } else if (this.currentPlayer.getCurrentRoundProgress() == 3) {
-      // reset
-    }
-  }
-
-  //TODO: TIMER CHOICE
-  public void saveCustomizationChanges(String gameDashboardBackgroundColor, String gameDashboardDisplayName, String chosenDifficulty) {
+    /**
+     * This method saves any changes made in the Settings Activity and updates the respective value
+     * for the player.
+     * @param gameDashboardBackgroundColor is the chosen background color for some of the apps screens
+     * @param gameDashboardDisplayName is the choice of which name to be displayed on the dashboard (first, last, or user)
+     * @param chosenDifficulty is the choice of the game difficulty the player wishes to play at
+     */
+  public void saveCustomizationChanges(String gameDashboardBackgroundColor, DisplayNameChoices gameDashboardDisplayName, GameDifficulty chosenDifficulty) {
     int chosenColorInt = this.currentPlayer.getGameDashboardBackgroundColor();
     if (gameDashboardBackgroundColor.equals("WHITE")){
       chosenColorInt = Color.WHITE;
@@ -62,23 +135,15 @@ public class AppManager implements Serializable {
       chosenColorInt = Color.YELLOW;
     }
     this.currentPlayer.setGameDashboardBackgroundColor(chosenColorInt);
-    this.currentPlayer.setCurrentDisplayNameChoice(gameDashboardDisplayName);
-    this.currentPlayer.setDifficulty(chosenDifficulty);
-    this.currentPlayer.setTimeChoice(chooseTimeChoice());
+    this.currentPlayer.setGameDifficulty(chosenDifficulty);
+    this.currentPlayer.setDisplayNameChoice(gameDashboardDisplayName);
 
   }
 
-  private int[] chooseTimeChoice() {
-    if (currentPlayer.getDifficulty().equals("EASY")) {
-      return currentPlayer.getEasyTimes();
-    } else if (currentPlayer.getDifficulty().equals("MEDIUM")) {
-      return currentPlayer.getMediumTimes();
-    } else if (currentPlayer.getDifficulty().equals("HARD")) {
-      return currentPlayer.getHardTimes();
-    }
-    return currentPlayer.getEasyTimes();
-  }
-
+    /**
+     * returns the chosen background colour of the current player
+     * @return chosen background colour
+     */
   public String getCurrentPlayerCurrentDashboardColor() {
     int currentColor = currentPlayer.getGameDashboardBackgroundColor();
     if (currentColor == Color.WHITE) {
@@ -95,41 +160,200 @@ public class AppManager implements Serializable {
     return "WHITE";
   }
 
-  public String getCurrentPlayerDisplayName() {
-    return currentPlayer.getCurrentDisplayNameChoice();
+    /**
+     * returns the chosen display name choice of the current player
+     * @return chosen display name
+     */
+  public DisplayNameChoices getCurrentPlayerDisplayName() {
+    return currentPlayer.getDisplayNameChoice();
   }
 
-  public String getCurrentPlayerDifficulty() {
-    return currentPlayer.getDifficulty();
+    /**
+     * returns the chosen game difficulty
+     * @return the chosen difficulty
+     */
+  public GameDifficulty getCurrentPlayerDifficulty() {
+    return currentPlayer.getGameDifficulty();
   }
 
-  public void updatePlayerTotalScore() {
-    int updatedScore = this.currentPlayer.getTotalScore() + this.currentPlayer.getCurrentGameScore();
-    this.currentPlayer.setTotalScore(updatedScore);
+    /**
+     * returns the Game mode chosen by the player - timed of infinite
+     * @return the chosen Game mode
+     */
+  public GameMode getCurrentPlayerGameMode() { return currentPlayer.getGameMode(); }
+
+    /**
+     * method to switch the current player to the non current player during two player gameplay
+     */
+  public void switchCurrentPlayer() {
+      if (playerTwo != null) {
+          if (currentPlayerIsPlayerTwo) {
+              currentPlayer = playerOne;
+          } else {
+              currentPlayer = playerTwo;
+          }
+          currentPlayerIsPlayerTwo = !currentPlayerIsPlayerTwo;
+      }
   }
 
-  public void updatePlayerRoundProgress() {
-    int updatedRoundProgress = this.currentPlayer.getCurrentRoundProgress() + 1;
-    this.currentPlayer.setCurrentRoundProgress(updatedRoundProgress);
+    /**
+     * method to update the overall total score of the players all time history
+     * @param player the player who is being updated
+     * @param score the score the just got that is being added
+     */
+  public void updatePlayerTotalScore(Player player, int score) {
+    player.setTotalScore(player.getTotalScore() + score);
   }
 
-  public void updatePlayerRoundScore() {
-    int updatedRoundScore = this.currentPlayer.getCurrentRoundScore() + this.currentPlayer.getCurrentGameScore();
-    this.currentPlayer.setCurrentRoundScore(updatedRoundScore);
+    /**
+     * method to update the total history of games the player has played
+     * @param player the player being updated
+     */
+  public void updatePlayerTotalGamesPlayed(Player player) {
+    player.setTotalGamesPlayed(player.getTotalGamesPlayed() + 1 );
   }
 
-  public void updatePlayerTotalRounds() {
-    int updatedTotalRounds = this.currentPlayer.getTotalRoundsPlayed() + 1;
-    this.currentPlayer.setTotalRoundsPlayed(updatedTotalRounds);
-  }
-
-  public boolean updatePlayerHighScore() {
-    int currentHighScore = this.currentPlayer.getHighScore();
-    int currentRoundFinalScore = this.currentPlayer.getCurrentRoundScore();
-    if (currentRoundFinalScore > currentHighScore) {
-      this.currentPlayer.setHighScore(currentRoundFinalScore);
-      return true;
+    /**
+     * method to check and update all time high score if needed
+     * @param player the player being checked and updated
+     * @param score the score being compared to high score
+     */
+  public void updatePlayerHighScore(Player player, int score) {
+    if (score > player.getHighScore()) {
+      player.setHighScore(score);
     }
-    return false;
+  }
+
+    /**
+     * this method updates the 3 main stats by calling those stats update method
+     * check the code for which methods are being called and check those method's
+     * java doc for more detail.
+     * @param player player being updated
+     * @param score the score of the game that was just played
+     */
+  public void updatePlayerMainStats(Player player, int score) {
+    updatePlayerTotalScore(player, score);
+    updatePlayerTotalGamesPlayed(player);
+    updatePlayerHighScore(player, score);
+  }
+
+    /**
+     * update method for the card game stats. Updates all the values in Player.cardGameStats
+     * @param player the player being updated
+     * @param totalScore the total score of pairs of cards matched regardless of mismatches
+     * @param totalMatches the total number of correct matches
+     * @param totalMisMatches the total number of incorrect matches
+     * @param totalMatchAttempts the total number of attempts ( sum of matches and mismatches )
+     */
+  @SuppressWarnings("ConstantConditions")
+  public void updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalMatchAttempts) {
+    updatePlayerMainStats(player, totalScore);
+    HashMap<String, Integer> playerStats = player.getCardGameStats();
+    playerStats.put("Total Times Played", playerStats.get("Total Times Played") + 1 );
+    playerStats.put("Total Score", playerStats.get("Total Score") + totalScore);
+    playerStats.put("Total Match Attempts", playerStats.get("Total Match Attempts") + totalMatchAttempts);
+    playerStats.put("Total Mismatches", playerStats.get("Total Mismatches") + totalMisMatches);
+    playerStats.put("Total Matches", playerStats.get("Total Matches") + totalMatches);
+    if (totalScore > playerStats.get("High Score")) {
+      playerStats.put("High Score", totalScore);
+      player.getPreviousGameStats().put("High Score", totalScore);
+    }
+
+    player.setCardGameStats(playerStats);
+    SaveManager.save(player);
+    player.getPreviousGameStats().put("Total Times Played", playerStats.get("Total Times Played"));
+    updatePreviousGameStats(player, totalScore, totalMatchAttempts, totalMatches, totalMisMatches, 1);
+  }
+
+    /**
+     * update method for the subway game stats. Updates all the values in Player.subwayGameStats
+     * @param player the player being updated
+     * @param totalScore the total value of all coins collected regardless of obstacles hit
+     * @param totalCoins the total number of coins collected regardless their value in points
+     * @param totalObstaclesHit the total number of obstacles hit
+     */
+  public void updatePlayerSubwayGameStats(Player player, int totalScore, int totalCoins,  int totalObstaclesHit){
+    updatePlayerMainStats(player, totalCoins);
+    HashMap<String, Integer> playerStats = player.getSubwayGameStats();
+    playerStats.put("Total Times Played", playerStats.get("Total Times Played") + 1 );
+    playerStats.put("Total Score", playerStats.get("Total Score") + totalScore);
+    playerStats.put("Total Coins", playerStats.get("Total Coins") + totalCoins);
+    playerStats.put("Total Obstacle Hits", playerStats.get("Total Obstacle Hits") + totalObstaclesHit);
+    if (totalScore > playerStats.get("High Score")) {
+      playerStats.put("High Score", totalScore);
+      player.getPreviousGameStats().put("High Score", totalScore);
+    }
+
+    player.setSubwayGameStats(playerStats);
+    SaveManager.save(player);
+    player.getPreviousGameStats().put("Total Times Played", playerStats.get("Total Times Played"));
+    updatePreviousGameStats(player, totalScore, 0, totalCoins, totalObstaclesHit, 3);
+  }
+
+    /**
+     * update method for ball game stats. Updates all the values in Player.ballGameStats
+     * @param player player being updated
+     * @param totalScore the total value of all completed throws
+     * @param totalThrows total number of throw attempts (sum of hits and misses)
+     * @param totalHits total number of successful throws
+     * @param totalMisses total number of throws that missed
+     */
+  public void updatePlayerBallGameStats(Player player, int totalScore, int totalThrows, int totalHits, int totalMisses) {
+    updatePlayerMainStats(player, totalScore);
+    HashMap<String, Integer> playerStats = player.getBallGameStats();
+    playerStats.put("Total Times Played", playerStats.get("Total Times Played") + 1 );
+    playerStats.put("Total Score", playerStats.get("Total Score") + totalScore);
+    playerStats.put("Total Hits", playerStats.get("Total Hits") + totalHits);
+    playerStats.put("Total Misses", playerStats.get("Total Misses") + totalMisses);
+    playerStats.put("Total Throws", playerStats.get("Total Throws") + totalThrows);
+    if (totalScore > playerStats.get("High Score")) {
+      playerStats.put("High Score", totalScore);
+      player.getPreviousGameStats().put("High Score", totalScore);
+    }
+
+    player.setBallGameStats(playerStats);
+    SaveManager.save(player);
+    player.getPreviousGameStats().put("Total Times Played", playerStats.get("Total Times Played"));
+    updatePreviousGameStats(player, totalScore, totalThrows, totalHits, totalMisses, 2);
+  }
+
+    /**
+     * updates the temporary Player.previousGameStats which is used for the result board right after the game.
+     * @param player the player being updated
+     * @param totalScore total points earned in the pervious game
+     * @param totalAttempts total attempts (applies only to ball and card game)
+     * @param totalSuccesses total number of successful moments (hitting target, matching pair, or collecting coin)
+     * @param totalFailures total number of unsuccessful moments (missing target, non matching pair, hitting obstacle)
+     * @param gameId a int game id to allow app manager to know which game it came from since not all fields apply
+     *               all games.
+     */
+  public void updatePreviousGameStats(Player player, int totalScore, int totalAttempts, int totalSuccesses,
+                                      int totalFailures, int gameId) {
+      HashMap<String, Integer> previousGameStats = player.getPreviousGameStats();
+      previousGameStats.put("Total Score", totalScore);
+      previousGameStats.put("Total Attempts", totalAttempts);
+      previousGameStats.put("Total Successes", totalSuccesses);
+      previousGameStats.put("Total Failures", totalFailures);
+      previousGameStats.put("Game ID", gameId);
+      player.setPreviousGameStats(previousGameStats);
+      SaveManager.save(player);
+  }
+
+    /**
+     * method updates the history of the two players that played on who won and who lost
+     * @param playerOneWon a boolean to state player one won if true, and lost if false
+     */
+  public void updateTwoPlayerStats(boolean playerOneWon) {
+    if (playerOneWon) {
+      playerOne.getTwoPlayerStats().put("Total Wins", playerOne.getTwoPlayerStats().get("Total wins") + 1);
+      playerTwo.getTwoPlayerStats().put("Total Losses", playerTwo.getTwoPlayerStats().get("Total Losses") + 1);
+    } else {
+      playerOne.getTwoPlayerStats().put("Total Losses", playerOne.getTwoPlayerStats().get("Total Losses") + 1);
+      playerTwo.getTwoPlayerStats().put("Total Wins", playerTwo.getTwoPlayerStats().get("Total Wins") + 1);
+    }
+    playerOne.getTwoPlayerStats().put("Total Two Player Games", playerOne.getTwoPlayerStats().get("Total Two Player Games") + 1);
+    playerTwo.getTwoPlayerStats().put("Total Two Player Games", playerTwo.getTwoPlayerStats().get("Total Two Player Games") + 1);
+    SaveManager.save(playerOne);
+    SaveManager.save(playerTwo);
   }
 }

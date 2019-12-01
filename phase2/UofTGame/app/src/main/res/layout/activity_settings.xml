@@ -99,16 +99,16 @@
 
     <TextView
         android:id="@+id/settingsGameDashboardDifficultyLevelChoiceTextLabel"
-        android:layout_width="209dp"
-        android:layout_height="50dp"
+        android:layout_width="207dp"
+        android:layout_height="25dp"
         android:text="@string/settings_difficulty_label"
         android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/difficultyLevelChoiceSpinner"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settingsGameDashboardDisplayNameChoiceTextLabel2"
-        app:layout_constraintVertical_bias="0.234" />
+        app:layout_constraintVertical_bias="0.25" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

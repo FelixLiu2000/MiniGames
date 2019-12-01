@@ -29,7 +29,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   private ArrayList<SubwayPlayer> players = new ArrayList<>();
 
 
-  private int time = getAppManager().getCurrentPlayer().getTimeChoice()[0];
+  private int time = 6000;
 
   public SubwayGame(GameBuilder gameBuilder) {
     super(gameBuilder);
@@ -274,8 +274,15 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   protected void endGame() {
     System.out.println("Game Over!");
     System.out.println("Final score is: " + score);
-    getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
-    getActivity().leaveGame(this.getAppManager());
+    // getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
+
+    // getAppManager().updatePlayerSubwayGameStats(Player player, int totalScore, int totalCoins,  int totalObstaclesHit)
+    // if multiplayer game call above method again and pass in second player in the player parameter with their stats
+      // if multiplayer call this.getAppManager().updateTwoPlayerStats(boolean)
+
+
+
+      getActivity().leaveGame(this.getAppManager());
   }
 
   /** A wrapper method to implement abstract method from Game */

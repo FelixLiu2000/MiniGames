@@ -58,12 +58,19 @@ public class LogInActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         textViewErrorMessage.setVisibility(View.INVISIBLE);
-                        Player currentPlayer = SaveManager.loadPlayer(editTextUsername.getText().toString().trim());
-                        if (currentPlayer == null) {
+                        Player logInPlayer = SaveManager.loadPlayer(editTextUsername.getText().toString().trim());
+                        if (logInPlayer == null) {
                             //show error message
                             textViewErrorMessage.setVisibility(View.VISIBLE);
-                        } else if (currentPlayer.getPassword().equals(editTextPassword.getText().toString().trim())) {
-                            appManager.setCurrentPlayer(currentPlayer);
+                        } else if (logInPlayer.getPassword().equals(editTextPassword.getText().toString().trim())) {
+                            if (appManager.getComingFromAddPlayer()) {
+                                appManager.setPlayerTwo(logInPlayer);
+                                appManager.setComingFromAddPlayer(false);
+                                appManager.setGameIsMultiPlayer(true);
+                            } else {
+                                appManager.setCurrentPlayer(logInPlayer);
+                                appManager.setPlayerOne(logInPlayer);
+                            }
                             Intent intentLogInToDashboard = new Intent (LogInActivity.this, GameDashboardActivity.class);
                             intentLogInToDashboard.putExtra("appManager", appManager);
                             startActivity(intentLogInToDashboard);
@@ -96,4 +103,10 @@ public class LogInActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        appManager.setGameIsMultiPlayer(false);
+        finish();
+    }
 }
