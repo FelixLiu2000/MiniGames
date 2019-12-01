@@ -217,9 +217,11 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
     // getAppManager().updatePlayerSubwayGameStats(Player player, int totalScore, int totalCoins,  int totalObstaclesHit)
     // if multiplayer game call above method again and pass in second player in the player parameter with their stats
+      // if multiplayer call this.getAppManager().updateTwoPlayerStats(boolean)
 
 
-    getActivity().leaveGame(this.getAppManager());
+
+      getActivity().leaveGame(this.getAppManager());
   }
 
   /** A wrapper method to implement abstract method from Game */

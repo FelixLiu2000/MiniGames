@@ -277,6 +277,8 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
 
     // this.getAppManager().updatePlayerBallGameStats(Player player, int totalScore, int totalThrows, int totalHits, int totalMisses);
     // if multiplayer game call above method again and pass in second player in the player parameter with their stats
+    // if multiplayer call this.getAppManager().updateTwoPlayerStats(boolean)
+
 
     getActivity().leaveGame(this.getAppManager());
   }
