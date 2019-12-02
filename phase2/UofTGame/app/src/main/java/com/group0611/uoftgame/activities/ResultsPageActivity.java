@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.utilities.AppManager;
-import com.group0611.uoftgame.utilities.SaveManager;
 
 import java.util.HashMap;
 
@@ -37,18 +36,21 @@ public class ResultsPageActivity extends AppCompatActivity {
         this.appManager = (AppManager) intentResultsPageActivity.getSerializableExtra("appManager");
         setContentView(R.layout.activity_results_page);
 
+        // method to set all find id
         setAllStatFieldId();
 
+        // set find id for buttons
         buttonBackToDashboard = findViewById(R.id.resultsBackToDashboardButton);
         buttonCardGameStats = findViewById(R.id.statCardGameButton);
         buttonBallGameStats = findViewById(R.id.statBallGameButton);
         buttonSubwayGameStats = findViewById(R.id.statSubwayGameButton);
 
+        // set text for some fields that don't change
         textViewTotalScoreLabel.setText("Total Score:");
         textViewP1Username.setText(appManager.getPlayerOne().getUsername());
         textViewHighScoreLabel.setText("High Score:");
 
-
+        // populates fields based on where results page is being called from and if its is multiplayer
         if (appManager.getIsGameResults()) {
             buttonSubwayGameStats.setVisibility(View.GONE);
             buttonBallGameStats.setVisibility(View.GONE);
@@ -65,6 +67,7 @@ public class ResultsPageActivity extends AppCompatActivity {
             if (gameResultsP1.get("High Score") == 0) textViewP1HighScore.setText("Not Quite!");
             else textViewP1HighScore.setText("New High Score!");
 
+            // handles specific field names and values based on game played
             if (gameResultsP1.get("Game ID") == 1) { // cardGame
                 setCardGameLabels();
                 textViewP1TotalAttempts.setText(String.valueOf(gameResultsP1.get("Total Attempts")));
@@ -97,7 +100,7 @@ public class ResultsPageActivity extends AppCompatActivity {
 
             }
 
-        } else if (appManager.getGameIsMultiPlayer()){
+        } else if (appManager.getGameIsMultiPlayer()){ // if results page is called from dashboard and is multiplayer
             buttonSubwayGameStats.setVisibility(View.GONE);
             buttonBallGameStats.setVisibility(View.GONE);
             buttonCardGameStats.setVisibility(View.GONE);
@@ -108,13 +111,14 @@ public class ResultsPageActivity extends AppCompatActivity {
             setP1MultiPlayerStats(appManager.getPlayerOne().getTwoPlayerStats());
             setP2MultiPlayerStats(appManager.getPlayerTwo().getTwoPlayerStats());
 
-        } else {
+        } else { // if results page is called from dashboard and is single player
             buttonSubwayGameStats.setVisibility(View.VISIBLE);
             buttonBallGameStats.setVisibility(View.VISIBLE);
             buttonCardGameStats.setVisibility(View.VISIBLE);
             setCardGameOverallStats(appManager.getPlayerOne().getCardGameStats());
         }
 
+        // game icon buttons change fields to show overall stats for those games dynamically
         buttonBackToDashboard.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
@@ -147,6 +151,9 @@ public class ResultsPageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets the labels for the stats fields for card game
+     */
     public void setCardGameLabels() {
         textViewGameLabel.setText("Card Game:");
         textViewTotalSuccessLabel.setText("Total Correct Matches:");
@@ -154,6 +161,10 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewTotalAttemptsLabel.setText("Total Attempted Matches:");
     }
 
+    /**
+     * sets the stats values for player 1 for card game from the Hashmap
+     * @param cardGameOverallStats the hashmap with stats values for card game player 1
+     */
     public void setCardGameOverallStats(HashMap<String, Integer> cardGameOverallStats) {
         setCardGameLabels();
         setP1CommonStats(cardGameOverallStats);
@@ -162,6 +173,9 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewP1TotalFail.setText(String.valueOf(cardGameOverallStats.get("Total Mismatches")));
     }
 
+    /**
+     * sets stats labels for ball game
+     */
     public void setBallGameLabels() {
         textViewGameLabel.setText("Ball Game:");
         textViewTotalSuccessLabel.setText("Total Makes:");
@@ -169,6 +183,10 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewTotalAttemptsLabel.setText("Total Throws:");
     }
 
+    /**
+     * sets the stats values for player 1 for ball game from the hashmap
+     * @param ballGameOverallStats the hashmap with the stats values for ball game player 1
+     */
     public void setBallGameOverallStats(HashMap<String, Integer> ballGameOverallStats) {
         setBallGameLabels();
         setP1CommonStats(ballGameOverallStats);
@@ -177,12 +195,20 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewP1TotalAttempts.setText(String.valueOf(ballGameOverallStats.get("Total Throws")));
   }
 
+    /**
+     * sets the stats labels for subway game
+     */
     public void setSubwayGameLabels() {
         textViewGameLabel.setText("Subway Game:");
         textViewTotalSuccessLabel.setText("Total Coins Collected:");
         textViewTotalFailLabel.setText("Total Bins Hit:");
         textViewTotalAttemptsLabel.setText(null);
     }
+
+    /**
+     * sets the stats values for player 1 for subway game from the hashmap
+     * @param subwayGameOverallStats the hashmap with the stats values for subway game for player 1
+     */
     public void setSubwayGameOverallStats(HashMap<String, Integer> subwayGameOverallStats) {
         setSubwayGameLabels();
         setP1CommonStats(subwayGameOverallStats);
@@ -191,6 +217,10 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewP1TotalAttempts.setText(null);
   }
 
+    /**
+     * sets the general stats for player 1 that all games share
+     * @param gameStats hashtable with player 1 stats
+     */
     public void setP1CommonStats(HashMap<String, Integer> gameStats) {
         textViewWinnerTGPLabel.setText("Total Times Played");
         textViewP1TotalScore.setText(String.valueOf(gameStats.get("Total Score")));
@@ -198,6 +228,10 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewP1WinnerTGP.setText(String.valueOf(gameStats.get("Total Times Played")));
     }
 
+    /**
+     * sets the stat values for playre 1 when the game mode is multi player
+     * @param gameStats the hashmap with stats values for player 1
+     */
     public void setP1MultiPlayerStats(HashMap<String, Integer> gameStats) {
         textViewWinnerTGPLabel.setText("Total VS Games Played:");
         textViewP1TotalScore.setText(String.valueOf(appManager.getPlayerOne().getTotalScore()));
@@ -205,12 +239,19 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewP1WinnerTGP.setText(String.valueOf(gameStats.get("Total Two Player Games")));
     }
 
+    /**
+     * sets the stats values for player 2 when game mode is multi player
+     * @param gameStats the hashmap with stats values for player 2
+     */
     public void setP2MultiPlayerStats(HashMap<String, Integer> gameStats) {
         textViewP2TotalScore.setText(String.valueOf(appManager.getPlayerTwo().getTotalScore()));
         textViewP2HighScore.setText(String.valueOf(appManager.getPlayerTwo().getHighScore()));
         textViewP2WinnerTGP.setText(String.valueOf(gameStats.get("Total Two Player Games")));
     }
 
+    /**
+     * sets the corresponding stats values the relate to the Two Player stats hash map such as win loss record
+     */
     public void setTwoPlayerHistoryStats() {
         HashMap<String, Integer> twoPlayerResultsP1 = appManager.getPlayerOne().getTwoPlayerStats();
         HashMap<String, Integer> twoPlayerResultsP2 = appManager.getPlayerTwo().getTwoPlayerStats();
@@ -220,6 +261,10 @@ public class ResultsPageActivity extends AppCompatActivity {
         textViewP2VSHistory.setText(new StringBuilder().append(twoPlayerResultsP2.get("Total Wins")).append("-").append(twoPlayerResultsP2.get("Total Losses")));
     }
 
+    /**
+     * Sets all find id for all textView fields
+     * makes reading above code easier
+     */
     public void setAllStatFieldId() {
         textViewGameLabel = findViewById(R.id.statGameHeaderLabel);
         textViewP1Username = findViewById(R.id.statP1Label);

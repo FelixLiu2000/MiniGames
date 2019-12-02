@@ -187,20 +187,6 @@ public class AppManager implements Serializable {
     public GameMode getCurrentPlayerGameMode() { return currentPlayer.getGameMode(); }
 
     /**
-     * method to switch the current player to the non current player during two player gameplay
-     */
-    public void switchCurrentPlayer() {
-      if (playerTwo != null) {
-          if (currentPlayerIsPlayerTwo) {
-              currentPlayer = playerOne;
-          } else {
-              currentPlayer = playerTwo;
-          }
-          currentPlayerIsPlayerTwo = !currentPlayerIsPlayerTwo;
-      }
-    }
-
-    /**
      * method to update the overall total score of the players all time history
      * @param player the player who is being updated
      * @param score the score the just got that is being added
@@ -235,7 +221,7 @@ public class AppManager implements Serializable {
      * @param player player being updated
      * @param score the score of the game that was just played
      */
-      public void updatePlayerMainStats(Player player, int score) {
+      private void updatePlayerMainStats(Player player, int score) {
         updatePlayerTotalScore(player, score);
         updatePlayerTotalGamesPlayed(player);
         updatePlayerHighScore(player, score);
@@ -339,7 +325,7 @@ public class AppManager implements Serializable {
      * @param gameId a int game id to allow app manager to know which game it came from since not all fields apply
      *               all games.
      */
-      public void updatePreviousGameStats(Player player, int totalScore, int totalAttempts, int totalSuccesses,
+      private void updatePreviousGameStats(Player player, int totalScore, int totalAttempts, int totalSuccesses,
                                           int totalFailures, int gameId) {
           HashMap<String, Integer> previousGameStats = player.getPreviousGameStats();
           previousGameStats.put("Total Score", totalScore);
