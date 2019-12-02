@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/subway_game_icon" />
+        app:srcCompat="@drawable/backpack" />
 
     <TextView
         android:id="@+id/statP2Label"

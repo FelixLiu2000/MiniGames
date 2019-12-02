@@ -14,6 +14,30 @@
             when you reopen progress is 2. When Progress is 3 the round is complete.
             Keep at 3 until player starts new round. -->
 
+    <TextView
+        android:id="@+id/totalGamesPlayedDashboard"
+        android:layout_width="111dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="76dp"
+        android:text="@string/total_games_dashboard"
+        android:textAlignment="textStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/totalGamesPlayedStatDashboard"
+        android:layout_width="111dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.128" />
+
     <ImageButton
         android:id="@+id/ballGameButton"
         android:layout_width="76dp"
@@ -56,7 +80,7 @@
         app:layout_constraintEnd_toStartOf="@+id/cardGameButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/subway_game_icon" />
+        app:srcCompat="@drawable/backpack" />
 
     <TextView
         android:id="@+id/highScoreLabel"
@@ -134,27 +158,29 @@
 
     <ImageButton
         android:id="@+id/gameDashboardSettingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="36dp"
+        android:contentDescription="@string/settingButtonDescription"
         app:layout_constraintBottom_toTopOf="@+id/developersFooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_preferences"
-        android:contentDescription="@string/settingButtonDescription" />
+        app:srcCompat="@android:drawable/ic_menu_preferences" />
 
     <ImageButton
         android:id="@+id/switchMultiplayerDashboardButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="88dp"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/multiplayer_button_description"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.868"
         app:layout_constraintStart_toEndOf="@+id/gameDashboardSettingsButton"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:srcCompat="@drawable/vs" />
 
     <ToggleButton
         android:id="@+id/toggleGameModeButton"
@@ -171,14 +197,15 @@
 
     <ImageButton
         android:id="@+id/statsButtonDashboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="88dp"
         android:contentDescription="@string/stats_button_description"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/switchMultiplayerDashboardButton"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toEndOf="@+id/gameDashboardSettingsButton"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        app:srcCompat="@drawable/stats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

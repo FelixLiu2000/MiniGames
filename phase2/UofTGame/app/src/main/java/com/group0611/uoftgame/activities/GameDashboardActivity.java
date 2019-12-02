@@ -25,7 +25,7 @@ public class GameDashboardActivity extends AppCompatActivity {
   ImageButton imageButtonSettings, imageButtonCardGame, imageButtonSubwayGame, imageButtonBallGame,
           imageButtonSwitchMultiPlayerMode, imageButtonStatsPage;
   TextView textViewDashboardHighScore, textViewTotalScore, textViewDisplayName, textViewDashboardHighScoreLabel,
-          textViewTotalScoreLabel;
+          textViewTotalScoreLabel, textViewTotalGamesPlayed;
   ToggleButton toggleButtonGameMode;
 
   @Override
@@ -49,6 +49,7 @@ public class GameDashboardActivity extends AppCompatActivity {
 
     textViewDashboardHighScore = findViewById(R.id.highScoreDashboardStat);
     textViewTotalScore = findViewById(R.id.totalScoreStat);
+    textViewTotalGamesPlayed = findViewById(R.id.totalGamesPlayedStatDashboard);
     textViewDisplayName = findViewById(R.id.displayNameTextLabel);
     textViewDashboardHighScoreLabel = findViewById(R.id.highScoreLabel);
     textViewTotalScoreLabel = findViewById(R.id.totalScoreLabel);
@@ -59,11 +60,13 @@ public class GameDashboardActivity extends AppCompatActivity {
     if (appManager.getGameIsMultiPlayer()) {
         textViewDashboardHighScore.setVisibility(View.INVISIBLE);
         textViewTotalScore.setVisibility(View.INVISIBLE);
+        textViewTotalGamesPlayed.setVisibility(View.INVISIBLE);
         textViewTotalScoreLabel.setVisibility(View.INVISIBLE);
         textViewDashboardHighScoreLabel.setVisibility(View.INVISIBLE);
     } else {
         textViewDashboardHighScore.setVisibility(View.VISIBLE);
         textViewTotalScore.setVisibility(View.VISIBLE);
+        textViewTotalGamesPlayed.setVisibility(View.VISIBLE);
         textViewTotalScoreLabel.setVisibility(View.VISIBLE);
         textViewDashboardHighScoreLabel.setVisibility(View.VISIBLE);
     }
@@ -153,6 +156,7 @@ public class GameDashboardActivity extends AppCompatActivity {
 
     // sets visible text fields based on logged in player
     textViewTotalScore.setText(String.valueOf(appManager.getCurrentPlayer().getTotalScore()));
+    textViewTotalGamesPlayed.setText(String.valueOf(appManager.getCurrentPlayer().getTotalGamesPlayed()));
     textViewDashboardHighScore.setText(String.valueOf(appManager.getCurrentPlayer().getHighScore()));
 
     if (appManager.getGameIsMultiPlayer()) {
