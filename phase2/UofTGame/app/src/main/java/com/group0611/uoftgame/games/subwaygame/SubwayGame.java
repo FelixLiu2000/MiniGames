@@ -12,28 +12,33 @@ import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.LivesGame;
 import com.group0611.uoftgame.games.MultiplayerGame;
 import com.group0611.uoftgame.games.TimedGame;
+import com.group0611.uoftgame.utilities.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SubwayGame extends Game implements LivesGame, TimedGame, MultiplayerGame {
-  private int score;
-  // keeps track of the number of coins collected
-  private int coins;
+  private ArrayList<SubwayPlayer> players = new ArrayList<>();
+
+//  private int score;
+//   keeps track of the number of coins collected
+//  private int coins;
+  // keeps track of the number of trash cans hit
+//  private int obstacles;
   // creates obstacles and coins
   private MovingObjectFactory factory;
   private CountDownTimer subwayGameTimer;
 
   private int currentPlayer = 1;
-  private List<Integer> playerScores = new ArrayList<>();
+//  private List<Integer> playerScores = new ArrayList<>();
 
 
   private int time = 6000;
 
   public SubwayGame(GameBuilder gameBuilder) {
     super(gameBuilder);
-    this.score = 10;
-    this.coins = 0;
+//    this.score = 10;
+//    this.coins = 0;
     this.factory = new MovingObjectFactory(getActivity());
     startGame();
   }
@@ -65,7 +70,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
               createMovingObject();
             }
             updateTime(millisUntilFinished);
-            if (score == 0 && getUsesLivesGameMode() && !getUsesMultiplayerGameMode()) {
+            if (getCurrentPlayerScore() == 0 && getUsesLivesGameMode() && !getUsesMultiplayerGameMode()) {
               endGame();
             }
           }
@@ -110,14 +115,21 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
       // check if runner and obstacle have the same y coordinate
       boolean sameY = checkCoordY(objY);
       if (sameLane && sameY) {
+        SubwayPlayer currentPlayer = getCurrPlayer();
         // set scoreChange to -1 if an obstacle is hit or 1 if a coin is hit
         int scoreChange = ((MovingObject) movingObject).changeScore();
-        updateScore(scoreChange);
-        updateCoins(scoreChange);
-        getActivity().displayNewScore(score);
+        updateScore(scoreChange, currentPlayer);
+        updateCoins(scoreChange, currentPlayer);
+        updateObstacles(scoreChange, currentPlayer);
+        getActivity().displayNewScore(getCurrentPlayerScore());
       }
     }
   }
+
+  private SubwayPlayer getCurrPlayer() {
+    return players.get(currentPlayer-1);
+  }
+
 
   /**
    * Decrease the score if an obstacle is hit and as long as the score is above zero. Increase the
@@ -126,25 +138,37 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
    * @param change the amount the score needs to change by; 1 if a coin is hit and -1 if an obstacle
    *               is hit.
    */
-  private void updateScore(int change) {
+  private void updateScore(int change, SubwayPlayer currentPlayer) {
     // if an obstacle is hit and the score is above 0
-    if (change == -1 && score > 0) {
-      score += change;
+    if (change == -1 && currentPlayer.score > 0) {
+      currentPlayer.increaseTotalScore(change);
     } else if (change == 1) {
-      score += change;
-      System.out.println("Score: " + score);
+      currentPlayer.increaseTotalScore(change);
+      System.out.println("Score: " + currentPlayer.score);
     }
   }
 
   /**
    * Increase the number of coins collected by 1.
    *
-   * @param change the amount the score needs to change by; 1 if a coin is hit and -1 if an
-   * obstacle * is hit.
+   * @param change the amount the score needs to change by; 1 if a coin is collected and -1 if an
+   * obstacle is hit.
    */
-  private void updateCoins(int change) {
+  private void updateCoins(int change, SubwayPlayer currentPlayer) {
     if (change == 1) {
-      this.coins += 1;
+      currentPlayer.increaseCoinsCollected();
+    }
+  }
+
+  /**
+   * Decrease the number of coins collected by 1.
+   *
+   * @param change the amount the score needs to change by; 1 if a coin is collected and -1 if an
+   * obstacle is hit.
+   */
+  private void updateObstacles(int change, SubwayPlayer currentPlayer) {
+    if (change == -1) {
+      currentPlayer.increaseObstacleCollisions();
     }
   }
 
@@ -192,8 +216,9 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   }
 
   protected int getCurrentPlayerScore() {
-    return this.score;
+    return getCurrPlayer().score;
   }
+
   public CountDownTimer getSubwayGameTimer() { return this.subwayGameTimer; }
 
   //Timed Game
@@ -219,16 +244,36 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   @Override
   protected void endGame() {
     System.out.println("Game Over!");
-    System.out.println("Final score is: " + score);
-    // getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
+    System.out.println("Final score is: " + getCurrentPlayerScore());
+//     getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
 
-    // getAppManager().updatePlayerSubwayGameStats(Player player, int totalScore, int totalCoins,  int totalObstaclesHit)
-    // if multiplayer game call above method again and pass in second player in the player parameter with their stats
-      // if multiplayer call this.getAppManager().updateTwoPlayerStats(boolean)
+    int totalScore = getCurrentPlayerScore();
+    int totalCoins = getCurrPlayer().coins;
+    int totalObstacles = getCurrPlayer().obstacles;
+    Player playerOne = getAppManager().getPlayerOne();
+
+    getAppManager().updatePlayerSubwayGameStats(playerOne, totalScore, totalCoins,  totalObstacles);
+    if (getUsesMultiplayerGameMode()) {
+      SubwayPlayer otherPlayer = players.get(currentPlayer);
+      int playerTwoScore = otherPlayer.score;
+      int playerTwoCoins = otherPlayer.coins;
+      int playerTwoObstacles = otherPlayer.obstacles;
+      Player playerTwo = getAppManager().getPlayerTwo();
+      getAppManager().updatePlayerSubwayGameStats(playerTwo, playerTwoScore, playerTwoCoins,  playerTwoObstacles);
+      Boolean playerOneWon = getPlayerOneWon();
+      this.getAppManager().updateTwoPlayerStats(playerOneWon);
+    }
+
 
 
 
     getActivity().leaveGame(this.getAppManager());
+  }
+
+  private Boolean getPlayerOneWon() {
+    SubwayPlayer playerOne = players.get(0);
+    SubwayPlayer playerTwo = players.get(1);
+    return playerOne.score > playerTwo.score;
   }
 
   /** A wrapper method to implement abstract method from Game */
@@ -246,23 +291,43 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
     }
 
   @Override
-  public boolean isOutOfLives() { return score <= 0; }
+  public boolean isOutOfLives() { return getCurrentPlayerScore() <= 0; }
 
   @Override
   public boolean getUsesMultiplayerGameMode() { return super.getUsesMultiplayerGameMode(); }
 
   @Override
-  public int getPlayerScore(int playerNumber) { return playerScores.get(playerNumber-1); }
+//  public int getPlayerScore(int playerNumber) { return playerScores.get(playerNumber-1); }
+  public int getPlayerScore(int playerNumber) {
+    SubwayPlayer currPlayer = players.get(playerNumber-1);
+    return currPlayer.score;
+  }
+
+
+//  @Override
+//  public void nextPlayerTurn() {
+//    // remove the old obstacles
+//    ((ConstraintLayout) getActivity().findViewById(R.id.Layout)).removeAllViews();
+//    // reset the player labels/stats
+//    currentPlayer++;
+//    playerScores.add(score);
+//    score = 10;
+//    coins = 0;
+//    obstacles = 0;
+//    getActivity().displayNewScore(score);
+//    ((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
+//    startGame();
+//  }
 
   @Override
   public void nextPlayerTurn() {
     // remove the old obstacles
     ((ConstraintLayout) getActivity().findViewById(R.id.Layout)).removeAllViews();
     // reset the player labels/stats
-    currentPlayer++;
-    playerScores.add(score);
-    score = 10;
-    getActivity().displayNewScore(score);
+    currentPlayer ++;
+    SubwayPlayer newPlayer = new SubwayPlayer();
+    players.add(newPlayer);
+    getActivity().displayNewScore(newPlayer.score);
     ((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
     startGame();
   }
