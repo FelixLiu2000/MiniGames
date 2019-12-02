@@ -9,7 +9,5 @@ public interface GameActivity {
 
   Intent getToResultsPageIntent();
 
-  Intent getToDashboardIntent();
-
   void leaveGame(AppManager manager);
 }

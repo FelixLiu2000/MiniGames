@@ -18,6 +18,7 @@ class Target extends BallGameObject implements Collidable<Ball> {
     setCollidableType(Ball.class);
     setBoundingBox(x, y, width, height);
     setSpeed(GameConstants.TARGET_SPEED);
+    // Set the starting x location and calculate the radius to move within
     startingX = x;
     movementRadius = GameConstants.TARGET_MOVEMENT_MULTIPLIER * boundingBox.width();
   }
@@ -26,7 +27,8 @@ class Target extends BallGameObject implements Collidable<Ball> {
   void update() { move(); }
 
   private void move() {
-    if (isMovingLeft) {
+    if (isMovingLeft) { // When target is moving left
+      // If the target has moved far enough
       if (currentDistanceTravelled >= movementRadius) {
         // Reset location to radius boundary
         setLocation(startingX - movementRadius, getY());
@@ -34,10 +36,12 @@ class Target extends BallGameObject implements Collidable<Ball> {
         isMovingLeft = false;
         currentDistanceTravelled = 0;
       } else {
+        // Move the target by a set speed and record distance travelled
         setLocation(getX() - speed, getY());
         currentDistanceTravelled += speed;
       }
-    } else {
+    } else { // When target is moving right
+      // If the target has moved far enough
       if (currentDistanceTravelled >= movementRadius) {
         // Reset location to radius boundary
         setLocation(startingX, getY());
@@ -45,6 +49,7 @@ class Target extends BallGameObject implements Collidable<Ball> {
         isMovingLeft = true;
         currentDistanceTravelled = 0;
       } else {
+        // Move the target by a set speed and record distance travelled
         setLocation(getX() + speed, getY());
         currentDistanceTravelled += speed;
       }
@@ -53,7 +58,7 @@ class Target extends BallGameObject implements Collidable<Ball> {
 
   @Override
   public void onCollide(Ball collidingObject) {
-    System.out.println("TARGET received COLLISION!");
+    System.out.println("TARGET WAS HIT!");
     this.hasCollided = true;
   }
 

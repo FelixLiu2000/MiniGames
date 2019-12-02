@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class BallGameActivity extends AppCompatActivity implements GameActivity {
 
-  private Intent currentIntent, toResultsPageIntent, toDashboardIntent;
+  private Intent currentIntent, toResultsPageIntent;
   private BallGamePresenter ballGamePresenter;
   // Layout containing all ball views
   private LinearLayout ballLayout;
@@ -113,11 +113,6 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
 
   private void setToResultsPageIntent(Intent toResultsPageIntent) {
     this.toResultsPageIntent = toResultsPageIntent;
-  }
-
-  @Override
-  public Intent getToDashboardIntent() {
-    return toDashboardIntent;
   }
 
   @Override

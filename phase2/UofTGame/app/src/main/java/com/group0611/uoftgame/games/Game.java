@@ -89,12 +89,25 @@ public abstract class Game {
       this.activity = activity;
     }
 
+    /**
+     * Clears the built game and any game parameters that have been stored, but keeps the type,
+     * manager, and activity. *
+     */
+    public void reset() {
+      this.usesLivesGameMode = false;
+      this.usesTimedGameMode = false;
+      this.usesMultiplayerGameMode = false;
+      this.timeLimit = 0;
+      this.startingLives = 0;
+      this.game = null;
+    }
     /** Sets whether to add time limit functionality to the game being built. */
     public GameBuilder addTimedGameMode(boolean state) {
       usesTimedGameMode = state;
       return this;
     }
 
+    /** Sets the timelimit of the game being built. */
     public GameBuilder setTimeLimit(int timeLimit) {
       if (timeLimit <= 0) {
         throw new IllegalArgumentException("Illegal argument: timeLimit is negative.");
@@ -109,6 +122,7 @@ public abstract class Game {
       return this;
     }
 
+    /** Sets the number of lives the game being built starts with. * */
     public GameBuilder setStartingLives(int startingLives) {
       if (startingLives <= 0) {
         throw new IllegalArgumentException("Illegal argument: startingLives is negative.");
@@ -123,7 +137,7 @@ public abstract class Game {
       return this;
     }
 
-    /** Builds an instance of the game. */
+    /** Builds and stores an instance of the game. */
     public GameBuilder build() {
       if (!usesTimedGameMode && !usesLivesGameMode) {
         throw new IllegalStateException(
@@ -147,7 +161,7 @@ public abstract class Game {
       return this;
     }
 
-    /** Returns the built game. */
+    /** Returns the built game currently being stored. */
     public Game getGame() {
       return game;
     }

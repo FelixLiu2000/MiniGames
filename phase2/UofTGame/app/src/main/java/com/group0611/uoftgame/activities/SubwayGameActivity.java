@@ -28,7 +28,7 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     // runner'x lane
     public int runnerLane;
     private TextView currentScore;
-    private Intent currentIntent, toResultsPageIntent, toDashboardIntent;
+    private Intent currentIntent, toResultsPageIntent;
 
     // added by diego - add getters and setters if needed
     private boolean gameIsMultiplayer; // true if two player, false if one player
@@ -55,11 +55,6 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
   }
 
   @Override
-  public Intent getToDashboardIntent() {
-    return toDashboardIntent;
-  }
-
-  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setCurrentIntent(getIntent());
@@ -77,7 +72,7 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     runnerY = runner.getY();
     runnerLane = 2;
 
-    int timeLimit = 20;
+    int timeLimit = 120000;
     game =
         (SubwayGame)
             new Game.GameBuilder(SubwayGame.class, appManager, this)
