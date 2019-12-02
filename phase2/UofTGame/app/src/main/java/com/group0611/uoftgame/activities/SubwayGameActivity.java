@@ -20,7 +20,7 @@ import com.group0611.uoftgame.utilities.GameMode;
 import java.util.ArrayList;
 
 public class SubwayGameActivity extends AppCompatActivity implements GameActivity {
-    private static final int TIME_LIMIT_EASY = 120000;
+    private static final int TIME_LIMIT_EASY = 10000;
     private static final int INIT_LIVES = 10;
     private static final int TIME_LIMIT_MEDIUM = 80000;
     private static final int TIME_LIMIT_HARD = 40000;
