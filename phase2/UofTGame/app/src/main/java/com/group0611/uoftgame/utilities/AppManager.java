@@ -296,7 +296,7 @@ public class AppManager implements Serializable {
 
         player.setSubwayGameStats(playerStats);
         SaveManager.save(player);
-        updatePreviousGameStats(player, totalScore, 0, totalCoins, totalObstaclesHit, 3);
+        updatePreviousGameStats(player, totalScore, 0, totalCoins, totalObstaclesHit, 2);
       }
 
     /**
@@ -326,7 +326,7 @@ public class AppManager implements Serializable {
 
         player.setBallGameStats(playerStats);
         SaveManager.save(player);
-        updatePreviousGameStats(player, totalScore, totalThrows, totalHits, totalMisses, 2);
+        updatePreviousGameStats(player, totalScore, totalThrows, totalHits, totalMisses, 3);
       }
 
     /**

@@ -85,7 +85,6 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
     setCurrentIntent(getIntent());
     AppManager appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
 
-    // added by diego
     gameIsMultiplayer = appManager.getGameIsMultiPlayer();
     gameMode = appManager.getCurrentPlayerGameMode();
     gameDifficulty = appManager.getCurrentPlayerDifficulty();

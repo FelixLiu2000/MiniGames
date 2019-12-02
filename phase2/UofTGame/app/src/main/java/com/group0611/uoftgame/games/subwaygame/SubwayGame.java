@@ -228,7 +228,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
 
 
-      getActivity().leaveGame(this.getAppManager());
+    getActivity().leaveGame(this.getAppManager());
   }
 
   /** A wrapper method to implement abstract method from Game */
