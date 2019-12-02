@@ -10,6 +10,7 @@ import com.group0611.uoftgame.activities.CardGameActivity;
 import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.MultiplayerGame;
 import com.group0611.uoftgame.games.TimedGame;
+import com.group0611.uoftgame.games.cardgame.CardPlayer;
 import com.group0611.uoftgame.utilities.GameMode;
 
 import java.util.ArrayList;
@@ -23,11 +24,11 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   private int currentScore = 0;
   private int boardSize = 0;
   private CountDownTimer cardGameTimer;
-  private ArrayList<Integer> playerScores = new ArrayList<>();
+  private ArrayList<CardPlayer> players = new ArrayList<>();
   private int currentPlayerNumber = 1;
   private int totalTries = 0;
   // total score accumulated over rounds (this is = setPlayerScore currently)
-  private int totalScore = 0;
+  private int round = 0;
   private int level = 1;
   private CardManager cardManager;
 
@@ -43,6 +44,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
     cardManager.setCardsArray();
     cardArray = cardManager.getCardsArray();
     Collections.shuffle(cardArray);
+    initializePlayer();
     setPlayerScore(1, 0);
     startGame();
   }
@@ -69,7 +71,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
 
   @Override
   public int getPlayerScore(int playerNumber) {
-    return playerScores.get(playerNumber - 1);
+    return getPlayer(playerNumber).getScore();
   }
 
   @Override
@@ -83,19 +85,55 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
    * @param newScore Players new score.
    */
   private void setPlayerScore(int playerNumber, int newScore) {
-    if (playerNumber - 1 >= playerScores.size()) {
-      playerScores.add(playerNumber - 1, newScore);
+    getPlayer(playerNumber).setScore(newScore);
+  }
+
+  private void initializePlayer() {
+    CardPlayer[] players;
+    if (getActivity().getGameIsMultiplayer()) {
+      players = new CardPlayer[2];
+      players[1] = new CardPlayer();
     } else {
-      playerScores.set(playerNumber - 1, newScore);
+      players = new CardPlayer[1];
+    }
+    players[0] = new CardPlayer();
+    setPlayers(players);
+  }
+  /**
+   * Sets the game's player(s) and initializes their starting lives and usernames.
+   *
+   * @param players the players to be assigned.
+   */
+  private void setPlayers(CardPlayer[] players) {
+    for (CardPlayer player : players) {
+      player.setUsername(getAppManager().getCurrentPlayer().getUsername());
+      this.players.add(player);
+    }
+  }
+
+  /**
+   * Gets the player with a given player number.
+   *
+   * @param playerNumber the number of the player (indexed at 1).
+   */
+  private CardPlayer getPlayer(int playerNumber) {
+    if (playerNumber == 1 || (getActivity().getGameIsMultiplayer() && playerNumber <= players.size())) {
+      return players.get(playerNumber - 1);
+    } else {
+      throw new IllegalArgumentException(
+              "Illegal argument: player with number " + playerNumber + " not found.");
     }
   }
 
   @Override
   public void nextPlayerTurn() {
     if (getCurrentPlayerNumber() == 1){
+      setPlayerScore(1, getPlayerScore(1));
+      getPlayer(1).setTotalScore(getPlayer(1).getTotalScore() + getPlayerScore(1));
       currentPlayerNumber = 2;
       getActivity().score.setText("Next Player");
       clearBoard();
+      round += 1;
       final Handler handler = new Handler();
       handler.postDelayed(
               new Runnable() {
@@ -109,13 +147,13 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
                 }
               },
               5000);
-      // TODO: UPDATE SCORE
-      //this.getAppManager().updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalMatchAttempts)
-      //setPlayerScore(2, playerScores.get(1));
-    } else {
+    } else if (getCurrentPlayerNumber() == 2){
+      setPlayerScore(2, getPlayerScore(1));
+      getPlayer(2).setTotalScore(getPlayer(2).getTotalScore() + getPlayerScore(2));
       currentPlayerNumber = 1;
       getActivity().score.setText("Next Player");
       clearBoard();
+      round +=1;
       final Handler handler = new Handler();
       handler.postDelayed(
               new Runnable() {
@@ -123,15 +161,14 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
                 public void run() {
                   // checks if images are a match and either flips cards back over or removes them
                   // from the board
-                  currentScore = 0;
+                  setPlayerScore(1, 0);
                   resetGame();
                   startGame();
                 }
               },
               5000);
-      //TODO: UPDATE SCORE
-      //this.getAppManager().updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalM
-      //setPlayerScore(1, playerScores.get(0));
+    } else {
+      endGame();
     }
   }
 
@@ -161,9 +198,13 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
           public void onFinish() {
             if (getActivity().getGameMode() == GameMode.INFINITE) {
               endLevel();
-            } else if (getActivity().getGameIsMultiplayer()){
-              nextPlayerTurn();
-            } else if (getActivity().getGameMode() == GameMode.TIMED){
+            } else if (getActivity().getGameIsMultiplayer()) {
+              if (round == 1) {
+                endGame();
+              } else {
+                nextPlayerTurn();
+              }
+            } else if (getActivity().getGameMode() == GameMode.TIMED) {
               endGame();
             }
           }
@@ -331,18 +372,22 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
    */
   private void updateScore(boolean correct){
     if (correct){
-      currentScore += 1;
-      String updatedScore = "Score: " + currentScore;
+      setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() + 1);
+      String updatedScore = "Score: " + getCurrentPlayerScore();
       getActivity().score.setText(updatedScore);
+      getPlayer(currentPlayerNumber).setTotalMatches(getPlayer(currentPlayerNumber).getTotalMatches() + 1);
     } else if (level > 1){
-      currentScore -= 1;
-      String updatedScore = "Score: " + currentScore;
+      setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() - 1);
+      String updatedScore = "Score: " + getCurrentPlayerScore();
       getActivity().score.setText(updatedScore);
+      getPlayer(currentPlayerNumber).setTotalMisMatches(getPlayer(currentPlayerNumber).getTotalMisMatches() + 1);
     } else{
-      String updatedScore = "Score: " + currentScore;
+      String updatedScore = "Score: " + getCurrentPlayerScore();
       getActivity().score.setText(updatedScore);
+      getPlayer(currentPlayerNumber).setTotalMisMatches(getPlayer(currentPlayerNumber).getTotalMisMatches() + 1);
     }
-    if (currentScore == 0 && level > 1){
+    getPlayer(currentPlayerNumber).setTotalMatchAttempts(getPlayer(currentPlayerNumber).getTotalMatchAttempts() + 1);
+    if (getCurrentPlayerScore() == 0 && level > 1){
       endGame();
     }
   }
@@ -354,7 +399,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   private void endLevel(){
     boardSize = this.getActivity().cardHeight * this.getActivity().cardWidth;
     cardArray = cardManager.getCardsArray();
-    totalScore += currentScore;
+    getPlayer(currentPlayerNumber).setTotalScore(getPlayer(currentPlayerNumber).getTotalScore()+ getCurrentPlayerScore());
     level += 1;
     resetGame();
     System.out.println(totalTries);
@@ -365,15 +410,33 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
    */
   @Override
   protected void endGame() {
+    getPlayer(currentPlayerNumber).setTotalScore(getPlayer(currentPlayerNumber).getTotalScore()+ getCurrentPlayerScore());
     // shows player the game is over, score is saved, game is exited
     String timeText = "Time Is Up!";
     setTime(timeText);
     cardManager.disableCards();
-    //this.getAppManager().getCurrentPlayer().setCurrentGameScore(getCurrentPlayerScore());
-
-    //this.getAppManager().updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalMatchAttempts);
-    // if multiplayer game call above method again and pass in second player in the player parameter with their stats
-    // if multiplayer call this.getAppManager().updateTwoPlayerStats(boolean)
+    CardPlayer playerOne = getPlayer(1);
+    // Give app manager player one game stats
+    this.getAppManager()
+            .updatePlayerCardGameStats(
+                    this.getAppManager().getPlayerOne(),
+                    playerOne.getTotalScore(),
+                    playerOne.getTotalMatches(),
+                    playerOne.getTotalMisMatches(),
+                    playerOne.getTotalMatchAttempts());
+    // Give app manager player two game stats
+    if (getActivity().getGameIsMultiplayer()) {
+      CardPlayer playerTwo = getPlayer(2);
+      this.getAppManager()
+              .updatePlayerBallGameStats(
+                      this.getAppManager().getPlayerTwo(),
+                      playerTwo.getTotalScore(),
+                      playerTwo.getTotalMatches(),
+                      playerTwo.getTotalMisMatches(),
+                      playerTwo.getTotalMatchAttempts());
+      // Notify app manager of whether player one beat player two
+      this.getAppManager().updateTwoPlayerStats(playerOne.getTotalScore() > playerTwo.getTotalScore());
+    }
 
     getActivity().leaveGame(this.getAppManager());
   }
