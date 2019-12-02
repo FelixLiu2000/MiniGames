@@ -1,9 +1,7 @@
 package com.group0611.uoftgame.games.cardgame;
 
 import com.group0611.uoftgame.activities.CardGameActivity;
-
 import java.util.ArrayList;
-
 import com.group0611.uoftgame.utilities.AppManager;
 
 public class CardManager {
