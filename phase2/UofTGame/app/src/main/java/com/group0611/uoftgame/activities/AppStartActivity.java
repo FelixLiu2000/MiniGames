@@ -29,7 +29,7 @@ public class AppStartActivity extends AppCompatActivity implements Serializable 
 
     Button buttonCreateUserPage = findViewById(R.id.appStartCreateUserButton);
     Button buttonLogInUserPage = findViewById(R.id.appStartLogInButton);
-    Button buttonSkipToDashboard = findViewById(R.id.appStartSkipToDashboardButton);
+//    Button buttonSkipToDashboard = findViewById(R.id.appStartSkipToDashboardButton);
 
     buttonCreateUserPage.setOnClickListener(
         new View.OnClickListener() {
@@ -50,16 +50,16 @@ public class AppStartActivity extends AppCompatActivity implements Serializable 
             }
     );
 
-    buttonSkipToDashboard.setOnClickListener(
-            new View.OnClickListener() {
-              public void onClick(View v) {
-                appManager.setCurrentPlayer(appManager.createPlayer("Test", "Dummy", "UNT", "PWT"));
-                appManager.setPlayerOne(appManager.getCurrentPlayer());
-                Intent intentAppStartToDashboard = new Intent(AppStartActivity.this, GameDashboardActivity.class);
-                intentAppStartToDashboard.putExtra("appManager", appManager);
-                startActivity(intentAppStartToDashboard);
-              }
-            });
+//    buttonSkipToDashboard.setOnClickListener(
+//            new View.OnClickListener() {
+//              public void onClick(View v) {
+//                appManager.setCurrentPlayer(appManager.createPlayer("Test", "Dummy", "UNT", "PWT"));
+//                appManager.setPlayerOne(appManager.getCurrentPlayer());
+//                Intent intentAppStartToDashboard = new Intent(AppStartActivity.this, GameDashboardActivity.class);
+//                intentAppStartToDashboard.putExtra("appManager", appManager);
+//                startActivity(intentAppStartToDashboard);
+//              }
+//            });
 
     // THIS IS NEEDED ON APP START UP!
     checkFilePermissions();
