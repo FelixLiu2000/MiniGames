@@ -46,6 +46,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
     Collections.shuffle(cardArray);
     initializePlayer();
     setPlayerScore(1, 0);
+    setLevel(1);
     startGame();
   }
 
@@ -63,6 +64,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
   public int getTimeLimit() {
     return super.getTimeLimit();
   }
+
 
   @Override
   public int getCurrentPlayerNumber() {
@@ -86,6 +88,10 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
    */
   private void setPlayerScore(int playerNumber, int newScore) {
     getPlayer(playerNumber).setScore(newScore);
+  }
+
+  private void setLevel(int playerNumber){
+    getPlayer(playerNumber).setLevel(1);
   }
 
   private void initializePlayer() {
@@ -141,7 +147,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
                 public void run() {
                   // checks if images are a match and either flips cards back over or removes them
                   // from the board
-                  currentScore = 0;
+                  setPlayerScore(2, 0);
                   resetGame();
                   startGame();
                 }
@@ -196,14 +202,18 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
           }
           // when the timer is finished, switch the text to say Time is Up
           public void onFinish() {
-            if (getActivity().getGameMode() == GameMode.INFINITE) {
-              endLevel();
-            } else if (getActivity().getGameIsMultiplayer()) {
+            if (getActivity().getGameIsMultiplayer()) {
               if (round == 1) {
                 endGame();
-              } else {
+              } else if (getActivity().getGameMode() == GameMode.INFINITE && round == 0){
+                endLevel();
+              }
+              else{
                 nextPlayerTurn();
               }
+            }
+            else if (getActivity().getGameMode() == GameMode.INFINITE) {
+              endLevel();
             } else if (getActivity().getGameMode() == GameMode.TIMED) {
               endGame();
             }
@@ -376,7 +386,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
       String updatedScore = "Score: " + getCurrentPlayerScore();
       getActivity().score.setText(updatedScore);
       getPlayer(currentPlayerNumber).setTotalMatches(getPlayer(currentPlayerNumber).getTotalMatches() + 1);
-    } else if (level > 1){
+    } else if (getPlayer(currentPlayerNumber).getLevel() > 1){
       setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() - 1);
       String updatedScore = "Score: " + getCurrentPlayerScore();
       getActivity().score.setText(updatedScore);
@@ -387,8 +397,8 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
       getPlayer(currentPlayerNumber).setTotalMisMatches(getPlayer(currentPlayerNumber).getTotalMisMatches() + 1);
     }
     getPlayer(currentPlayerNumber).setTotalMatchAttempts(getPlayer(currentPlayerNumber).getTotalMatchAttempts() + 1);
-    if (getCurrentPlayerScore() == 0 && level > 1){
-      endGame();
+    if (getCurrentPlayerScore() == 0 && getPlayer(currentPlayerNumber).getLevel() > 1){
+      nextPlayerTurn();
     }
   }
 
@@ -400,7 +410,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
     boardSize = this.getActivity().cardHeight * this.getActivity().cardWidth;
     cardArray = cardManager.getCardsArray();
     getPlayer(currentPlayerNumber).setTotalScore(getPlayer(currentPlayerNumber).getTotalScore()+ getCurrentPlayerScore());
-    level += 1;
+    getPlayer(currentPlayerNumber).setLevel(getPlayer(currentPlayerNumber).getLevel() + 1);
     resetGame();
     System.out.println(totalTries);
   }

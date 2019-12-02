@@ -4,6 +4,7 @@ public class CardPlayer {
     private int score;
     private int totalScore, totalMisMatches, totalMatches, totalMatchAttempts;
     private String username;
+    private int level;
 
     CardPlayer(){
     }
@@ -45,4 +46,8 @@ public class CardPlayer {
     int getTotalMatchAttempts(){return totalMatchAttempts;}
 
     void setTotalMatchAttempts(int matchAttempts){this.totalMatchAttempts = matchAttempts;}
+
+    int getLevel(){return level;}
+
+    void setLevel(int lev) {this.level = lev;}
 }
