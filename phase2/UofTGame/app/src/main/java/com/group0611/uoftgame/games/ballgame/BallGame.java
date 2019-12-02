@@ -298,7 +298,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
               playerTwo.getTotalHits(),
               playerTwo.getTotalMisses());
       // Notify app manager of whether player one beat player two
-      this.getAppManager().updateTwoPlayerStats(playerOne.getScore() > playerTwo.getScore());
+      this.getAppManager().updateTwoPlayerStats(playerOne.getScore() >= playerTwo.getScore());
     }
 
     getActivity().leaveGame(this.getAppManager());
