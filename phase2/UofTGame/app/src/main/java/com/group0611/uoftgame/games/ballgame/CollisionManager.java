@@ -17,6 +17,7 @@ class CollisionManager {
     ArrayList<Ball> collidedBalls = new ArrayList<>();
     for (Ball obj1 : ballObjects) {
       if (obj1 != null) {
+        // Find all collided balls and add them to list
         if (checkCollided(obj1, target)) {
           collidedBalls.add(obj1);
         }
@@ -42,6 +43,7 @@ class CollisionManager {
     ArrayList<Ball> collidedBalls = new ArrayList<>();
     for (Ball obj1 : ballObjects) {
       if (obj1 != null) {
+        // Find all collided balls and add them to list
         if (checkCollisionFromLeft(obj1, target, obj1.getSpeedY())
             || checkScreenBallCollision(obj1, screenLeft, screenTop, screenRight, screenBottom)) {
           collidedBalls.add(obj1);
@@ -70,6 +72,7 @@ class CollisionManager {
   }
 
   private boolean checkCollided(Collidable obj1, Collidable obj2) {
+    // Determine if the two object's bounding boxes intersect
     return RectF.intersects(obj1.getBoundingBox(), obj2.getBoundingBox());
   }
 
