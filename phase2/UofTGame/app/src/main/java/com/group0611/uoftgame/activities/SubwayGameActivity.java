@@ -28,7 +28,7 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     // runner'x lane
     public int runnerLane;
     private TextView currentScore;
-    private Intent currentIntent, toResultsPageIntent, toDashboardIntent;
+    private Intent currentIntent, toResultsPageIntent;
 
     // added by diego - add getters and setters if needed
     private boolean gameIsMultiplayer; // true if two player, false if one player
@@ -52,11 +52,6 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
 
   private void setToResultsPageIntent(Intent toResultsPageIntent) {
     this.toResultsPageIntent = toResultsPageIntent;
-  }
-
-  @Override
-  public Intent getToDashboardIntent() {
-    return toDashboardIntent;
   }
 
   @Override

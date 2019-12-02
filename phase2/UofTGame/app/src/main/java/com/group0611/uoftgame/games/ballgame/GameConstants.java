@@ -1,7 +1,5 @@
 package com.group0611.uoftgame.games.ballgame;
 
-import com.group0611.uoftgame.utilities.GameDifficulty;
-
 public final class GameConstants {
   // Package internal constants
   static final double GRAVITY = 2.5;

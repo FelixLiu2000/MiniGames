@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class CardGameActivity extends AppCompatActivity implements GameActivity {
   private Intent currentIntent;
   private Intent toResultsPageIntent;
-  private Intent toDashBoardIntent;
   // Structure of memory game loosely adapted from
   // https://stackoverflow.com/questions/51002449/developing-a-memory-game
   public ArrayList<ImageView> buttons = new ArrayList<>();
@@ -67,11 +66,6 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
 
   private void setToResultsPageIntent(Intent toResultsPageIntent) {
     this.toResultsPageIntent = toResultsPageIntent;
-  }
-
-  @Override
-  public Intent getToDashboardIntent() {
-    return toDashBoardIntent;
   }
 
   /**
