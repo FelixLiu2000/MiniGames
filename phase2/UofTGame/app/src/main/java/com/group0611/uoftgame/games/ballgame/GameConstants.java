@@ -5,6 +5,9 @@ import com.group0611.uoftgame.utilities.GameDifficulty;
 public final class GameConstants {
   // Package internal constants
   static final double GRAVITY = 2.5;
+  static final float TARGET_SPEED = 5;
+  // Target will move within a radius of this value multiplied by target width
+  static final float TARGET_MOVEMENT_MULTIPLIER = 1;
   static final int TIME_LIMIT_EASY = 120;
   static final int TIME_LIMIT_MEDIUM = 90;
   static final int TIME_LIMIT_HARD = 60;

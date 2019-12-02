@@ -23,7 +23,9 @@ public class BallGamePresenter {
     this.activity = null;
   }
 
-  public CountDownTimer getGameTimer() { return this.gameTimer; }
+  public CountDownTimer getGameTimer() {
+    return this.gameTimer;
+  }
 
   public void initializePlayer(View view) {
     Player[] players;
@@ -143,6 +145,11 @@ public class BallGamePresenter {
     }
   }
 
+  private void renderTarget() {
+    activity.updateViewLocation(
+        activity.getTargetView(), game.getTarget().getX(), game.getTarget().getY());
+  }
+
   private void gameLoop() {
     final int FPS = 60;
     final long TIMER_REFRESH = 1000 / FPS;
@@ -169,7 +176,7 @@ public class BallGamePresenter {
             }
             // Update time remaining
             if (game.getUsesTimedGameMode()) {
-              game.setTimeRemaining((int)(millisRemaining/1000));
+              game.setTimeRemaining((int) (millisRemaining / 1000));
             }
           }
 
@@ -194,24 +201,29 @@ public class BallGamePresenter {
   private void performGameOperations() {
     game.updateMovements();
     game.updateCollisions();
-    renderBallObjects();
     destroyInactiveBalls();
+    renderBallObjects();
+    renderTarget();
     renderScore();
     renderLives();
     renderTime();
   }
 
   private void triggerNextTurn() {
+    // End this turn and calculate bonus points
     game.nextPlayerTurn();
-    // Reset angle and power seekbars to player's last values
-    activity
-        .getPowerControlView()
-        .setProgress(game.getPlayer(game.getCurrentPlayerNumber()).getShotPower());
-    activity
-        .getAngleControlView()
-        .setProgress(game.getPlayer(game.getCurrentPlayerNumber()).getShotPower());
-    // Display new player's name
-    renderCurrentPlayerName();
+    // If there is another player, prepare views for them
+    if (game.getUsesMultiplayerGameMode()) {
+      // Reset angle and power seekbars to player's last values
+      activity
+          .getPowerControlView()
+          .setProgress(game.getPlayer(game.getCurrentPlayerNumber()).getShotPower());
+      activity
+          .getAngleControlView()
+          .setProgress(game.getPlayer(game.getCurrentPlayerNumber()).getShotPower());
+      // Display new player's name
+      renderCurrentPlayerName();
+    }
   }
 
   public void startGame() {

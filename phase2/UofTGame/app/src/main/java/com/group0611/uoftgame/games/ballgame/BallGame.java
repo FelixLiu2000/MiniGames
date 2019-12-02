@@ -80,6 +80,10 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     return inactiveBallIndices;
   }
 
+  Target getTarget() {
+    return target;
+  }
+
   int getTimeRemaining() {
     return timeRemaining;
   }
@@ -212,8 +216,8 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   void updateMovements() {
     for (Ball object : activeBallObjects) {
       object.update();
-      System.out.println("BALL UPDATED");
     }
+    target.update();
   }
 
   /** Updates the collisions between this game's Collidable objects. */

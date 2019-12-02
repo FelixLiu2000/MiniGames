@@ -37,6 +37,8 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
   private SeekBar angleControlView, powerControlView;
   // List of views for active balls
   private ArrayList<ImageView> ballViews = new ArrayList<>();
+  // Target view
+  private ImageView targetView;
 
   // added by diego - add getters and setters if needed
   private boolean gameIsMultiplayer; // true if two player, false if one player
@@ -89,6 +91,10 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
 
   public SeekBar getPowerControlView() {
     return powerControlView;
+  }
+
+  public ImageView getTargetView() {
+    return targetView;
   }
 
   @Override
@@ -160,7 +166,8 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
 
   private void initializeGameViews() {
     ballGamePresenter.initializePlayer(findViewById(R.id.picPlayer));
-    ballGamePresenter.initializeTarget(findViewById(R.id.picTarget));
+    targetView = findViewById(R.id.picTarget);
+    ballGamePresenter.initializeTarget(targetView);
     // Give game control of layout used for ball views (also used for screen boundaries)
     ballLayout = findViewById(R.id.ballLayout);
     // ballGame.initializeLayouts(ballLayout);

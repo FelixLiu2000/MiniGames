@@ -4,18 +4,52 @@ import android.graphics.RectF;
 import android.view.View;
 
 class Target extends BallGameObject implements Collidable<Ball> {
+  private float speed;
   private Class collidableType;
   private RectF boundingBox;
   private boolean hasCollided;
+  private boolean isMovingLeft = true;
+  private float movementRadius;
+  private float currentDistanceTravelled = 0;
+  private float startingX;
 
   Target(float x, float y, float width, float height) {
     super(x, y, width, height);
     setCollidableType(Ball.class);
     setBoundingBox(x, y, width, height);
+    setSpeed(GameConstants.TARGET_SPEED);
+    startingX = x;
+    movementRadius = GameConstants.TARGET_MOVEMENT_MULTIPLIER * boundingBox.width();
   }
 
   @Override
-  void update() {}
+  void update() { move(); }
+
+  private void move() {
+    if (isMovingLeft) {
+      if (currentDistanceTravelled >= movementRadius) {
+        // Reset location to radius boundary
+        setLocation(startingX - movementRadius, getY());
+        // Begin movement back to starting position
+        isMovingLeft = false;
+        currentDistanceTravelled = 0;
+      } else {
+        setLocation(getX() - speed, getY());
+        currentDistanceTravelled += speed;
+      }
+    } else {
+      if (currentDistanceTravelled >= movementRadius) {
+        // Reset location to radius boundary
+        setLocation(startingX, getY());
+        // Begin movement back to opposite boundary
+        isMovingLeft = true;
+        currentDistanceTravelled = 0;
+      } else {
+        setLocation(getX() + speed, getY());
+        currentDistanceTravelled += speed;
+      }
+    }
+  }
 
   @Override
   public void onCollide(Ball collidingObject) {
@@ -60,5 +94,9 @@ class Target extends BallGameObject implements Collidable<Ball> {
   @Override
   public Class getCollidableType() {
     return collidableType;
+  }
+
+  private void setSpeed(float speed) {
+    this.speed = speed;
   }
 }
