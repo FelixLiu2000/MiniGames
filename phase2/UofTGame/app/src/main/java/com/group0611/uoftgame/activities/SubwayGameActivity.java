@@ -100,7 +100,10 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
         }
     }
 
-    /** move runner left when left button is clicked */
+    /** moves runner left when left button is clicked.
+     *
+     * @param view the backpack View icon
+     */
     public void moveLeft(View view) {
         // if runner is in lane 2 or 3
         if (runnerX == 0) {
@@ -114,7 +117,13 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
         }
     }
 
-    /** creates the animation that translates the runner into the leftmost or rightmost lane */
+    /**
+     * creates the animation that translates the runner into the leftmost or rightmost lane
+     * @param direction "Right" or "Left"; specifies direction in which backpack moves
+     * @param xCord
+     * @param yCord
+     * @param toX
+     */
     public void changeLanes(String direction, float xCord, float yCord, int toX) {
         TranslateAnimation runnerDirection = new TranslateAnimation(0, toX, yCord, yCord);
         runnerDirection.setFillAfter(true);

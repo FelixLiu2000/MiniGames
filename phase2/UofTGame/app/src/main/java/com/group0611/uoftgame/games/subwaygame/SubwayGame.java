@@ -33,7 +33,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 //  private List<Integer> playerScores = new ArrayList<>();
 
 
-  private int time = 6000;
+  private int time = 120000;
 
   public SubwayGame(GameBuilder gameBuilder) {
     super(gameBuilder);
@@ -55,6 +55,8 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
    * (2) creates a moving object every 4 seconds.
    */
   protected void startGame() {
+    SubwayPlayer playerOne = new SubwayPlayer();
+    players.add(playerOne);
     // create 60 second timer
     subwayGameTimer =
         new CountDownTimer(time, 1000) {
