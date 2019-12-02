@@ -62,7 +62,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
               createMovingObject();
             }
             updateTime(millisUntilFinished);
-            if (getCurrentPlayerScore() == 0 && getUsesLivesGameMode() && !getUsesMultiplayerGameMode()) {
+            if (getCurrentPlayerScore() == 0 && getUsesLivesGameMode()) {
               endGame();
             }
           }
@@ -133,6 +133,16 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
    */
   private SubwayPlayer getCurrPlayer() {
     return players.get(currentPlayer-1);
+  }
+
+  /**
+   * Returns the player at index playerNum-1
+   *
+   * @param playerNum
+   * @return
+   */
+  private SubwayPlayer getPlayer(int playerNum) {
+    return players.get(playerNum - 1);
   }
 
   /**
@@ -255,18 +265,17 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   protected void endGame() {
     System.out.println("Game Over!");
     System.out.println("Final score is: " + getCurrentPlayerScore());
-//     getAppManager().getCurrentPlayer().setCurrentGameScore(this.score);
 
-    // get all player score statistics
-    int totalScore = getCurrentPlayerScore();
-    int totalCoins = getCurrPlayer().coins;
-    int totalObstacles = getCurrPlayer().obstacles;
+    // get player 1 stats
+    int playerOneScore = getPlayerScore(1);
+    int playerOneCoins = getPlayer(1).coins;
+    int playerOneObstacles = getPlayer(1).obstacles;
     Player playerOne = getAppManager().getPlayerOne();
-    getAppManager().updatePlayerSubwayGameStats(playerOne, totalScore, totalCoins,  totalObstacles);
+    getAppManager().updatePlayerSubwayGameStats(playerOne, playerOneScore, playerOneCoins, playerOneObstacles);
 
     // if in multiplayer mode, get player 2 statistics
     if (getUsesMultiplayerGameMode()) {
-      SubwayPlayer otherPlayer = players.get(currentPlayer);
+      SubwayPlayer otherPlayer = players.get(currentPlayer-1);
       int playerTwoScore = otherPlayer.score;
       int playerTwoCoins = otherPlayer.coins;
       int playerTwoObstacles = otherPlayer.obstacles;
@@ -287,11 +296,6 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
     SubwayPlayer playerOne = players.get(0);
     SubwayPlayer playerTwo = players.get(1);
     return playerOne.score > playerTwo.score;
-  }
-
-  /** A wrapper method to implement abstract method from Game */
-  public void updateGame() {
-    startGame();
   }
 
   @Override
