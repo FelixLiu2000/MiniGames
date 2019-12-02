@@ -81,7 +81,7 @@ class CollisionManager {
   }
 
   private boolean checkCollisionFromLeft(Collidable collidingObj, Collidable receivingObj) {
-    final int COLLISION_MARGIN = 2;
+    final int COLLISION_MARGIN = 3;
     return checkCollided(collidingObj, receivingObj)
         && collidingObj.getBoundingBox().top - COLLISION_MARGIN
             >= receivingObj.getBoundingBox().top;

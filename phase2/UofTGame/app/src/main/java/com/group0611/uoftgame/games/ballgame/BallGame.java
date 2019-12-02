@@ -154,12 +154,18 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   /** Starts the next player's turn and resets the game's time limit. */
   @Override
   public void nextPlayerTurn() {
+    // Convert leftover lives to bonus points for current player, then set lives to 0
+    int bonusPoints =
+        getPlayer(currentPlayerNumber).getRemainingLives() * GameConstants.BONUS_POINTS_PER_LIFE;
+    setPlayerScore(currentPlayerNumber, getCurrentPlayerScore() + bonusPoints);
+    getPlayer(currentPlayerNumber).setRemainingLives(0);
     // Switch from one player number to the next
     if (currentPlayerNumber == 1) {
       currentPlayerNumber = 2;
     } else {
       currentPlayerNumber = 1;
     }
+    // Reset time remaining for next player
     setTimeRemaining(getTimeLimit());
   }
 
@@ -178,6 +184,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
     newBall.setObjectView(view);
     activeBallObjects.add(newBall);
     */
+    // Trigger ball shot
     Ball newBall = getPlayer(currentPlayerNumber).shootBall(width, height);
     activeBallObjects.add(newBall);
     return newBall;
@@ -238,15 +245,10 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   private void targetHit(Ball ball) {
     ball.onCollide(target);
     // Update player score and score TextView
-    final int SCORE_PER_HIT = 5;
-    final int BONUS_POINTS_PER_LIFE = 5;
-    // Award player bonus points for hit and every life remaining and set lives to 0
-    setPlayerScore(
-        getCurrentPlayerNumber(),
-        getCurrentPlayerScore()
-            + SCORE_PER_HIT
-            + getPlayer(currentPlayerNumber).getRemainingLives() * BONUS_POINTS_PER_LIFE);
-    getPlayer(currentPlayerNumber).setRemainingLives(0);
+    // Award player points for hit
+    setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() + GameConstants.SCORE_PER_HIT);
+    // Update total hits count
+    getPlayer(currentPlayerNumber).setTotalHits(getPlayer(currentPlayerNumber).getTotalHits() + 1);
     destroyBall(ball);
   }
 
@@ -255,6 +257,9 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
       getPlayer(currentPlayerNumber)
           .setRemainingLives(getPlayer(currentPlayerNumber).getRemainingLives() - 1);
     }
+    // Update total miss count
+    getPlayer(currentPlayerNumber)
+        .setTotalMisses(getPlayer(currentPlayerNumber).getTotalMisses() + 1);
     destroyBall(ball);
   }
 
@@ -267,18 +272,28 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
   @Override
   protected void endGame() {
     System.out.println("Game ended");
-    // TODO: Below is temporary, should add score functionality for multiple players
-    // Sets score to highest score between the first and second player
-    int topScore = getPlayerScore(1);
-    if (getUsesMultiplayerGameMode() && topScore < getPlayerScore(2)) {
-      topScore = getPlayerScore(2);
+    Player playerOne = getPlayer(1);
+    // Give app manager player one game stats
+    this.getAppManager()
+        .updatePlayerBallGameStats(
+            this.getAppManager().getPlayerOne(),
+            playerOne.getScore(),
+            playerOne.getTotalThrows(),
+            playerOne.getTotalHits(),
+            playerOne.getTotalMisses());
+    // Give app manager player two game stats
+    if (getUsesMultiplayerGameMode()) {
+      Player playerTwo = getPlayer(2);
+      this.getAppManager()
+          .updatePlayerBallGameStats(
+              this.getAppManager().getPlayerTwo(),
+              playerTwo.getScore(),
+              playerTwo.getTotalThrows(),
+              playerTwo.getTotalHits(),
+              playerTwo.getTotalMisses());
+      // Notify app manager of whether player one beat player two
+      this.getAppManager().updateTwoPlayerStats(playerOne.getScore() > playerTwo.getScore());
     }
-    //this.getAppManager().getCurrentPlayer().setCurrentGameScore(topScore);
-
-    // this.getAppManager().updatePlayerBallGameStats(Player player, int totalScore, int totalThrows, int totalHits, int totalMisses);
-    // if multiplayer game call above method again and pass in second player in the player parameter with their stats
-    // if multiplayer call this.getAppManager().updateTwoPlayerStats(boolean)
-
 
     getActivity().leaveGame(this.getAppManager());
   }
