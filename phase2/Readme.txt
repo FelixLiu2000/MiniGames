@@ -1,4 +1,4 @@
-The read me is split into the parts of the overall program – the games, the app start, and game dashboard. 
+The read me is split into the parts of the overall program – the games, the app start, game dashboard, and save manager. 
 
 
 Subway Game (Backpack Icon):
@@ -26,3 +26,6 @@ Game Dashboard:
 Here you will find three image buttons each which trigger a different game
 2
 
+Save Manager: 
+
+The save manager uses seralization and deseralization to save player profiles.
