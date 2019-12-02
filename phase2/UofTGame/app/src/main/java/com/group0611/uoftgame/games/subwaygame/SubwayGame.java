@@ -2,6 +2,7 @@ package com.group0611.uoftgame.games.subwaygame;
 
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -68,11 +69,15 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
           @Override
           public void onFinish() {
-            if (getUsesTimedGameMode()) {
+            if (getUsesTimedGameMode() && !getUsesMultiplayerGameMode()) {
               endGame();
             } else if (getUsesMultiplayerGameMode()) {
-              nextPlayerTurn();
-              this.start();
+              if (players.size() < 2) {
+                nextPlayerTurn();
+                this.start();
+              } else {
+                endGame();
+              }
             } else {
               this.start();
             }
@@ -312,7 +317,9 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   @Override
   public void nextPlayerTurn() {
     // remove the old obstacles
-    ((ConstraintLayout) getActivity().findViewById(R.id.Layout)).removeAllViews();
+    for (ImageView view : getActivity().movingObjects) {
+      ((ConstraintLayout) getActivity().findViewById(R.id.Layout)).removeView(view);
+    }
     // reset the player labels/stats
     currentPlayer ++;
     SubwayPlayer newPlayer = new SubwayPlayer();
