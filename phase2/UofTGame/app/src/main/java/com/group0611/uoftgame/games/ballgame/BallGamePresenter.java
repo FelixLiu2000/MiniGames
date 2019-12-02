@@ -10,8 +10,9 @@ public class BallGamePresenter {
   private BallGameActivity activity;
   private CountDownTimer gameTimer;
 
-  public BallGamePresenter(BallGame game) {
+  public BallGamePresenter(BallGame game, BallGameActivity activity) {
     this.game = game;
+    bindActivity(activity);
   }
 
   public void bindActivity(BallGameActivity activity) {
@@ -25,11 +26,14 @@ public class BallGamePresenter {
   public CountDownTimer getGameTimer() { return this.gameTimer; }
 
   public void initializePlayer(View view) {
-    Player[] players = new Player[2];
-    players[0] = new Player(view.getX(), view.getY());
+    Player[] players;
     if (game.getUsesMultiplayerGameMode()) {
+      players = new Player[2];
       players[1] = new Player(view.getX(), view.getY());
+    } else {
+      players = new Player[1];
     }
+    players[0] = new Player(view.getX(), view.getY());
     game.setPlayers(players);
   }
 
@@ -97,7 +101,7 @@ public class BallGamePresenter {
   }
 
   private void renderLives() {
-    if (game.getUsesTimedGameMode()) {
+    if (game.getUsesLivesGameMode()) {
       activity.updateTextView(
           activity.getPlayer1LivesView(), "P1 Lives: " + game.getPlayer(1).getRemainingLives());
       if (game.getUsesMultiplayerGameMode()) {
@@ -120,7 +124,7 @@ public class BallGamePresenter {
     if (game.getUsesMultiplayerGameMode()) {
       activity.getPlayer2ScoreView().setVisibility(View.VISIBLE);
     }
-    if (game.getUsesTimedGameMode()) {
+    if (game.getUsesLivesGameMode()) {
       activity.getPlayer1LivesView().setVisibility(View.VISIBLE);
       if (game.getUsesMultiplayerGameMode()) {
         activity.getPlayer2LivesView().setVisibility(View.VISIBLE);
@@ -142,17 +146,17 @@ public class BallGamePresenter {
   private void gameLoop() {
     final int FPS = 60;
     final long TIMER_REFRESH = 1000 / FPS;
-    int timerDuration = game.getTimeLimit();
-    // If game has no time limit, set a duration of 60secs for timer (timer will loop on completion)
+    int timerDurationInSeconds = game.getTimeLimit();
+    // If game has no time limit, set a long duration for timer (timer will loop on completion)
     if (!game.getUsesTimedGameMode()) {
-      timerDuration = 60;
+      timerDurationInSeconds = 1000000;
     }
     gameTimer =
-        new CountDownTimer(timerDuration * 1000, TIMER_REFRESH) {
+        new CountDownTimer(timerDurationInSeconds * 1000, TIMER_REFRESH) {
           @Override
           public void onTick(long millisRemaining) {
             performGameOperations();
-            if (game.getUsesTimedGameMode() && game.isOutOfLives()) {
+            if (game.getUsesLivesGameMode() && game.isOutOfLives()) {
               cancel(); // Cancels this timer and closes its threads
               if (game.getUsesMultiplayerGameMode() && game.getCurrentPlayerNumber() == 1) {
                 // Restart timer and trigger next turn
@@ -179,6 +183,8 @@ public class BallGamePresenter {
               triggerNextTurn();
               start();
             } else {
+              // Still call next turn to give player bonus points, but end game afterwards
+              triggerNextTurn();
               game.endGame();
             }
           }

@@ -74,4 +74,8 @@ class Ball extends BallGameObject implements Collidable<Target> {
   public void setCollidableType(Class collidableType) {
     this.collidableType = collidableType;
   }
+
+  double getSpeedY() {
+    return speedY;
+  }
 }

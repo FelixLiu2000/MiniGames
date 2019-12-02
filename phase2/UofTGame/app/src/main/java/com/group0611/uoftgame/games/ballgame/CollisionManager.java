@@ -42,7 +42,7 @@ class CollisionManager {
     ArrayList<Ball> collidedBalls = new ArrayList<>();
     for (Ball obj1 : ballObjects) {
       if (obj1 != null) {
-        if (checkCollisionFromLeft(obj1, target)
+        if (checkCollisionFromLeft(obj1, target, obj1.getSpeedY())
             || checkScreenBallCollision(obj1, screenLeft, screenTop, screenRight, screenBottom)) {
           collidedBalls.add(obj1);
         }
@@ -80,10 +80,11 @@ class CollisionManager {
         || collidingBB.top >= outerBounds.bottom;
   }
 
-  private boolean checkCollisionFromLeft(Collidable collidingObj, Collidable receivingObj) {
-    final int COLLISION_MARGIN = 2;
+  private boolean checkCollisionFromLeft(
+      Collidable collidingObj, Collidable receivingObj, double yVelocity) {
+    // Check whether an object has struck another object from the left (adjusting for y-velocity
+    // related inaccuracy)
     return checkCollided(collidingObj, receivingObj)
-        && collidingObj.getBoundingBox().top - COLLISION_MARGIN
-            >= receivingObj.getBoundingBox().top;
+        && collidingObj.getBoundingBox().top - yVelocity >= receivingObj.getBoundingBox().top;
   }
 }

@@ -96,7 +96,6 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
       currentPlayerNumber = 2;
       getActivity().score.setText("Next Player");
       clearBoard();
-
       final Handler handler = new Handler();
       handler.postDelayed(
               new Runnable() {
@@ -104,6 +103,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
                 public void run() {
                   // checks if images are a match and either flips cards back over or removes them
                   // from the board
+                  currentScore = 0;
                   resetGame();
                   startGame();
                 }
@@ -123,6 +123,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
                 public void run() {
                   // checks if images are a match and either flips cards back over or removes them
                   // from the board
+                  currentScore = 0;
                   resetGame();
                   startGame();
                 }
@@ -174,7 +175,6 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
    * score, updating number of cards left and calling the correct sound effect.
    */
   private void match() {
-    //setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() + 1);
     cardsLeft -= 2;
     totalTries += 1;
     getActivity().correctSound();

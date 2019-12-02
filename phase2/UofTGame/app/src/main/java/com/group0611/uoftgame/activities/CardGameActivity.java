@@ -177,6 +177,7 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
    */
   public void leaveGame(AppManager appManager) {
     // uses class objects to go to end screen at time end
+    appManager.setIsGameResults(true);
     setToResultsPageIntent(new Intent(CardGameActivity.this, ResultsPageActivity.class));
     getToResultsPageIntent().putExtra("appManager", appManager);
     startActivity(getToResultsPageIntent());

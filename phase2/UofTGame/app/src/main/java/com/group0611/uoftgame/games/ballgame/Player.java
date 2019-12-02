@@ -8,18 +8,11 @@ class Player {
   private int shotPower = GameConstants.SHOT_STARTING_POWER;
   private int score;
   private int remainingLives;
+  private int totalThrows, totalHits, totalMisses;
   private String username;
 
   Player(float x, float y) {
     this.location = new PointF(x, y);
-  }
-
-  float getX() {
-    return location.x;
-  }
-
-  float getY() {
-    return location.y;
   }
 
   int getShotAngle() {
@@ -56,11 +49,13 @@ class Player {
 
   /**
    * Shoots a ball from this player's location.
+   *
    * @param width the width of the ball.
    * @param height the height of the ball.
    * @return the ball being fired.
    */
   Ball shootBall(int width, int height) {
+    totalThrows++;
     return new Ball(
         this.location.x, this.location.y, width, height, getShotAngle(), getShotPower());
   }
@@ -71,5 +66,25 @@ class Player {
 
   void setScore(int newScore) {
     this.score = newScore;
+  }
+
+  int getTotalThrows() {
+    return totalThrows;
+  }
+
+  int getTotalHits() {
+    return totalHits;
+  }
+
+  void setTotalHits(int totalHits) {
+    this.totalHits = totalHits;
+  }
+
+  int getTotalMisses() {
+    return totalMisses;
+  }
+
+  void setTotalMisses(int totalMisses) {
+    this.totalMisses = totalMisses;
   }
 }
