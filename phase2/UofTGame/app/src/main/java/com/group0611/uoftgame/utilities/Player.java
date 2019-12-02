@@ -44,7 +44,7 @@ public class Player implements Serializable {
     HashMapHelper.multiKeyPut(this.twoPlayerStats, new String[]{"Total Two Player Games", "Total Wins",
             "Total Losses"}, 0);
     HashMapHelper.multiKeyPut(this.previousGameStats, new String[]{"Total Score", "High Score",
-            "Total Attempts", "Total Successes", "Total Failures", "Total Times Played", "Game ID"}, 0);
+            "Total Attempts", "Total Successes", "Total Failures", "Game ID", "Winner"}, 0);
   }
 
   public String getFirstName() { return firstName; }
@@ -67,20 +67,20 @@ public class Player implements Serializable {
     this.password = password;
   }
 
-  public DisplayNameChoices getDisplayNameChoice() { return this.displayNameChoice; }
-  public void setDisplayNameChoice(DisplayNameChoices displayNameChoice) { this.displayNameChoice = displayNameChoice; }
+  DisplayNameChoices getDisplayNameChoice() { return this.displayNameChoice; }
+  void setDisplayNameChoice(DisplayNameChoices displayNameChoice) { this.displayNameChoice = displayNameChoice; }
 
   public int getTotalScore() {
     return totalScore;
   }
-  public void setTotalScore(int totalScore) {
+  void setTotalScore(int totalScore) {
     this.totalScore = totalScore;
   }
 
   public int getHighScore() {
     return highScore;
   }
-  public void setHighScore(int highScore) {
+  void setHighScore(int highScore) {
     this.highScore = highScore;
   }
 
@@ -88,26 +88,26 @@ public class Player implements Serializable {
   public void setTotalGamesPlayed(int totalGamesPlayed) { this.totalGamesPlayed = totalGamesPlayed; }
 
   public int getGameDashboardBackgroundColor() { return this.gameDashboardBackgroundColor; }
-  public void setGameDashboardBackgroundColor(int newGameDashboardBackgroundColor) { this.gameDashboardBackgroundColor = newGameDashboardBackgroundColor; }
+  void setGameDashboardBackgroundColor(int newGameDashboardBackgroundColor) { this.gameDashboardBackgroundColor = newGameDashboardBackgroundColor; }
 
-  public GameDifficulty getGameDifficulty() { return gameDifficulty; }
-  public void setGameDifficulty(GameDifficulty gameDifficulty) {this.gameDifficulty = gameDifficulty; }
+  GameDifficulty getGameDifficulty() { return gameDifficulty; }
+  void setGameDifficulty(GameDifficulty gameDifficulty) {this.gameDifficulty = gameDifficulty; }
 
   public GameMode getGameMode() { return gameMode; }
   public void setGameMode (GameMode gameMode) { this.gameMode = gameMode; }
 
   public HashMap<String, Integer> getBallGameStats() { return ballGameStats; }
-  public void setBallGameStats(HashMap<String, Integer> ballGameStats) { this.ballGameStats = ballGameStats; }
+  void setBallGameStats(HashMap<String, Integer> ballGameStats) { this.ballGameStats = ballGameStats; }
 
   public HashMap<String, Integer> getCardGameStats() { return cardGameStats; }
-  public void setCardGameStats(HashMap<String, Integer> cardGameStats) { this.cardGameStats = cardGameStats; }
+  void setCardGameStats(HashMap<String, Integer> cardGameStats) { this.cardGameStats = cardGameStats; }
 
   public HashMap<String, Integer> getSubwayGameStats() { return subwayGameStats; }
-  public void setSubwayGameStats(HashMap<String, Integer> subwayGameStats) { this.subwayGameStats = subwayGameStats; }
+  void setSubwayGameStats(HashMap<String, Integer> subwayGameStats) { this.subwayGameStats = subwayGameStats; }
 
   public HashMap<String, Integer> getTwoPlayerStats() { return twoPlayerStats; }
   public void setTwoPlayerStats(HashMap<String, Integer> twoPlayerStats) { this.twoPlayerStats = twoPlayerStats; }
 
   public HashMap<String, Integer> getPreviousGameStats() { return previousGameStats; }
-  public void setPreviousGameStats (HashMap<String, Integer> previousGameStats) { this.previousGameStats = previousGameStats; }
+  void setPreviousGameStats(HashMap<String, Integer> previousGameStats) { this.previousGameStats = previousGameStats; }
 }

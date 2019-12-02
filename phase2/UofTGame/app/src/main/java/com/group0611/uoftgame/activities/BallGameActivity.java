@@ -280,6 +280,7 @@ public class BallGameActivity extends AppCompatActivity implements GameActivity 
 
   @Override
   public void leaveGame(AppManager appManager) {
+    appManager.setIsGameResults(true);
     setToResultsPageIntent(new Intent(BallGameActivity.this, ResultsPageActivity.class));
     getToResultsPageIntent().putExtra("appManager", appManager);
     startActivity(getToResultsPageIntent());
