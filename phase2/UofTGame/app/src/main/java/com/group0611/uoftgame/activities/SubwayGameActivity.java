@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.group0611.uoftgame.R;
 import com.group0611.uoftgame.games.Game;
+import com.group0611.uoftgame.games.ballgame.BallGame;
 import com.group0611.uoftgame.games.subwaygame.SubwayGame;
 import com.group0611.uoftgame.utilities.AppManager;
 import com.group0611.uoftgame.utilities.GameDifficulty;
@@ -19,6 +20,10 @@ import com.group0611.uoftgame.utilities.GameMode;
 import java.util.ArrayList;
 
 public class SubwayGameActivity extends AppCompatActivity implements GameActivity {
+    private static final int TIME_LIMIT_EASY = 10000;
+    private static final int INIT_LIVES = 10;
+    private static final int TIME_LIMIT_MEDIUM = 80000;
+    private static final int TIME_LIMIT_HARD = 40000;
     public ArrayList<ImageView> movingObjects = new ArrayList<>();
     private ImageView runner;
     private SubwayGame game;
@@ -28,13 +33,12 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     // runner'x lane
     public int runnerLane;
     private TextView currentScore;
-    private Intent currentIntent, toResultsPageIntent, toDashboardIntent;
+    private Intent currentIntent, toResultsPageIntent;
 
-    // added by diego - add getters and setters if needed
     private boolean gameIsMultiplayer; // true if two player, false if one player
     private GameMode gameMode; // enum values of strings "TIMED" "INFINITE"
     private GameDifficulty gameDifficulty; // enum values of strings "EASY" "MEDIUM" "HARD"
-
+    private AppManager appManager;
 
   @Override
   public Intent getCurrentIntent() {
@@ -55,15 +59,10 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
   }
 
   @Override
-  public Intent getToDashboardIntent() {
-    return toDashboardIntent;
-  }
-
-  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setCurrentIntent(getIntent());
-    AppManager appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
+      appManager = (AppManager) getCurrentIntent().getSerializableExtra("appManager");
 
     // added by diego
     gameIsMultiplayer = appManager.getGameIsMultiPlayer();
@@ -76,16 +75,55 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     runnerX = runner.getX();
     runnerY = runner.getY();
     runnerLane = 2;
+      // construct the game
+      game = constructGame(gameMode, gameDifficulty, gameIsMultiplayer);
 
-    int timeLimit = 20;
-    game =
-        (SubwayGame)
-            new Game.GameBuilder(SubwayGame.class, appManager, this)
-                .addTimedGameMode(true)
-                .setTimeLimit(timeLimit)
-                .build()
-                .getGame();
   }
+
+    public SubwayGame constructGame(GameMode mode, GameDifficulty difficulty, boolean hasMultiplayer) {
+        if (mode == GameMode.INFINITE) {
+            return constructInfiniteGame(hasMultiplayer);
+        } else if (mode == GameMode.TIMED) {
+            return constructTimedGame(difficulty, hasMultiplayer);
+        } else {
+            throw new IllegalArgumentException("Illegal argument: gamemode " + mode + " does not exist.");
+        }
+    }
+
+    private SubwayGame constructTimedGame(GameDifficulty difficulty, boolean hasMultiplayer) {
+        int timeLimit, startingLives;
+        if (difficulty == GameDifficulty.EASY) {
+            timeLimit = TIME_LIMIT_EASY;
+            startingLives = INIT_LIVES;
+        } else if (difficulty == GameDifficulty.MEDIUM) {
+            timeLimit = TIME_LIMIT_MEDIUM;
+            startingLives = INIT_LIVES;
+        } else if (difficulty == GameDifficulty.HARD) {
+            timeLimit = TIME_LIMIT_HARD;
+            startingLives = INIT_LIVES;
+        } else {
+            throw new IllegalArgumentException(
+                    "Illegal argument: difficulty " + difficulty + " does not exist.");
+        }
+        return (SubwayGame)
+                new Game.GameBuilder(SubwayGame.class, this.appManager, this)
+                        .addTimedGameMode(true)
+                        .setTimeLimit(timeLimit)
+                        .addMultiplayerGameMode(hasMultiplayer)
+                        .build()
+                        .getGame();
+    }
+
+    private SubwayGame constructInfiniteGame(boolean hasMultiplayer) {
+        return (SubwayGame)
+                new Game.GameBuilder(BallGame.class, this.appManager, this)
+                        .addLivesGameMode(true)
+                        .setStartingLives(INIT_LIVES)
+                        .addMultiplayerGameMode(hasMultiplayer)
+                        .build()
+                        .getGame();
+    }
+
 
     /** move runner right when right button is clicked */
     public void moveRight(View view) {

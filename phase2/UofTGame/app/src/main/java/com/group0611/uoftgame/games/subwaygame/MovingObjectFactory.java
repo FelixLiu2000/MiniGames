@@ -2,6 +2,9 @@ package com.group0611.uoftgame.games.subwaygame;
 
 import com.group0611.uoftgame.activities.SubwayGameActivity;
 
+/**
+ * This factory creates either a Coin or an Obstacle depending the random number generator
+ */
 class MovingObjectFactory {
     private SubwayGameActivity activity;
 

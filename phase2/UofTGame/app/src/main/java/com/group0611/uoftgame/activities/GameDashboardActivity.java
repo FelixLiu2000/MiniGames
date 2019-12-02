@@ -40,7 +40,7 @@ public class GameDashboardActivity extends AppCompatActivity {
     imageButtonCardGame = findViewById(R.id.cardGameButton);
     imageButtonSubwayGame = findViewById(R.id.subwayGameButton);
     imageButtonBallGame = findViewById(R.id.ballGameButton);
-    toggleButtonGameMode = (ToggleButton) findViewById(R.id.toggleGameModeButton);
+    toggleButtonGameMode = findViewById(R.id.toggleGameModeButton);
     if (appManager.getCurrentPlayer().getGameMode().equals(GameMode.TIMED)) {
         toggleButtonGameMode.setChecked(false);
     } else {

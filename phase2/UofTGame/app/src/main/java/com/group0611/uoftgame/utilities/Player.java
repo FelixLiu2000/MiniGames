@@ -2,10 +2,7 @@ package com.group0611.uoftgame.utilities;
 
 import android.graphics.Color;
 
-import java.io.InterruptedIOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 
 public class Player implements Serializable {
@@ -30,11 +27,11 @@ public class Player implements Serializable {
     this.gameDashboardBackgroundColor = Color.WHITE;
     this.gameDifficulty = GameDifficulty.EASY;
     this.gameMode = GameMode.TIMED;
-    this.cardGameStats = new HashMap<String, Integer>();
-    this.subwayGameStats = new HashMap<String, Integer>();
-    this.ballGameStats = new HashMap<String, Integer>();
-    this.twoPlayerStats = new HashMap<String, Integer>();
-    this.previousGameStats = new HashMap<String, Integer>();
+    this.cardGameStats = new HashMap<>();
+    this.subwayGameStats = new HashMap<>();
+    this.ballGameStats = new HashMap<>();
+    this.twoPlayerStats = new HashMap<>();
+    this.previousGameStats = new HashMap<>();
     HashMapHelper.multiKeyPut(this.cardGameStats, new String[]{"Total Score", "Total Match Attempts",
             "High Score", "Total Mismatches", "Total Matches", "Total Times Played"}, 0);
     HashMapHelper.multiKeyPut(this.ballGameStats, new String[]{"Total Score", "High Score", "Total Hits",
@@ -85,7 +82,7 @@ public class Player implements Serializable {
   }
 
   public int getTotalGamesPlayed() { return totalGamesPlayed; }
-  public void setTotalGamesPlayed(int totalGamesPlayed) { this.totalGamesPlayed = totalGamesPlayed; }
+  void setTotalGamesPlayed(int totalGamesPlayed) { this.totalGamesPlayed = totalGamesPlayed; }
 
   public int getGameDashboardBackgroundColor() { return this.gameDashboardBackgroundColor; }
   void setGameDashboardBackgroundColor(int newGameDashboardBackgroundColor) { this.gameDashboardBackgroundColor = newGameDashboardBackgroundColor; }
@@ -106,7 +103,7 @@ public class Player implements Serializable {
   void setSubwayGameStats(HashMap<String, Integer> subwayGameStats) { this.subwayGameStats = subwayGameStats; }
 
   public HashMap<String, Integer> getTwoPlayerStats() { return twoPlayerStats; }
-  public void setTwoPlayerStats(HashMap<String, Integer> twoPlayerStats) { this.twoPlayerStats = twoPlayerStats; }
+  void setTwoPlayerStats(HashMap<String, Integer> twoPlayerStats) { this.twoPlayerStats = twoPlayerStats; }
 
   public HashMap<String, Integer> getPreviousGameStats() { return previousGameStats; }
   void setPreviousGameStats(HashMap<String, Integer> previousGameStats) { this.previousGameStats = previousGameStats; }

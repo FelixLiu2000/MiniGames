@@ -258,12 +258,14 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
 
   private void targetMissed(Ball ball) {
     if (getUsesLivesGameMode()) {
+      // Remove a life from the current player
       getPlayer(currentPlayerNumber)
           .setRemainingLives(getPlayer(currentPlayerNumber).getRemainingLives() - 1);
     }
     // Update total miss count
     getPlayer(currentPlayerNumber)
         .setTotalMisses(getPlayer(currentPlayerNumber).getTotalMisses() + 1);
+    // Remove the ball from the game
     destroyBall(ball);
   }
 
@@ -296,7 +298,7 @@ public class BallGame extends Game implements LivesGame, TimedGame, MultiplayerG
               playerTwo.getTotalHits(),
               playerTwo.getTotalMisses());
       // Notify app manager of whether player one beat player two
-      this.getAppManager().updateTwoPlayerStats(playerOne.getScore() > playerTwo.getScore());
+      this.getAppManager().updateTwoPlayerStats(playerOne.getScore() >= playerTwo.getScore());
     }
 
     getActivity().leaveGame(this.getAppManager());
