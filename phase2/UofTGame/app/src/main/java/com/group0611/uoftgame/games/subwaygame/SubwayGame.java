@@ -27,9 +27,6 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
   private int currentPlayer = 1;
 
-
-  private int time = 120000;
-
   public SubwayGame(GameBuilder gameBuilder) {
     super(gameBuilder);
     this.factory = new MovingObjectFactory(getActivity());
