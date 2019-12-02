@@ -22,8 +22,10 @@ public class GameDashboardActivity extends AppCompatActivity {
 
   AppManager appManager;
   Intent intentGameDashboard;
-  ImageButton imageButtonSettings, imageButtonCardGame, imageButtonSubwayGame, imageButtonBallGame, imageButtonSwitchMultiPlayerMode;
-  TextView textViewDashboardHighScore, textViewTotalScore, textViewDisplayName, textViewDashboardHighScoreLabel, textViewTotalScoreLabel;
+  ImageButton imageButtonSettings, imageButtonCardGame, imageButtonSubwayGame, imageButtonBallGame,
+          imageButtonSwitchMultiPlayerMode, imageButtonStatsPage;
+  TextView textViewDashboardHighScore, textViewTotalScore, textViewDisplayName, textViewDashboardHighScoreLabel,
+          textViewTotalScoreLabel;
   ToggleButton toggleButtonGameMode;
 
   @Override
@@ -52,6 +54,7 @@ public class GameDashboardActivity extends AppCompatActivity {
     textViewTotalScoreLabel = findViewById(R.id.totalScoreLabel);
     imageButtonSettings = findViewById(R.id.gameDashboardSettingsButton);
     imageButtonSwitchMultiPlayerMode = findViewById(R.id.switchMultiplayerDashboardButton);
+    imageButtonStatsPage = findViewById(R.id.statsButtonDashboard);
 
     if (appManager.getGameIsMultiPlayer()) {
         textViewDashboardHighScore.setVisibility(View.INVISIBLE);
@@ -121,13 +124,32 @@ public class GameDashboardActivity extends AppCompatActivity {
     toggleButtonGameMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
-                appManager.getCurrentPlayer().setGameMode(GameMode.INFINITE);
+                appManager.getPlayerOne().setGameMode(GameMode.INFINITE);
+                if (appManager.getGameIsMultiPlayer()) {
+                    appManager.getPlayerTwo().setGameMode(GameMode.INFINITE);
+                }
             } else {
-                appManager.getCurrentPlayer().setGameMode(GameMode.TIMED);
+                appManager.getPlayerOne().setGameMode(GameMode.TIMED);
+                if (appManager.getGameIsMultiPlayer()) {
+                    appManager.getPlayerTwo().setGameMode(GameMode.TIMED);
+                }
             }
-            SaveManager.save(appManager.getCurrentPlayer());
+            SaveManager.save(appManager.getPlayerOne());
+            if (appManager.getGameIsMultiPlayer()) {
+                SaveManager.save(appManager.getPlayerTwo());
+            }
         }
     });
+
+      imageButtonStatsPage.setOnClickListener(
+              new View.OnClickListener() {
+                  public void onClick(View v) {
+                      appManager.setIsGameResults(false);
+                      Intent gameDashboardToStats = new Intent(GameDashboardActivity.this, ResultsPageActivity.class);
+                      gameDashboardToStats.putExtra("appManager", appManager);
+                      startActivity(gameDashboardToStats);
+                  }
+              });
 
     // sets visible text fields based on logged in player
     textViewTotalScore.setText(String.valueOf(appManager.getCurrentPlayer().getTotalScore()));

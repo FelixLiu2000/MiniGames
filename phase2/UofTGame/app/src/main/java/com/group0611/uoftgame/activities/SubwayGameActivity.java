@@ -154,6 +154,7 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     }
 
     public void leaveGame(AppManager appManager) {
+        appManager.setIsGameResults(true);
         setToResultsPageIntent(new Intent(SubwayGameActivity.this, ResultsPageActivity.class));
         getToResultsPageIntent().putExtra("appManager", appManager);
         startActivity(getToResultsPageIntent());

@@ -53,6 +53,8 @@
     <string name="infinite_mode_button_label">INFINITE MODE</string>
     <string name="timed_mode_button_label">TIMED MODE</string>
     <string name="toggle_game_button_mode">CHOOSE GAME MODE</string>
+    <string name="result_label">Result:</string>
+    <string name="stats_button_description">button for stats page</string>
 
     <string-array name="color_choices">
         <item>WHITE</item>
