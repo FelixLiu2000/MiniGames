@@ -20,7 +20,7 @@ public class SubwayPlayer {
         this.obstacles += 1;
     }
 
-    void increaseTotalScore(int change) {
+    void changeTotalScore(int change) {
         this.score += change;
     }
 }
