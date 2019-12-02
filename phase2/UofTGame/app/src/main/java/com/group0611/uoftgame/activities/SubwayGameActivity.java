@@ -120,9 +120,9 @@ public class SubwayGameActivity extends AppCompatActivity implements GameActivit
     /**
      * creates the animation that translates the runner into the leftmost or rightmost lane
      * @param direction "Right" or "Left"; specifies direction in which backpack moves
-     * @param xCord
-     * @param yCord
-     * @param toX
+     * @param xCord the x-coordinate of the backpack icon
+     * @param yCord the y-coordinate of the backpack icon
+     * @param toX the x-coordinate of the screen that the backpack icon moves to
      */
     public void changeLanes(String direction, float xCord, float yCord, int toX) {
         TranslateAnimation runnerDirection = new TranslateAnimation(0, toX, yCord, yCord);

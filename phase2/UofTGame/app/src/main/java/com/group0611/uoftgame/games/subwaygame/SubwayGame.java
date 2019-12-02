@@ -15,22 +15,17 @@ import com.group0611.uoftgame.games.TimedGame;
 import com.group0611.uoftgame.utilities.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SubwayGame extends Game implements LivesGame, TimedGame, MultiplayerGame {
+  // list of players
   private ArrayList<SubwayPlayer> players = new ArrayList<>();
 
-//  private int score;
-//   keeps track of the number of coins collected
-//  private int coins;
-  // keeps track of the number of trash cans hit
-//  private int obstacles;
   // creates obstacles and coins
   private MovingObjectFactory factory;
+
   private CountDownTimer subwayGameTimer;
 
   private int currentPlayer = 1;
-//  private List<Integer> playerScores = new ArrayList<>();
 
 
   private int time = 120000;
