@@ -4,6 +4,9 @@ import android.content.Context;
 import android.widget.ImageView;
 import com.group0611.uoftgame.R;
 
+/**
+ * An Obstacle is a MovingObject that decreases the player's score by 1
+ */
 public class Obstacle extends MovingObject {
 
     public Obstacle(Context context) {

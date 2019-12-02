@@ -1,7 +1,10 @@
 package com.group0611.uoftgame.games.subwaygame;
 
+/**
+ * SubwayPlayer handles the player stats - note: it's not what is presented, i.e, the backpack icon
+ */
 public class SubwayPlayer {
-//    SubwayGame subwayGame;
+
     int coins;
     int obstacles;
     int score;

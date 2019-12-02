@@ -51,7 +51,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
     players.add(playerOne);
     // create 60 second timer
     subwayGameTimer =
-        new CountDownTimer(time, 1000) {
+        new CountDownTimer(getTimeLimit(), 1000) {
           @Override
           public void onTick(long millisUntilFinished) {
             // check for collisions every second
@@ -246,9 +246,8 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
    * @return the game's time limit.
    */
   public int getTimeLimit(){
-    return 120;
+      return super.getTimeLimit();
   }
-
 
   @Override
   protected void endGame() {
