@@ -269,7 +269,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
 
 
 
-      getActivity().leaveGame(this.getAppManager());
+    getActivity().leaveGame(this.getAppManager());
   }
 
   private Boolean getPlayerOneWon() {
