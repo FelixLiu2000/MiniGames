@@ -39,6 +39,17 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
   private GameMode gameMode; // enum values of strings "TIMED" "INFINITE"
   private GameDifficulty gameDifficulty; // enum values of strings "EASY" "MEDIUM" "HARD"
 
+  public GameMode getGameMode() {
+    return gameMode;
+  }
+
+  public GameDifficulty getGameDifficulty() {
+    return gameDifficulty;
+  }
+
+  public boolean getGameIsMultiplayer(){
+    return gameIsMultiplayer;
+  }
 
   @Override
   public Intent getCurrentIntent() {
@@ -85,7 +96,7 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
     time.setText(String.valueOf(0));
     addButtons();
     // cardGame = new CardGame(60, appManager, this);
-    int timeLimit = 40000;
+    int timeLimit = setTimeLimit();
     cardGame =
         (CardGame)
             new Game.GameBuilder(CardGame.class, appManager, this)
@@ -94,6 +105,18 @@ public class CardGameActivity extends AppCompatActivity implements GameActivity 
                 .build()
                 .getGame();
     addButtonOnClick();
+  }
+
+  private Integer setTimeLimit(){
+    int time;
+    if (getGameDifficulty() == GameDifficulty.EASY){
+      time = 120000;
+    } else if (getGameDifficulty() == GameDifficulty.MEDIUM){
+      time = 60000;
+    } else {
+      time = 30000;
+    }
+    return time;
   }
 
   /** Add all the buttons to an array so that they can be iterated through. */

@@ -10,6 +10,7 @@ import com.group0611.uoftgame.activities.CardGameActivity;
 import com.group0611.uoftgame.games.Game;
 import com.group0611.uoftgame.games.MultiplayerGame;
 import com.group0611.uoftgame.games.TimedGame;
+import com.group0611.uoftgame.utilities.GameMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,23 +92,52 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
 
   @Override
   public void nextPlayerTurn() {
-    if (playerScores.size()== 1){
-      endGame();
-    }
-    else if (getCurrentPlayerNumber() == 1){
+    if (getCurrentPlayerNumber() == 1){
       currentPlayerNumber = 2;
-      cardManager.setCardsArray();
-      cardArray = cardManager.getCardsArray();
-      Collections.shuffle(cardArray);
-      setPlayerScore(2, playerScores.get(1));
-      startGame();
+      getActivity().score.setText("Next Player");
+      clearBoard();
+
+      final Handler handler = new Handler();
+      handler.postDelayed(
+              new Runnable() {
+                @Override
+                public void run() {
+                  // checks if images are a match and either flips cards back over or removes them
+                  // from the board
+                  resetGame();
+                  startGame();
+                }
+              },
+              5000);
+      // TODO: UPDATE SCORE
+      //this.getAppManager().updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalMatchAttempts)
+      //setPlayerScore(2, playerScores.get(1));
     } else {
       currentPlayerNumber = 1;
-      cardManager.setCardsArray();
-      cardArray = cardManager.getCardsArray();
-      Collections.shuffle(cardArray);
-      setPlayerScore(1, playerScores.get(0));
-      startGame();
+      getActivity().score.setText("Next Player");
+      clearBoard();
+      final Handler handler = new Handler();
+      handler.postDelayed(
+              new Runnable() {
+                @Override
+                public void run() {
+                  // checks if images are a match and either flips cards back over or removes them
+                  // from the board
+                  resetGame();
+                  startGame();
+                }
+              },
+              5000);
+      //TODO: UPDATE SCORE
+      //this.getAppManager().updatePlayerCardGameStats(Player player, int totalScore, int totalMatches, int totalMisMatches, int totalM
+      //setPlayerScore(1, playerScores.get(0));
+    }
+  }
+
+  private void clearBoard(){
+    boardSize = getActivity().cardHeight * getActivity().cardWidth;
+    for (int i = 0; i < boardSize; i++) {
+        getActivity().buttons.get(i).setVisibility(View.INVISIBLE);
     }
   }
 
@@ -128,10 +158,12 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
           }
           // when the timer is finished, switch the text to say Time is Up
           public void onFinish() {
-            if (getActivity().infiniteGame) {
+            if (getActivity().getGameMode() == GameMode.INFINITE) {
               endLevel();
-            } else {
+            } else if (getActivity().getGameIsMultiplayer()){
               nextPlayerTurn();
+            } else if (getActivity().getGameMode() == GameMode.TIMED){
+              endGame();
             }
           }
         }.start();
@@ -142,7 +174,7 @@ public class CardGame extends Game implements TimedGame, MultiplayerGame {
    * score, updating number of cards left and calling the correct sound effect.
    */
   private void match() {
-    setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() + 1);
+    //setPlayerScore(getCurrentPlayerNumber(), getCurrentPlayerScore() + 1);
     cardsLeft -= 2;
     totalTries += 1;
     getActivity().correctSound();

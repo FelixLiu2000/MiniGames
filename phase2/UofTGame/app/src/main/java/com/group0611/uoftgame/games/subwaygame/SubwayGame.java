@@ -27,6 +27,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   private int currentPlayer = 1;
   private List<Integer> playerScores = new ArrayList<>();
 
+
   private int time = 6000;
 
   public SubwayGame(GameBuilder gameBuilder) {
@@ -42,6 +43,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
     return (SubwayGameActivity) super.getActivity();
   }
 
+
   /**
    * Creates a timer and
    * (1) checks for collisions and moves every moving object down every second, and
@@ -49,33 +51,37 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
    */
   protected void startGame() {
     // create 60 second timer
-    subwayGameTimer = new CountDownTimer(time, 1000) {
-      @Override
-      public void onTick(long millisUntilFinished) {
-        // check for collisions every second
-        checkCollision();
-        // move all moving objects down every second
-        getActivity().moveDown();
-        // create new obstacle every 4 seconds
-        double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
-        if (nearestThousand % 4000 == 0) {
-          createMovingObject();
-        }
-        updateTime(millisUntilFinished);
-        if(score == 0 && getUsesLivesGameMode()){
-          endGame();
-        }
-      }
+    subwayGameTimer =
+        new CountDownTimer(time, 1000) {
+          @Override
+          public void onTick(long millisUntilFinished) {
+            // check for collisions every second
+            checkCollision();
+            // move all moving objects down every second
+            getActivity().moveDown();
+            // create new obstacle every 4 seconds
+            double nearestThousand = Math.ceil(millisUntilFinished / 1000) * 1000;
+            if (nearestThousand % 4000 == 0) {
+              createMovingObject();
+            }
+            updateTime(millisUntilFinished);
+            if (score == 0 && getUsesLivesGameMode() && !getUsesMultiplayerGameMode()) {
+              endGame();
+            }
+          }
 
-      @Override
-      public void onFinish() {
-        if(!getUsesLivesGameMode()){
-          endGame();
-        }else{
-          this.start();
-        }
-      }
-    }.start();
+          @Override
+          public void onFinish() {
+            if (getUsesTimedGameMode()) {
+              endGame();
+            } else if (getUsesMultiplayerGameMode()) {
+              nextPlayerTurn();
+              this.start();
+            } else {
+              this.start();
+            }
+          }
+        }.start();
   }
 
   private void updateTime(long timeLeft) {
@@ -86,6 +92,7 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
     }
 
   }
+
 
   /**
    * Check if runner and a moving object are in the same position.
@@ -230,35 +237,32 @@ public class SubwayGame extends Game implements LivesGame, TimedGame, Multiplaye
   }
 
   @Override
-  public boolean getUsesLivesGameMode() {
-    return super.getUsesLivesGameMode();
-  }
+  public boolean getUsesLivesGameMode() { return super.getUsesLivesGameMode(); }
 
   @Override
   public int getStartingLives() {
-    return score;
-  }
+    return super.getStartingLives();
+//    return score;
+    }
 
   @Override
-  public boolean isOutOfLives() {
-    return score <= 0;
-  }
+  public boolean isOutOfLives() { return score <= 0; }
 
   @Override
-  public boolean getUsesMultiplayerGameMode() {
-    return super.getUsesMultiplayerGameMode();
-  }
+  public boolean getUsesMultiplayerGameMode() { return super.getUsesMultiplayerGameMode(); }
 
   @Override
-  public int getPlayerScore(int playerNumber) {
-    return playerScores.get(playerNumber-1);
-  }
+  public int getPlayerScore(int playerNumber) { return playerScores.get(playerNumber-1); }
 
   @Override
   public void nextPlayerTurn() {
+    // remove the old obstacles
+    ((ConstraintLayout) getActivity().findViewById(R.id.Layout)).removeAllViews();
+    // reset the player labels/stats
     currentPlayer++;
     playerScores.add(score);
-    score = 0;
+    score = 10;
+    getActivity().displayNewScore(score);
     ((TextView) getActivity().findViewById(R.id.playercounter)).setText("Player " + getCurrentPlayerNumber());
     startGame();
   }
